@@ -34,34 +34,45 @@ const NavigationItems = [
     children: [
       {
         id: 'dashboard',
-        title: 'Dashboard',
+        title: 'ዋና ገጽ',
         type: 'item',
         url: '/dashboard/default',
         classes: 'nav-item',
         icon: 'feather icon-home'
       },
+
       {
-        id: 'page-layouts',
-        title: 'Page Layouts',
-        type: 'collapse',
+        id: 'forms',
+        title: 'Forms & Table',
+        type: 'group',
         icon: 'feather icon-layout',
         children: [
           {
-            id: 'vertical',
-            title: 'Vertical',
+            id: 'forms-element',
+            title: 'ጥያቄዎች',
             type: 'item',
-            url: '/layout/static',
-            target: true
+            url: '/forms/basic',
+            classes: 'nav-item',
+            icon: 'feather icon-file-text'
           },
-          {
-            id: 'horizontal',
-            title: 'Horizontal',
-            type: 'item',
-            url: '/layout/horizontal',
-            target: true
-          }
         ]
-      }
+      },
+      {
+        id: 'participants',
+        title: 'Forms & Table',
+        type: 'group',
+        icon: 'feather icon-layout',
+        children: [
+          {
+            id: 'participants_children',
+            title: 'ተሳታፊ',
+            type: 'item',
+            url: '/basic/button',
+            classes: 'nav-item',
+            icon: 'feather icon-file-text'
+          },
+        ]
+      },
     ]
   },
   {
@@ -72,7 +83,7 @@ const NavigationItems = [
     children: [
       {
         id: 'basic',
-        title: 'Basic',
+        title: 'ሪፖርት',
         type: 'collapse',
         icon: 'feather icon-box',
         children: [
@@ -177,93 +188,57 @@ const NavigationItems = [
     ]
   },
   {
-    id: 'forms',
-    title: 'Forms & Table',
-    type: 'group',
+    id: 'page-layouts',
+    title: 'የገጽ አቀማመጦች',
+    type: 'collapse',
     icon: 'feather icon-layout',
     children: [
       {
-        id: 'forms-element',
-        title: 'Forms',
+        id: 'vertical',
+        title: 'Vertical',
         type: 'item',
-        url: '/forms/basic',
-        classes: 'nav-item',
-        icon: 'feather icon-file-text'
+        url: '/layout/static',
+        target: true
       },
       {
-        id: 'bootstrap',
-        title: 'Bootstrap',
+        id: 'horizontal',
+        title: 'Horizontal',
         type: 'item',
-        url: '/tbl-bootstrap/bt-basic',
-        classes: 'nav-item',
-        icon: 'feather icon-server'
+        url: '/layout/horizontal',
+        target: true
       }
     ]
   },
+
   {
-    id: 'chart-maps',
-    title: 'Chart & Maps',
+    id: 'settings',
+    title: 'Settings',
     type: 'group',
-    icon: 'feather icon-pie-chart',
+    icon: 'feather icon-layers',
     children: [
       {
-        id: 'charts',
-        title: 'Charts',
-        type: 'item',
-        url: '/charts/apex',
-        classes: 'nav-item',
-        icon: 'feather icon-pie-chart'
-      },
-      {
-        id: 'maps',
-        title: 'Maps',
-        type: 'item',
-        url: '/maps/google',
-        classes: 'nav-item',
-        icon: 'feather icon-map'
-      }
-    ]
-  },
-  {
-    id: 'pages',
-    title: 'Pages',
-    type: 'group',
-    icon: 'feather icon-file-text',
-    children: [
-      {
-        id: 'auth',
-        title: 'Authentication',
+        id: 'settings_children',
+        title: 'ቅንብሮች',
         type: 'collapse',
-        icon: 'feather icon-lock',
+        icon: 'feather icon-box',
         children: [
           {
-            id: 'signup',
-            title: 'Sign up',
+            id: 'addQuestion',
+            title: 'ጥያቄዎችን ይመዝግቡ',
             type: 'item',
-            url: '/auth/signup',
-            target: true,
-            breadcrumbs: false
+            url: '/add-questions'
           },
-          {
-            id: 'signin',
-            title: 'Sign in',
-            type: 'item',
-            url: '/auth/signin',
-            target: true,
-            breadcrumbs: false
-          }
+          // {
+          //   id: 'button',
+          //   title: 'Button',
+          //   type: 'item',
+          //   url: '/basic/button'
+          // },
+
         ]
-      },
-      {
-        id: 'sample-page',
-        title: 'Sample Page',
-        type: 'item',
-        url: '/sample-page',
-        classes: 'nav-item',
-        icon: 'feather icon-sidebar'
       }
     ]
-  }
+  },
 ];
 
 @Injectable()

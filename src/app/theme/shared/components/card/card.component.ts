@@ -50,6 +50,7 @@ export class CardComponent implements OnInit {
   @Input() cardCaption: string;
   @Input() captionClass: string;
   @Input() isCardFooter: boolean;
+  @Input() template: any;
   @Input() footerClass: string;
 
   public animation: string;

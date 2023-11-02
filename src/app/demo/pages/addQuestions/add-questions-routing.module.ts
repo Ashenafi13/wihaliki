@@ -1,21 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {AddQuestionComponent} from './add-questions.component';
 
 const routes: Routes = [
   {
     path: '',
-    children: [
-      {
-        path: 'bt-basic',
-        loadChildren: () => import('./tbl-basic/tbl-basic.module').then(module => module.TblBasicModule)
-      }
-    ]
+    component: AddQuestionComponent
   }
 ];
-
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TblBootstrapRoutingModule { }
+export class AddQuestionRoutingModule { }

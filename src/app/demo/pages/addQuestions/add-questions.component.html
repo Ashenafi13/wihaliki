@@ -1,0 +1,133 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card [template]="subContent" cardTitle="">
+     <div >
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">ጥያቄ ያስገቡ</label>
+        <textarea name="question" [(ngModel)]="question" class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">ጥያቂው የሚወስደው ጊዜ በሰኮንድ</label>
+        <input type="number" [(ngModel)]="timeTaken" class="form-control" id="time" aria-describedby="timeHelp" >
+        <small id="timeHelp" class="form-text text-muted">ሰኮንድ መሆኑን ያረጋግጡ </small>
+      </div>
+      <div style="margin-top: 10px;">
+        <button (click)="submit()" nz-button nzType="primary">አስገባ</button>
+      </div>
+
+      <nz-table #nzTable [nzData]="listOfData" [nzScroll]="{x:'750px'}">
+        <thead>
+          <tr>
+            <th nzWidth="60px"></th>
+            <th nzWidth="400px">ጥያቄ</th>
+            <th nzWidth="200px">ጊዜ በሰኮንድ</th>
+            <th nzRight>ድርጊት</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of nzTable.data">
+            <tr>
+              <td [nzExpand]="expandSet.has(data.QId)" [nzShowExpand]="data.QId?true:false"
+                (nzExpandChange)="onExpandChange(data.QId, $event)"></td>
+              <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                  {{ data.question}}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.question" />
+              </td>
+              <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                  {{ data.time}}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.time" />
+              </td>
+
+
+              <td nzRight>
+                <!-- <a [hidden]="editId == data.id" nz-tooltip nzTooltipTitle="አጥፉ" nzTooltipColor="#f50" nz-popconfirm
+                  nzOkText="እሺ" nzCancelText="አልፈልግም" nzPopconfirmTitle="እርግጠኛ ነዎት ያጠፍሉ?"
+                  (nzOnConfirm)="deleteRow(data.goalId,data.statusId)"><span *ngIf="!planStatus" nz-icon
+                    [nzType]="data.status?'minus-circle':'delete'" nzTheme="outline"
+                    style="font-size: 20px; color:#f50;"></span></a>
+
+                <div class="d-flex flex-row justify-content-between">
+                  <div [hidden]="editId != data.id" nz-tooltip nzTooltipTitle="አስቀምጥ" nzTooltipColor="#87d068" nz-popconfirm
+                    nzOkText="እሺ" nzCancelText="አልፈልግም" nzPopconfirmTitle="እርግጠኛ ነዎት ማስቀመጥ ይፈልጋሉ?"
+                    (nzOnConfirm)="data.status?saveRow(data): updateRow(data.goalId,data)">
+                    <span *ngIf="!planStatus" style="font-size: 20px;" nz-icon nzType="save" [nzTheme]="'twotone'"
+                      nzTwotoneColor="#87d068"></span>
+                  </div>
+
+                  <div style="margin-left: 10px;" [hidden]="editId != data.id" nz-tooltip nzTooltipTitle="ይሰርዙ"
+                    nzTooltipColor="#eb2f96" nz-popconfirm nzOkText="እሺ" nzCancelText="አልፈልግም"
+                    nzPopconfirmTitle="እርግጠኛ ነዎት መሰረዝ ይፈልጋሉ?" (nzOnConfirm)="stopEdit()">
+                    <span style="font-size: 20px;" nz-icon *ngIf="!planStatus" nzType="close-circle" nzTheme="outline"
+                      [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'"></span>
+                  </div>
+
+                </div> -->
+              </td>
+            </tr>
+            <tr [nzExpand]="expandSet.has(data.QId)"  >
+              <div style="margin:0;">
+                <div class="d-flex flex-column">
+                  <span>
+                    <label for="exampleInputPassword1">የጥያቄ ምርጫዎች</label>
+                    <button (click)="AddChoices()" style="margin-left: 5px;" nz-button nzType="default"  nzShape="round"><i class="feather icon-plus text-muted"></i></button>
+                  </span>
+                   <div style="padding: 20px;" class="row">
+                     <div style="margin-left: 10px;" class="form-group" *ngFor="let choice of choices; let i=index">
+                      <div style="align-items: baseline;" class="row">
+                        <label for="exampleInputPassword1">
+                          ምርጫ {{i+1}}
+                         </label>
+                         <i nz-popconfirm
+                         nzOkText="እሺ" nzCancelText="አልፈልግም" nzPopconfirmTitle="እርግጠኛ ነዎት ማስቀመጥ ይፈልጋሉ?"
+                         (nzOnConfirm)="!choice.id?saveRow(choice.choice_label,choice.isAnswer, data.QId):updateRow(choice.choice_label,choice.isAnswer,choice.id,data.QId)" style="margin-left: 5px; color: green" class="feather icon-save"></i>
+
+                         <i *ngIf="choice.id" nz-popconfirm
+                         nzOkText="እሺ" nzCancelText="አልፈልግም" nzPopconfirmTitle="እርግጠኛ ነዎት ማጥፋት ይፈልጋሉ?"
+                         (nzOnConfirm)="deleteRow(choice.id,data.QId)" style="margin-left: 5px; color: red;" class="feather icon-trash-2"></i>
+                         <i *ngIf="!choice.id" (click)="RemoveChoices(i)" style="margin-left: 5px; color: red;" class="feather icon-minus-circle"></i>
+
+                      </div>
+                     <input [(ngModel)]="choice.choice_label" name="choice" type="text" class="form-control" id="choice">
+
+                       <div style="margin-top: 5px;">
+
+                         <label nz-checkbox name="answer" [(ngModel)]="choice.isAnswer">መልስ ነው?</label>
+                       </div>
+                     </div>
+
+                   </div>
+                 </div>
+              </div>
+            </tr>
+          </ng-container>
+        </tbody>
+      </nz-table>
+
+
+
+
+
+
+
+
+     </div>
+
+    </app-card>
+    <ng-template #subContent>
+     <div class="d-flex flex-row" style="width: 50%;">
+      <select name="selectedSeason" [(ngModel)]="selectedSeason" class="form-control" aria-label="Default select example">
+        <option disabled selected>ምዕራፍ ይምረጡ</option>
+        <option *ngFor="let item of seasons" value="{{item.id}}">{{item.name}}</option>
+      </select>
+      <select  name="selectedEpisodes" [(ngModel)]="selectedEpisodes" class="form-control" aria-label="Default select example">
+        <option disabled selected>ክፍል ይምረጡ</option>
+        <option *ngFor="let item of episodes" value="{{item.id}}">{{item.name}}</option>
+      </select>
+     </div>
+    </ng-template>
+  </div>
+</div>
