@@ -14,8 +14,8 @@
       <div style="margin-top: 10px;">
         <button (click)="submit()" nz-button nzType="primary">አስገባ</button>
       </div>
-
-      <nz-table #nzTable [nzData]="listOfData" [nzScroll]="{x:'750px'}">
+      <div style="margin-top: 20px;">
+      <nz-table [nzBordered]="true" #nzTable [nzData]="listOfData">
         <thead>
           <tr>
             <th nzWidth="60px"></th>
@@ -106,7 +106,7 @@
           </ng-container>
         </tbody>
       </nz-table>
-
+    </div>
 
 
 
