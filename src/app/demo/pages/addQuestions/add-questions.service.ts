@@ -62,14 +62,14 @@ export class AddQuestionsService {
       }
     );
   }
-  UpdateQuestions(data:any,id:any) {
-    return this.http.post<any>(
-      environment.url + `add/choices`,data,
-      {
-        headers: this.httpOptions.header,
-      }
-    );
-  }
+  // UpdateQuestions(data:any,id:any) {
+  //   return this.http.post<any>(
+  //     environment.url + `add/choices`,data,
+  //     {
+  //       headers: this.httpOptions.header,
+  //     }
+  //   );
+  // }
   GetChoices(QId:any){
     return this.http.get<any>(
       environment.url + `choices?Qid=${QId}`,

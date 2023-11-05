@@ -7,6 +7,7 @@ import { SeoChart3 } from './chart/seo-chart-3';
 import { PowerCardChart1 } from './chart/power-card-chart-1';
 import { PowerCardChart2 } from './chart/power-card-chart-2';
 import { DashboardService } from '../dashboard.service';
+import { DatePipe } from '@angular/common';
 import {
   fade,
   slide,
@@ -16,6 +17,10 @@ import {
   templateUrl: './dash-default.component.html',
   styleUrls: ['./dash-default.component.scss'],
   animations: [fade, slide],
+  providers: [
+    DatePipe,
+    // other providers
+  ],
 })
 export class DashDefaultComponent implements OnInit {
   public supportChartData1: any;
@@ -27,16 +32,20 @@ export class DashDefaultComponent implements OnInit {
   public powerCardChartData2: any;
   count: number = 0;
   isStarted: boolean = false;
-  ethiopianAlphabet:any =['ሀ','ለ','ሐ','መ','ሠ','ረ','ሰ','ቀ','በ','ተ','ኀ']
+  ethiopianAlphabet: any = ['ሀ', 'ለ', 'ሐ', 'መ', 'ሠ', 'ረ', 'ሰ', 'ቀ', 'በ', 'ተ', 'ኀ']
   active: any;
   questions: any[] = [];
   seconds: any;
   timeEnds: any;
+  correctAnswers: any[] =[];
+  IncorrectAnswers: any[] =[];
+  competitors:any[] = [];
 
 
   // Declare a property to store the interval ID
   interval: any;
-  constructor(private service: DashboardService) {
+
+    constructor(private service: DashboardService,  private datePipe: DatePipe) {
     this.supportChartData1 = SupportChartData1.supportChartData;
     this.supportChartData2 = SupportChartData2.supportChartData;
     this.seoChartData1 = SeoChart1.seoChartData;
@@ -47,44 +56,119 @@ export class DashDefaultComponent implements OnInit {
   }
 
   Next(): void {
-    if (this.count < this.questions.length - 1 ) {
+    if (this.count < this.questions.length - 1) {
       this.count++;
+      localStorage.setItem('storedCount', `${this.count}`);
     }
   }
 
-  Back():void{
-    if (this.count > 0 ) {
+  Back(): void {
+    if (this.count > 0) {
       this.count--;
+      localStorage.setItem('storedCount', `${this.count}`);
     }
   }
-  start(time:any):void{
+  start(time: any,QId:any): void {
+
     this.isStarted = true;
-    this.countdownSeconds(time);
+    localStorage.removeItem('QId');
+    localStorage.removeItem('STORED_SECONDES');
+    localStorage.setItem('QId', QId);
+    this.UpdateQuestionsStart(QId);
+    this.countdownSeconds(time,QId);
 
+
+    }
+
+    UpdateQuestionsStart(QId:any){
+     this.service.UpdateQuestionsStart(QId).subscribe((response:any) =>{
+
+     });
+    }
+
+  AddCompetitor(QId:any) {
+    this.service.AddCompetitor(QId).subscribe((result:any)=>{
+      this.GetCompetitor(QId);
+      localStorage.removeItem('STORED_SECONDES');
+    });
   }
-  countdownSeconds(seconds) {
-   // Check if the parameter is a positive integer
-  if (Number.isInteger(seconds) && seconds > 0) {
-    // Set an interval to execute a function every second
-    let interval = setInterval(() => {
-      // Display the current value of seconds
 
-      this.seconds = seconds;
-      console.log(this.seconds);
-      // Decrement seconds by one
-      seconds--;
-      // Check if seconds reached zero
-      if (seconds === 0) {
-        // Clear the interval and stop the countdown
-        clearInterval(interval);
-        console.log("Time's up!");
-        this.timeEnds = "ጊዜው አልቋል!"
+ SendMessage(){
+  let sender = this.generate_phone_number();
+  let message = this.generate_letter();
+  this.service.SendSMS(sender, message).subscribe((response:any) => {
+
+  });
+
+
+ }
+ generate_phone_number() {
+  // Generate a random 8-digit number
+  var number = Math.floor(Math.random() * 90000000) + 10000000;
+  // Add the country code +2519 as a prefix
+  var phone_number = "+2519" + number.toString();
+  // Return the phone number as a string
+  return phone_number;
+}
+
+generate_letter() {
+  // Create an array of letters from A to E
+  var letters = ["A", "B", "C", "D", "E"];
+  // Generate a random index from 0 to 4
+  var index = Math.floor(Math.random() * 5);
+  // Return the letter at the random index
+  return letters[index];
+}
+
+  UpdateQuestionsStatus(QId: any) {
+    this.service.UpdateQuestionsStatus(QId).subscribe((response: any) => {
+      if (response == 1) {
+        this.GetEpisodeQuestions();
       }
-    }, 1000); // 1000 milliseconds = 1 second
-  } else {
-    // Invalid parameter, throw an error
-    throw new Error("Invalid parameter: seconds must be a positive integer");
+    });
   }
+
+  GetCompetitor(QId:any){
+  this.service.GetCompetitor(QId).subscribe((response:any) => {
+    this.correctAnswers = response.filter(x=>x.answer == 1);
+    this.IncorrectAnswers = response.filter(x=>x.answer == 0);
+    this.competitors = response;
+  });
+  }
+
+
+  countdownSeconds(seconds:any,QId:any) {
+    // Check if the parameter is a positive integer
+    if (Number.isInteger(seconds) && seconds > 0) {
+      // Set an interval to execute a function every second
+      let interval = setInterval(() => {
+        // Display the current value of seconds
+
+        this.seconds = seconds;
+        console.log(this.seconds);
+        localStorage.setItem('STORED_SECONDES', seconds);
+        this.SendMessage();
+        // Decrement seconds by one
+        seconds--;
+        this.AddCompetitor(QId);
+
+        // Check if seconds reached zero
+        if (seconds === 0) {
+          // Clear the interval and stop the countdown
+          clearInterval(interval);
+          console.log("Time's up!");
+          this.timeEnds = "ጊዜው አልቋል!"
+          localStorage.removeItem('STORED_SECONDES');
+
+          this.UpdateQuestionsStatus(QId);
+
+
+        }
+      }, 1000); // 1000 milliseconds = 1 second
+    } else {
+      // Invalid parameter, throw an error
+      throw new Error("Invalid parameter: seconds must be a positive integer");
+    }
   }
 
 
@@ -94,7 +178,6 @@ export class DashDefaultComponent implements OnInit {
     this.service.GetEpisodeQuestions().subscribe((data) => {
       let Q = this.reformatArray(data);
       this.questions = Q;
-      console.log("🚀 ~ file: dash-default.component.ts:53 ~ DashDefaultComponent ~ this.service.GetEpisodeQuestions ~ this.questions:", this.questions)
     });
   }
   reformatArray(arr) {
@@ -119,7 +202,6 @@ export class DashDefaultComponent implements OnInit {
   GetActive(): void {
     this.service.GetActive().subscribe((data: any) => {
       this.active = data;
-      console.log("🚀 ~ file: dash-default.component.ts:46 ~ DashDefaultComponent ~ this.service.GetActive ~ this.active:", this.active)
 
     });
 
@@ -128,6 +210,20 @@ export class DashDefaultComponent implements OnInit {
   ngOnInit() {
     this.GetEpisodeQuestions();
     this.GetActive();
+    let QId = localStorage.getItem('QId');
+    this.GetCompetitor(QId);
+    let storedCount = localStorage.getItem('storedCount');
+    if(storedCount){
+      this.count = Number(storedCount);
+    }
+
+    let STORED_SECONDES = localStorage.getItem('STORED_SECONDES');
+
+    if(STORED_SECONDES || Number(STORED_SECONDES) > 1){
+      this.isStarted = true;
+      this.seconds = Number(STORED_SECONDES);
+      this.countdownSeconds(this.seconds,QId);
+    }
   }
 
 }

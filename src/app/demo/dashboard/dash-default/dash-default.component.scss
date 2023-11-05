@@ -4,3 +4,34 @@
   padding: 30px;
   border-radius: 15px;
 }
+
+.shadow-sm {
+ box-shadow: 0 0.225rem 0.35rem rgba(0, 0, 0, 0.10) !important
+}
+
+
+::ng-deep .pcoded-navbar.theme-horizontal ~ .pcoded-main-container {
+  margin-top: 70px !important;
+}
+.timeline{
+  margin-top: 30px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 300px;
+  padding: 30px;
+}
+html {
+  scrollbar-color: red orange;
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(233, 231, 231);
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(157, 0, 0, 0.696);
+}

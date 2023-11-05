@@ -83,7 +83,7 @@
                          </label>
                          <i nz-popconfirm
                          nzOkText="እሺ" nzCancelText="አልፈልግም" nzPopconfirmTitle="እርግጠኛ ነዎት ማስቀመጥ ይፈልጋሉ?"
-                         (nzOnConfirm)="!choice.id?saveRow(choice.choice_label,choice.isAnswer, data.QId):updateRow(choice.choice_label,choice.isAnswer,choice.id,data.QId)" style="margin-left: 5px; color: green" class="feather icon-save"></i>
+                         (nzOnConfirm)="!choice.id?saveRow(choice.choice_label,choice.isAnswer, data.QId, i):updateRow(choice.choice_label,choice.isAnswer,choice.id,data.QId,i)" style="margin-left: 5px; color: green" class="feather icon-save"></i>
 
                          <i *ngIf="choice.id" nz-popconfirm
                          nzOkText="እሺ" nzCancelText="አልፈልግም" nzPopconfirmTitle="እርግጠኛ ነዎት ማጥፋት ይፈልጋሉ?"

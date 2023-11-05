@@ -26,6 +26,7 @@ export class AddQuestionComponent implements OnInit {
   listOfData: ItemData[] = [];
   Questions_List:any[] =[];
   choices_list: any[] = [];
+  alphabet: any[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   constructor(private service: AddQuestionsService,  private notification: NzNotificationService) { }
   choices: any[] = [];
   i = 0;
@@ -117,10 +118,11 @@ export class AddQuestionComponent implements OnInit {
       }
      });
   }
-  updateRow(choice:any,isAnswer:any,id:any,QId:any){
+  updateRow(choice:any,isAnswer:any,id:any,QId:any,index:any){
     let data = {
       choice_label: choice,
       isAnswer:isAnswer?1:0,
+      alphabet:this.alphabet[index]
      }
      console.log(data);
     this.service.UpdateChoices(data,id).subscribe((response:any)=>{
@@ -132,11 +134,12 @@ export class AddQuestionComponent implements OnInit {
      });
   }
 
-  saveRow(choice:any,isAnswer:any,QId:any): void{
+  saveRow(choice:any,isAnswer:any,QId:any,index:any): void{
    let data = {
     choice_label: choice,
     isAnswer:isAnswer?1:0,
-    question_id:QId
+    question_id:QId,
+    alphabet:this.alphabet[index],
    }
 
    this.service.AddChoices(data).subscribe((response:any)=>{

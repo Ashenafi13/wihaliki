@@ -6,7 +6,9 @@ import { DashDefaultComponent } from './dash-default.component';
 import {SharedModule} from '../../../theme/shared/shared.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
-
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 @NgModule({
   declarations: [DashDefaultComponent],
   imports: [
@@ -14,8 +16,10 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     DashDefaultRoutingModule,
     SharedModule,
     NzButtonModule,
-    NzBadgeModule
-
+    NzBadgeModule,
+    NzTimelineModule,
+    NzAvatarModule,
+    NzIconModule
   ]
 })
 export class DashDefaultModule { }

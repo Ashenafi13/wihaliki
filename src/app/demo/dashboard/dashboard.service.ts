@@ -37,5 +37,53 @@ export class DashboardService {
     );
   }
 
+  GetCompetitor(QId:any){
+    return this.http.get<any>(
+      environment.url + `Competitor?QId=${QId}`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
 
+
+  UpdateQuestionsStatus(QId:any){
+    return this.http.post<any>(
+      environment.url + `questions/status?QId=${QId}`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+
+  UpdateQuestionsStart(QId:any){
+    return this.http.post<any>(
+      environment.url + `add/startDate?QId=${QId}`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+
+  AddCompetitor(QId:any){
+    return this.http.post<any>(
+      environment.url + `add/Competitor?QId=${QId}`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+  SendSMS(sender:any,msg:string){
+    let data ={
+      sender:sender,
+      msg:msg,
+    }
+    return this.http.post<any>(
+      environment.url + `send/sms`,
+      data,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
 }
