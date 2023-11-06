@@ -44,28 +44,18 @@
 
 
               <td nzRight>
-                <!-- <a [hidden]="editId == data.id" nz-tooltip nzTooltipTitle="አጥፉ" nzTooltipColor="#f50" nz-popconfirm
-                  nzOkText="እሺ" nzCancelText="አልፈልግም" nzPopconfirmTitle="እርግጠኛ ነዎት ያጠፍሉ?"
-                  (nzOnConfirm)="deleteRow(data.goalId,data.statusId)"><span *ngIf="!planStatus" nz-icon
-                    [nzType]="data.status?'minus-circle':'delete'" nzTheme="outline"
-                    style="font-size: 20px; color:#f50;"></span></a>
 
                 <div class="d-flex flex-row justify-content-between">
                   <div [hidden]="editId != data.id" nz-tooltip nzTooltipTitle="አስቀምጥ" nzTooltipColor="#87d068" nz-popconfirm
                     nzOkText="እሺ" nzCancelText="አልፈልግም" nzPopconfirmTitle="እርግጠኛ ነዎት ማስቀመጥ ይፈልጋሉ?"
-                    (nzOnConfirm)="data.status?saveRow(data): updateRow(data.goalId,data)">
-                    <span *ngIf="!planStatus" style="font-size: 20px;" nz-icon nzType="save" [nzTheme]="'twotone'"
-                      nzTwotoneColor="#87d068"></span>
+                    (nzOnConfirm)="updateQ(data)">
+
+                     <i style="font-size: 20px; color: greenyellow;" class="feather icon-save"></i>
                   </div>
 
-                  <div style="margin-left: 10px;" [hidden]="editId != data.id" nz-tooltip nzTooltipTitle="ይሰርዙ"
-                    nzTooltipColor="#eb2f96" nz-popconfirm nzOkText="እሺ" nzCancelText="አልፈልግም"
-                    nzPopconfirmTitle="እርግጠኛ ነዎት መሰረዝ ይፈልጋሉ?" (nzOnConfirm)="stopEdit()">
-                    <span style="font-size: 20px;" nz-icon *ngIf="!planStatus" nzType="close-circle" nzTheme="outline"
-                      [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'"></span>
-                  </div>
 
-                </div> -->
+
+                </div>
               </td>
             </tr>
             <tr [nzExpand]="expandSet.has(data.QId)"  >
@@ -85,9 +75,9 @@
                          nzOkText="እሺ" nzCancelText="አልፈልግም" nzPopconfirmTitle="እርግጠኛ ነዎት ማስቀመጥ ይፈልጋሉ?"
                          (nzOnConfirm)="!choice.id?saveRow(choice.choice_label,choice.isAnswer, data.QId, i):updateRow(choice.choice_label,choice.isAnswer,choice.id,data.QId,i)" style="margin-left: 5px; color: green" class="feather icon-save"></i>
 
-                         <i *ngIf="choice.id" nz-popconfirm
+                         <!-- <i *ngIf="choice.id" nz-popconfirm
                          nzOkText="እሺ" nzCancelText="አልፈልግም" nzPopconfirmTitle="እርግጠኛ ነዎት ማጥፋት ይፈልጋሉ?"
-                         (nzOnConfirm)="deleteRow(choice.id,data.QId)" style="margin-left: 5px; color: red;" class="feather icon-trash-2"></i>
+                         (nzOnConfirm)="deleteRow(choice.id,data.QId)" style="margin-left: 5px; color: red;" class="feather icon-trash-2"></i> -->
                          <i *ngIf="!choice.id" (click)="RemoveChoices(i)" style="margin-left: 5px; color: red;" class="feather icon-minus-circle"></i>
 
                       </div>

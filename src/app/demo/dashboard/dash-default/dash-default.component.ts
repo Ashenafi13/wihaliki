@@ -12,6 +12,14 @@ import {
   fade,
   slide,
 } from '../../../theme/shared/animation-styles/animation-styles';
+
+interface DataItem {
+  id : number;
+  phone : string;
+  totalAnswered: number;
+  Rank: number;
+
+}
 @Component({
   selector: 'app-dash-default',
   templateUrl: './dash-default.component.html',
@@ -44,6 +52,24 @@ export class DashDefaultComponent implements OnInit {
   competitors:any[] = [];
   statusControllers: boolean;
   finalResults: boolean = false;
+  ranks:any[] = [];
+  listOfColumn = [
+    {
+      title: 'ተወዳዳሪ'
+    },
+    {
+      title: 'ጠቅላላ የተመለሱ ጥያቄዎች',
+      compare: (a: DataItem, b: DataItem) => a.totalAnswered - b.totalAnswered,
+      priority: 3
+    },
+    {
+      title: 'ደረጃ',
+      compare: (a: DataItem, b: DataItem) => a.Rank - b.Rank,
+      priority: 2
+    }
+
+  ];
+  listOfData: DataItem[];
   // Declare a property to store the interval ID
   interval: any;
 
@@ -70,8 +96,9 @@ export class DashDefaultComponent implements OnInit {
       this.finalResults = false;
     }else{
      this.finalResults = true;
+     this.GetCompetitorRank();
     }
-    console.log(this.count);
+
   }
 
   Back(): void {
@@ -86,6 +113,32 @@ export class DashDefaultComponent implements OnInit {
       this.GetCompetitor(this.questions[this.count].qts.id);
     }
   }
+  GetCompetitorRank(){
+    this.listOfData =[];
+    this.ranks = [];
+    this.service.GetCompetitorRank().subscribe((rank:any) =>{
+     for(let i=0; i<rank.length; i++){
+      this.ranks.push({
+        id : rank[i].id,
+        phone : rank[i].phone,
+        totalAnswered: rank[i].totalAnswered,
+        Rank: rank[i].Rank
+      })
+     }
+
+     this.listOfData = [...this.ranks]
+
+    });
+  }
+  alloverResults():void{
+    this.GetCompetitorRank();
+
+   }
+
+  reset(): void {
+    location.reload();
+  }
+
   start(time: any,QId:any): void {
 
     this.isStarted = true;
@@ -101,11 +154,8 @@ export class DashDefaultComponent implements OnInit {
     }
 
    checkQuestionStatus(isStarted:any){
-     console.log("🚀 ~ file: dash-default.component.ts:90 ~ DashDefaultComponent ~ checkQuestionStatus ~ isStarted:", isStarted)
-
-      this.isPreviouslyStarted = isStarted?true:false;
-      console.log("🚀 ~ file: dash-default.component.ts:93 ~ DashDefaultComponent ~ checkQuestionStatus ~ this.isPreviouslyStarted:", this.isPreviouslyStarted)
-   }
+    this.isPreviouslyStarted = isStarted?true:false;
+  }
 
     UpdateQuestionsStart(QId:any){
      this.service.UpdateQuestionsStart(QId).subscribe((response:any) =>{

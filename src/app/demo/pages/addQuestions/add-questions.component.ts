@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AddQuestionsService } from './add-questions.service';
-import { NzNotificationService } from 'ng-zorro-antd';
+import {  NzNotificationService } from 'ng-zorro-antd/notification';
+
+declare var cuteAlert: any;
 
 interface ItemData {
   id: string;
@@ -46,6 +48,7 @@ export class AddQuestionComponent implements OnInit {
 
     });
   }
+
   expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean): void {
     if (checked) {
@@ -127,9 +130,14 @@ export class AddQuestionComponent implements OnInit {
      console.log(data);
     this.service.UpdateChoices(data,id).subscribe((response:any)=>{
       if(response == 1){
+        this.Alert( 'success', 'ማስታውቂያ','በተሳካ ሁኔታ ተዘምኗል');
         this.GetChoices(QId);
+      }else  if(response == 2){
+        this.Alert( 'error', 'ማስታውቂያ','ከአንድ በላይ መልስ አይፈቀድም');
+      }else  if(response == 3){
+        this.Alert( 'error', 'ማስታውቂያ','በአሁኑ ጊዜ መረጃውን ማዘመን አይችሉም');
       }else{
-
+        this.Alert( 'error', 'ማስታውቂያ','የሆነ ነገር ተከስቷል እባክዎ እንደገና ይሞክሩ');
       }
      });
   }
@@ -144,19 +152,50 @@ export class AddQuestionComponent implements OnInit {
 
    this.service.AddChoices(data).subscribe((response:any)=>{
     if(response == 1){
+      this.Alert( 'success', 'ማስታውቂያ','በተሳካ ሁኔታ ተጨምሯል።');
       this.GetChoices(QId);
+    }else  if(response == 2){
+      this.Alert( 'error', 'ማስታውቂያ','ከአንድ በላይ መልስ አይፈቀድም');
     }else{
-
+      this.Alert( 'error', 'ማስታውቂያ','የሆነ ነገር ተከስቷል እባክዎ እንደገና ይሞክሩ');
     }
    });
 
+  }
+
+  Alert(type:string,title:string,msg:string):void{
+    cuteAlert({
+      type: type,
+      title: title,
+      message: msg,
+      buttonText: "እሺ"
+    });
+  }
+
+  updateQ(data:any):void{
+
+
+   let obj = {
+    question_label: data.question,
+    time: data.time
+   }
+   this.service.updateQ(data.QId,obj).subscribe((response:any)=>{
+      if(response == 1){
+
+        this.Alert( 'success', 'ማስታውቂያ','በተሳካ ሁኔታ ተዘምኗል');
+        this.GetQuestions();
+      }else{
+
+        this.Alert( 'error', 'ማስታውቂያ','በአሁኑ ጊዜ መረጃውን ማዘመን አይችሉም');
+      }
+   });
   }
   RemoveChoices(index: any): void {
     this.choices.splice(index, 1);
 
   }
-  createNotification(type: string, title: string, subTitle: string): void {
-    this.notification.create(type, title, subTitle);
+  createNotification(type:string,title: string, subTitle: string): void {
+    this.notification.create(type,title, subTitle);
   }
   GetQuestions():void{
     this.service.GetQuestions().subscribe((response:any)=>{
@@ -182,10 +221,12 @@ export class AddQuestionComponent implements OnInit {
     }
     this.service.AddQuestions(data).subscribe((response)=>{
       if(response == 1){
-        this.createNotification('success','info','successfully added!!');
+
+        this.Alert( 'success', 'ማስታውቂያ','በተሳካ ሁኔታ ተጨምሯል።');
         this.GetQuestions();
       }else{
-        this.createNotification('error','info','something happened wrong!!');
+
+        this.Alert( 'error', 'ማስታውቂያ','የሆነ ነገር ተከስቷል እባክዎ እንደገና ይሞክሩ');
       }
     });
   }

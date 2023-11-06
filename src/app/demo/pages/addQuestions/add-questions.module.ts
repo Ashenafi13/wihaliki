@@ -12,6 +12,8 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+
 @NgModule({
   declarations: [AddQuestionComponent],
   imports: [
@@ -26,7 +28,9 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
     HttpClientModule,
     NzTableModule,
     NzPopconfirmModule,
-    NzNotificationModule
+    NzNotificationModule,
+    NzMessageModule
+
 
 
   ]

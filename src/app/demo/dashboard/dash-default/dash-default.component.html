@@ -6,11 +6,12 @@
         <div *ngIf="!finalResults" class="custom-card row align-items-center ">
           <div>
             <div class="row">
+              <button [disabled]="count == 0?true:false" (click)="Back()" style="margin-left: 5px;" nz-button
+              nzType="default" nzShape="round"><i class="feather icon-chevron-left text-muted"></i></button>
+
               <button [disabled]="isCountStarted?true:false" (click)="Next()"
                 style="margin-left: 5px;" nz-button nzType="default" nzShape="round"><i
                   class="feather icon-chevron-right text-muted"></i></button>
-              <button [disabled]="count == 0?true:false" (click)="Back()" style="margin-left: 5px;" nz-button
-                nzType="default" nzShape="round"><i class="feather icon-chevron-left text-muted"></i></button>
 
             </div>
             <div class="d-flex flex-column" *ngFor="let item of questions; let i=index">
@@ -115,11 +116,60 @@
           <nz-result
           nzStatus="success"
           nzTitle="ሁሉም ጥያቄዎች ተጠይቀዋል።"
-          nzSubTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
+          nzSubTitle=""
         >
           <div nz-result-extra>
-            <button nz-button nzType="primary">Go Console</button>
-            <button nz-button>Buy Again</button>
+
+            <button (click)="reset()" nz-button nzType="primary">ወደ ኋላ</button>
+
+           <div style="margin-top: 20px;">
+            <nz-table #sortTable [nzData]="listOfData" nzTableLayout="fixed">
+              <thead>
+                <tr>
+                  <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">{{ column.title }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of sortTable.data">
+                  <td>
+                    <div class="row align-items-baseline">
+                     <div style="width: 30px; height: 30px; text-align: center;" class="rounded-circle shadow-sm">
+                      <i class="feather icon-user"></i>
+                     </div>
+                      <span style="margin-left: 5px; font-size: 16px;">{{ data.phone }}</span>
+                    </div>
+                  </td>
+                  <td >
+                    <span style="font-size: 16px;"> {{ data.totalAnswered }}</span>
+                   </td>
+                  <td>
+                    <div *ngIf="data.Rank == 1" class="row align-items-baseline">
+                      <i style="color: gold; font-size: 16px;" class="feather icon-award"></i>
+                      <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
+                    </div>
+                    <div *ngIf="data.Rank == 2" class="row align-items-baseline">
+                      <i style="color: silver; font-size: 16px;" class="feather icon-award"></i>
+                      <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
+                    </div>
+                    <div *ngIf="data.Rank == 3" class="row align-items-baseline">
+                      <i style="color: brown; font-size: 16px;" class="feather icon-award"></i>
+                      <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
+                    </div>
+                    <div *ngIf="data.Rank != 1 && data.Rank != 2 && data.Rank != 3" class="row align-items-baseline">
+                      <i style="color: black; font-size: 16px;" class="feather icon-award"></i>
+                      <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
+                    </div>
+
+
+
+
+                  </td>
+
+                </tr>
+              </tbody>
+            </nz-table>
+           </div>
+
           </div>
         </nz-result>
         </div>
@@ -138,9 +188,67 @@
             </div>
 
           </div>
-
+          <div style="margin-left: auto;">
+            <button data-toggle="modal" (click)="alloverResults();myLargeModalLabel.show()" nz-button nzType="primary">ጠቅላላ ውጤት</button>
+          </div>
         </div>
       </ng-template>
     </app-card>
   </div>
 </div>
+
+<app-ui-modal #myLargeModalLabel [hideFooter]="true" [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+    <h5 class="modal-title">ጠቅላላ ውጤት</h5>
+    <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="myLargeModalLabel.hide()"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="app-modal-body">
+    <nz-table #sortTable [nzData]="listOfData" nzTableLayout="fixed">
+      <thead>
+        <tr>
+          <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">{{ column.title }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of sortTable.data">
+          <td>
+            <div class="row align-items-baseline">
+             <div style="width: 30px; height: 30px; text-align: center;" class="rounded-circle shadow-sm">
+              <i class="feather icon-user"></i>
+             </div>
+              <span style="margin-left: 5px; font-size: 16px;">{{ data.phone }}</span>
+            </div>
+          </td>
+          <td >
+            <span style="font-size: 16px;"> {{ data.totalAnswered }}</span>
+           </td>
+          <td>
+            <div *ngIf="data.Rank == 1" class="row align-items-baseline">
+              <i style="color: gold; font-size: 16px;" class="feather icon-award"></i>
+              <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
+            </div>
+            <div *ngIf="data.Rank == 2" class="row align-items-baseline">
+              <i style="color: silver; font-size: 16px;" class="feather icon-award"></i>
+              <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
+            </div>
+            <div *ngIf="data.Rank == 3" class="row align-items-baseline">
+              <i style="color: brown; font-size: 16px;" class="feather icon-award"></i>
+              <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
+            </div>
+            <div *ngIf="data.Rank != 1 && data.Rank != 2 && data.Rank != 3" class="row align-items-baseline">
+              <i style="color: black; font-size: 16px;" class="feather icon-award"></i>
+              <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
+            </div>
+
+
+
+
+          </td>
+
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</app-ui-modal>
+
+

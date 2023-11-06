@@ -96,4 +96,13 @@ export class AddQuestionsService {
       }
     );
   }
+
+  updateQ(QId:any, data:any){
+    return this.http.post<any>(
+      environment.url + `update/All/questions?QId=${QId}`,data,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
 }

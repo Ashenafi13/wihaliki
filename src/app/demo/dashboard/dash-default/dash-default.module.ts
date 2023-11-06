@@ -10,6 +10,7 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzResultModule } from 'ng-zorro-antd/result';
+import { NzTableModule } from 'ng-zorro-antd/table';
 @NgModule({
   declarations: [DashDefaultComponent],
   imports: [
@@ -21,7 +22,8 @@ import { NzResultModule } from 'ng-zorro-antd/result';
     NzTimelineModule,
     NzAvatarModule,
     NzIconModule,
-    NzResultModule
+    NzResultModule,
+    NzTableModule
   ]
 })
 export class DashDefaultModule { }

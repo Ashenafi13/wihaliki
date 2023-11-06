@@ -37,6 +37,17 @@ export class DashboardService {
     );
   }
 
+  GetCompetitorRank(){
+    return this.http.get<any>(
+      environment.url + `Competitor/rank`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+
+
+
   GetCompetitor(QId:any){
     return this.http.get<any>(
       environment.url + `Competitor?QId=${QId}`,
