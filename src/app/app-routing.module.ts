@@ -44,7 +44,12 @@ const routes: Routes = [
       {
         path: 'add-questions',
         loadChildren: () => import('./demo/pages/addQuestions/add-questions.module').then(module => module.AddQuestionModule)
+      },
+      {
+        path: 'questions',
+        loadChildren: () => import('./demo/pages/questions/questions.module').then(module => module.QuestionsModule)
       }
+
     ]
   },
   {

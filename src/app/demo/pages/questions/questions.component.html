@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="ጥያቄዎች">
+      <nz-table [nzBordered]="true" #nzTable [nzData]="listOfData">
+        <thead>
+          <tr>
+            <th nzWidth="60px"></th>
+            <th nzWidth="400px">ጥያቄ</th>
+            <th nzWidth="200px">ጊዜ በሰኮንድ</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of nzTable.data">
+            <tr>
+              <td [nzExpand]="expandSet.has(data.QId)" [nzShowExpand]="data.QId?true:false"
+                (nzExpandChange)="onExpandChange(data.QId, $event)"></td>
+              <td>
+                <div class="editable-cell">
+                  {{ data.question}}
+                </div>
+
+              </td>
+              <td>
+                <div class="editable-cell">
+                  {{ data.time}}
+                </div>
+                   </td>
+
+
+
+            </tr>
+            <tr [nzExpand]="expandSet.has(data.QId)"  >
+              <div style="margin:0;">
+                  <div *ngFor="let choice of choices">
+                     <span [ngStyle]="choice.isAnswer?{'color':'#00e900'}:''">{{choice.alphabet}}. &nbsp; {{choice.choice_label}}</span>
+                  </div>
+              </div>
+            </tr>
+          </ng-container>
+        </tbody>
+      </nz-table>
+    </app-card>
+  </div>
+</div>

@@ -51,9 +51,9 @@ const NavigationItems = [
             id: 'forms-element',
             title: 'ጥያቄዎች',
             type: 'item',
-            url: '/forms/basic',
+            url: '/questions',
             classes: 'nav-item',
-            icon: 'feather icon-file-text'
+            icon: 'feather icon-feather'
           },
         ]
       },
@@ -61,7 +61,7 @@ const NavigationItems = [
         id: 'participants',
         title: 'Forms & Table',
         type: 'group',
-        icon: 'feather icon-layout',
+        icon: 'feather icon-users',
         children: [
           {
             id: 'participants_children',
@@ -69,7 +69,7 @@ const NavigationItems = [
             type: 'item',
             url: '/basic/button',
             classes: 'nav-item',
-            icon: 'feather icon-file-text'
+            icon: 'feather icon-users'
           },
         ]
       },
@@ -79,13 +79,13 @@ const NavigationItems = [
     id: 'ui-element',
     title: 'UI ELEMENT',
     type: 'group',
-    icon: 'feather icon-layers',
+    icon: 'feather icon-file-text',
     children: [
       {
         id: 'basic',
         title: 'ሪፖርት',
         type: 'collapse',
-        icon: 'feather icon-box',
+        icon: 'feather icon-file-text',
         children: [
           {
             id: 'alert',
@@ -188,29 +188,6 @@ const NavigationItems = [
     ]
   },
   {
-    id: 'page-layouts',
-    title: 'የገጽ አቀማመጦች',
-    type: 'collapse',
-    icon: 'feather icon-layout',
-    children: [
-      {
-        id: 'vertical',
-        title: 'Vertical',
-        type: 'item',
-        url: '/layout/static',
-        target: true
-      },
-      {
-        id: 'horizontal',
-        title: 'Horizontal',
-        type: 'item',
-        url: '/layout/horizontal',
-        target: true
-      }
-    ]
-  },
-
-  {
     id: 'settings',
     title: 'Settings',
     type: 'group',
@@ -220,7 +197,7 @@ const NavigationItems = [
         id: 'settings_children',
         title: 'ቅንብሮች',
         type: 'collapse',
-        icon: 'feather icon-box',
+        icon: 'feather icon-settings',
         children: [
           {
             id: 'addQuestion',
