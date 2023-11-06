@@ -32,16 +32,18 @@ export class DashDefaultComponent implements OnInit {
   public powerCardChartData2: any;
   count: number = 0;
   isStarted: boolean = false;
-  ethiopianAlphabet: any = ['ሀ', 'ለ', 'ሐ', 'መ', 'ሠ', 'ረ', 'ሰ', 'ቀ', 'በ', 'ተ', 'ኀ']
+  alphabet: any = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
   active: any;
   questions: any[] = [];
   seconds: any;
+  isPreviouslyStarted: boolean
   timeEnds: any;
+  isCountStarted: boolean;
   correctAnswers: any[] =[];
   IncorrectAnswers: any[] =[];
   competitors:any[] = [];
-
-
+  statusControllers: boolean;
+  finalResults: boolean = false;
   // Declare a property to store the interval ID
   interval: any;
 
@@ -56,21 +58,39 @@ export class DashDefaultComponent implements OnInit {
   }
 
   Next(): void {
+    this.statusControllers = false;
+    this.timeEnds ='';
+    this.isCountStarted = false;
+    this.isStarted = false;
     if (this.count < this.questions.length - 1) {
       this.count++;
       localStorage.setItem('storedCount', `${this.count}`);
+      localStorage.setItem('QId', this.questions[this.count].qts.id);
+      this.GetCompetitor(this.questions[this.count].qts.id);
+      this.finalResults = false;
+    }else{
+     this.finalResults = true;
     }
+    console.log(this.count);
   }
 
   Back(): void {
+    this.statusControllers = false;
+    this.timeEnds ='';
+    this.isCountStarted = false;
+    this.isStarted = false;
     if (this.count > 0) {
       this.count--;
       localStorage.setItem('storedCount', `${this.count}`);
+      localStorage.setItem('QId', this.questions[this.count].qts.id);
+      this.GetCompetitor(this.questions[this.count].qts.id);
     }
   }
   start(time: any,QId:any): void {
 
     this.isStarted = true;
+    this.isCountStarted = true;
+    this.statusControllers = true;
     localStorage.removeItem('QId');
     localStorage.removeItem('STORED_SECONDES');
     localStorage.setItem('QId', QId);
@@ -80,9 +100,16 @@ export class DashDefaultComponent implements OnInit {
 
     }
 
+   checkQuestionStatus(isStarted:any){
+     console.log("🚀 ~ file: dash-default.component.ts:90 ~ DashDefaultComponent ~ checkQuestionStatus ~ isStarted:", isStarted)
+
+      this.isPreviouslyStarted = isStarted?true:false;
+      console.log("🚀 ~ file: dash-default.component.ts:93 ~ DashDefaultComponent ~ checkQuestionStatus ~ this.isPreviouslyStarted:", this.isPreviouslyStarted)
+   }
+
     UpdateQuestionsStart(QId:any){
      this.service.UpdateQuestionsStart(QId).subscribe((response:any) =>{
-
+      this.UpdateQuestionsStatus(QId);
      });
     }
 
@@ -159,8 +186,9 @@ generate_letter() {
           console.log("Time's up!");
           this.timeEnds = "ጊዜው አልቋል!"
           localStorage.removeItem('STORED_SECONDES');
+          this.isCountStarted=false;
+          this.GetEpisodeQuestions();
 
-          this.UpdateQuestionsStatus(QId);
 
 
         }
@@ -178,6 +206,10 @@ generate_letter() {
     this.service.GetEpisodeQuestions().subscribe((data) => {
       let Q = this.reformatArray(data);
       this.questions = Q;
+      let QId =localStorage.getItem('QId');
+      if(!QId){
+        this.GetCompetitor(Q[0]);
+      }
     });
   }
   reformatArray(arr) {
@@ -211,7 +243,9 @@ generate_letter() {
     this.GetEpisodeQuestions();
     this.GetActive();
     let QId = localStorage.getItem('QId');
-    this.GetCompetitor(QId);
+    if(QId){
+      this.GetCompetitor(QId);
+    }
     let storedCount = localStorage.getItem('storedCount');
     if(storedCount){
       this.count = Number(storedCount);
@@ -223,6 +257,7 @@ generate_letter() {
       this.isStarted = true;
       this.seconds = Number(STORED_SECONDES);
       this.countdownSeconds(this.seconds,QId);
+
     }
   }
 

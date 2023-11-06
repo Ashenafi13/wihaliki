@@ -3,10 +3,10 @@
     <app-card [template]="subContent">
 
       <div style="padding: 30px;">
-        <div class="custom-card row align-items-center ">
+        <div *ngIf="!finalResults" class="custom-card row align-items-center ">
           <div>
             <div class="row">
-              <button [disabled]="count == questions.length - 1 || isStarted?true:false" (click)="Next()"
+              <button [disabled]="isCountStarted?true:false" (click)="Next()"
                 style="margin-left: 5px;" nz-button nzType="default" nzShape="round"><i
                   class="feather icon-chevron-right text-muted"></i></button>
               <button [disabled]="count == 0?true:false" (click)="Back()" style="margin-left: 5px;" nz-button
@@ -18,11 +18,13 @@
                 <div class="row align-items-center">
                   <span style="font-size:30px">ጥያቄ
                     {{i+1}}
+
+                    {{checkQuestionStatus(item.qts.status)}}
                   </span>
-                  <button style="margin-left: 10px;" *ngIf="!isStarted && item.qts.status != 1"
+                  <button style="margin-left: 10px;" *ngIf="!isCountStarted && item.qts.status != 1"
                     (click)="start(item.qts.time,item.qts.id)" nz-button nzType="default" nzShape="round"><i
                       class="feather icon-play text-muted"></i></button>
-                  <span [@fade] *ngIf="isStarted">
+                  <span [@fade] *ngIf="statusControllers">
 
                     <nz-badge *ngIf="!timeEnds" [nzCount]="seconds"
                       [nzStyle]=" seconds >5? {  'backgroundColor': '#52c41a','font-size': '40px','height': '24px', 'line-height': '24px' }: {  'backgroundColor': 'red','font-size': '40px','height': '24px', 'line-height': '24px' }"></nz-badge>
@@ -36,16 +38,17 @@
                 <div>
                   <span style="font-weight: 700;">{{item.qts.question_label}}</span>
                   <div style="margin-top: 20px;  margin-left: 20px; width: 400px;" class="row">
-                    <span style="margin: 20px; font-weight: 500;" *ngFor="let it of item.cho; let j=index">
-                      {{ethiopianAlphabet[j]}}. {{it.choice_label}}</span>
+                    <span style="margin: 20px; font-weight: 500;" *ngFor="let it of item.cho;  let j=index">
+                     <span [style]="item.qts.status == 1 && it.isAnswer == 1?{'color':'#1cee1c'}:''">  {{it.alphabet}}. {{it.choice_label}}</span> </span>
                   </div>
                 </div>
               </div>
+
             </div>
 
           </div>
 
-          <div *ngIf="competitors.length > 0" style="margin-left: auto; padding: 10px; margin-right: 100px;">
+          <div *ngIf="competitors.length > 0 && isPreviouslyStarted" style="margin-left: auto; padding: 10px; margin-right: 100px;">
 
             <div class="d-flex flex-column ">
 
@@ -56,17 +59,19 @@
                   </div>
                   <div style="margin-left: 5px;" class="d-flex flex-column">
                     <span style="font-size: 20px;" *ngIf="correctAnswers.length">{{correctAnswers.length}}/{{competitors.length}}</span>
-                    <span>አልፏል </span>
+                    <span style="font-size: 20px;" *ngIf="!correctAnswers.length">0/{{competitors.length}}</span>
+                    <span>አልፈዋል </span>
                   </div>
 
                 </div>
-                <div style="margin-left: auto;"  class="row">
+                <div style="margin-left: 20px;"  class="row">
                   <div style="width: 50px; height: 50px;" class="rounded-circle shadow-sm align-content-center p-2">
                     <i style="font-size: 30px; color: red;" class="feather icon-user-x"></i>
                   </div>
                   <div style="margin-left: 5px;" class="d-flex flex-column">
                     <span style="font-size: 20px;" *ngIf="IncorrectAnswers.length">{{IncorrectAnswers.length}}/{{competitors.length}}</span>
-                    <span>አላለፈም</span>
+                    <span style="font-size: 20px;" *ngIf="!IncorrectAnswers.length">0/{{competitors.length}}</span>
+                    <span>አላለፉም</span>
                   </div>
 
                 </div>
@@ -105,6 +110,19 @@
 
         </div>
 
+
+        <div *ngIf="finalResults">
+          <nz-result
+          nzStatus="success"
+          nzTitle="ሁሉም ጥያቄዎች ተጠይቀዋል።"
+          nzSubTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
+        >
+          <div nz-result-extra>
+            <button nz-button nzType="primary">Go Console</button>
+            <button nz-button>Buy Again</button>
+          </div>
+        </nz-result>
+        </div>
 
 
       </div>
