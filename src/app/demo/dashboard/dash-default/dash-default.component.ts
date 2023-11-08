@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SupportChartData1 } from './chart/support-chart-data-1';
 import { SupportChartData2 } from './chart/support-chart-data-2';
 import { SeoChart1 } from './chart/seo-chart-1';
@@ -12,10 +12,12 @@ import {
   fade,
   slide,
 } from '../../../theme/shared/animation-styles/animation-styles';
+import { Subject } from 'rxjs';
+
 
 interface DataItem {
-  id : number;
-  phone : string;
+  id: number;
+  phone: string;
   totalAnswered: number;
   Rank: number;
 
@@ -38,21 +40,93 @@ export class DashDefaultComponent implements OnInit {
   public seoChartData3: any;
   public powerCardChartData1: any;
   public powerCardChartData2: any;
+  @ViewChild('myDiv') myDiv: ElementRef;
   count: number = 0;
   isStarted: boolean = false;
-  alphabet: any = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+  alphabet: any = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   active: any;
   questions: any[] = [];
   seconds: any;
   isPreviouslyStarted: boolean
   timeEnds: any;
+  tempTest:number = 0;
+  private scrollSubject = new Subject();
   isCountStarted: boolean;
-  correctAnswers: any[] =[];
-  IncorrectAnswers: any[] =[];
-  competitors:any[] = [];
+  correctAnswers: any[] = [];
+  IncorrectAnswers: any[] = [];
+  competitors: any[] = [];
   statusControllers: boolean;
   finalResults: boolean = false;
-  ranks:any[] = [];
+  testSender:any;
+  testMsg:any;
+  ranks: any[] = [];
+
+    sampleArray = [
+      //{
+  //   "sender": "+251971533729",
+  //   "message": "C"
+  // },
+  // {
+  //   "sender": "+251980603787",
+  //   "message": "D"
+  // },
+  {
+    "sender": "+251923808531",
+    "message": "A"
+  },
+  {
+    "sender": "+251923808531",
+    "message": "C"
+  },
+  // {
+  //   "sender": "+251994144932",
+  //   "message": "D"
+  // },
+  // {
+  //   "sender": "+251944456259",
+  //   "message": "A"
+  // },
+  // {
+  //   "sender": "+251919277829",
+  //   "message": "E"
+  // },
+  // {
+  //   "sender": "+251974891513",
+  //   "message": "E"
+  // },
+  // {
+  //   "sender": "+251950414787",
+  //   "message": "A"
+  // },
+  // {
+  //   "sender": "+251968819616",
+  //   "message": "D"
+  // },
+  // {
+  //   "sender": "+251991304884",
+  //   "message": "D"
+  // },
+  // {
+  //   "sender": "+251942996600",
+  //   "message": "D"
+  // },
+  // {
+  //   "sender": "+251949930310",
+  //   "message": "E"
+  // },
+  // {
+  //   "sender": "+251935499342",
+  //   "message": "C"
+  // },
+  // {
+  //   "sender": "+251974549875",
+  //   "message": "A"
+  // },
+  // {
+  //   "sender": "+251924049975",
+  //   "message": "A"
+  // }
+  ];
   listOfColumn = [
     {
       title: 'ተወዳዳሪ'
@@ -73,7 +147,7 @@ export class DashDefaultComponent implements OnInit {
   // Declare a property to store the interval ID
   interval: any;
 
-    constructor(private service: DashboardService,  private datePipe: DatePipe) {
+  constructor(private service: DashboardService, private datePipe: DatePipe) {
     this.supportChartData1 = SupportChartData1.supportChartData;
     this.supportChartData2 = SupportChartData2.supportChartData;
     this.seoChartData1 = SeoChart1.seoChartData;
@@ -85,7 +159,7 @@ export class DashDefaultComponent implements OnInit {
 
   Next(): void {
     this.statusControllers = false;
-    this.timeEnds ='';
+    this.timeEnds = '';
     this.isCountStarted = false;
     this.isStarted = false;
     if (this.count < this.questions.length - 1) {
@@ -94,16 +168,16 @@ export class DashDefaultComponent implements OnInit {
       localStorage.setItem('QId', this.questions[this.count].qts.id);
       this.GetCompetitor(this.questions[this.count].qts.id);
       this.finalResults = false;
-    }else{
-     this.finalResults = true;
-     this.GetCompetitorRank();
+    } else {
+      this.finalResults = true;
+      this.GetCompetitorRank();
     }
 
   }
 
   Back(): void {
     this.statusControllers = false;
-    this.timeEnds ='';
+    this.timeEnds = '';
     this.isCountStarted = false;
     this.isStarted = false;
     if (this.count > 0) {
@@ -113,33 +187,44 @@ export class DashDefaultComponent implements OnInit {
       this.GetCompetitor(this.questions[this.count].qts.id);
     }
   }
-  GetCompetitorRank(){
-    this.listOfData =[];
+  GetCompetitorRank() {
+    this.listOfData = [];
     this.ranks = [];
-    this.service.GetCompetitorRank().subscribe((rank:any) =>{
-     for(let i=0; i<rank.length; i++){
-      this.ranks.push({
-        id : rank[i].id,
-        phone : rank[i].phone,
-        totalAnswered: rank[i].totalAnswered,
-        Rank: rank[i].Rank
-      })
-     }
+    this.service.GetCompetitorRank().subscribe((rank: any) => {
+      for (let i = 0; i < rank.length; i++) {
+        this.ranks.push({
+          id: rank[i].id,
+          phone: rank[i].phone,
+          totalAnswered: rank[i].totalAnswered,
+          Rank: rank[i].Rank
+        })
+      }
 
-     this.listOfData = [...this.ranks]
+      this.listOfData = [...this.ranks]
 
     });
   }
-  alloverResults():void{
+  alloverResults(): void {
     this.GetCompetitorRank();
 
-   }
+  }
 
   reset(): void {
     location.reload();
   }
 
-  start(time: any,QId:any): void {
+  test(QId: any): void {
+
+
+
+      this.SendMessage(this.testSender, this.testMsg);
+
+
+
+  }
+
+
+  start(time: any, QId: any): void {
 
     this.isStarted = true;
     this.isCountStarted = true;
@@ -147,55 +232,76 @@ export class DashDefaultComponent implements OnInit {
     localStorage.removeItem('QId');
     localStorage.removeItem('STORED_SECONDES');
     localStorage.setItem('QId', QId);
+
     this.UpdateQuestionsStart(QId);
     this.countdownSeconds(time,QId);
 
 
-    }
-
-   checkQuestionStatus(isStarted:any){
-    this.isPreviouslyStarted = isStarted?true:false;
   }
 
-    UpdateQuestionsStart(QId:any){
-     this.service.UpdateQuestionsStart(QId).subscribe((response:any) =>{
-      this.UpdateQuestionsStatus(QId);
-     });
+  checkQuestionStatus(isStarted: any) {
+    this.isPreviouslyStarted = isStarted ? true : false;
+  }
+
+
+  ngAfterViewInit() {
+    if (this.myDiv) {
+      this.myDiv.nativeElement.scrollTo();
     }
 
-  AddCompetitor(QId:any) {
-    this.service.AddCompetitor(QId).subscribe((result:any)=>{
+  }
+
+  UpdateQuestionsStart(QId: any) {
+    this.service.UpdateQuestionsStart(QId).subscribe((response: any) => {
+      this.UpdateQuestionsStatus(QId);
+    });
+  }
+
+  AddCompetitor(QId: any) {
+    this.service.AddCompetitor(QId).subscribe((result: any) => {
       this.GetCompetitor(QId);
+      if (this.myDiv) {
+        this.myDiv.nativeElement.scrollTop = this.myDiv.nativeElement.scrollHeight;
+      }
       localStorage.removeItem('STORED_SECONDES');
     });
   }
 
- SendMessage(){
-  let sender = this.generate_phone_number();
-  let message = this.generate_letter();
-  this.service.SendSMS(sender, message).subscribe((response:any) => {
+  RegisterCompetitor(phone: string) {
+    let data = {
+      phone: phone
+    }
+    this.service.RegisterCompetitor(data).subscribe((x: any) => {
+      console.log(x);
+    });
+  }
 
-  });
+  SendMessage(sender: any, message:any) {
+
+    this.service.SendSMS(sender, message).subscribe((response: any) => {
+
+    });
 
 
- }
- generate_phone_number() {
-  // Generate a random 8-digit number
-  var number = Math.floor(Math.random() * 90000000) + 10000000;
-  // Add the country code +2519 as a prefix
-  var phone_number = "+2519" + number.toString();
-  // Return the phone number as a string
-  return phone_number;
-}
+  }
+  generate_phone_number() {
+    // Generate a random 8-digit number
+    var number = Math.floor(Math.random() * 90000000) + 10000000;
+    // Add the country code +2519 as a prefix
+    var phone_number = "+2519" + number.toString();
+    // Return the phone number as a string
+    return phone_number;
+  }
 
-generate_letter() {
-  // Create an array of letters from A to E
-  var letters = ["A", "B", "C", "D", "E"];
-  // Generate a random index from 0 to 4
-  var index = Math.floor(Math.random() * 5);
-  // Return the letter at the random index
-  return letters[index];
-}
+
+  generate_letter() {
+    // Create an array of letters from A to E
+    var letters = ["A", "B", "C", "D", "E"];
+    // Generate a random index from 0 to 4
+    var index = Math.floor(Math.random() * 5);
+    // Return the letter at the random index
+    return letters[index];
+  }
 
   UpdateQuestionsStatus(QId: any) {
     this.service.UpdateQuestionsStatus(QId).subscribe((response: any) => {
@@ -205,16 +311,16 @@ generate_letter() {
     });
   }
 
-  GetCompetitor(QId:any){
-  this.service.GetCompetitor(QId).subscribe((response:any) => {
-    this.correctAnswers = response.filter(x=>x.answer == 1);
-    this.IncorrectAnswers = response.filter(x=>x.answer == 0);
-    this.competitors = response;
-  });
+  GetCompetitor(QId: any) {
+    this.service.GetCompetitor(QId).subscribe((response: any) => {
+      this.correctAnswers = response.filter(x => x.answer == 1);
+      this.IncorrectAnswers = response.filter(x => x.answer == 0);
+      this.competitors = response;
+    });
   }
 
 
-  countdownSeconds(seconds:any,QId:any) {
+  countdownSeconds(seconds: any, QId: any) {
     // Check if the parameter is a positive integer
     if (Number.isInteger(seconds) && seconds > 0) {
       // Set an interval to execute a function every second
@@ -222,21 +328,22 @@ generate_letter() {
         // Display the current value of seconds
 
         this.seconds = seconds;
-        console.log(this.seconds);
+
+         this.AddCompetitor(QId);
         localStorage.setItem('STORED_SECONDES', seconds);
-        this.SendMessage();
+
         // Decrement seconds by one
         seconds--;
-        this.AddCompetitor(QId);
+
 
         // Check if seconds reached zero
         if (seconds === 0) {
           // Clear the interval and stop the countdown
           clearInterval(interval);
-          console.log("Time's up!");
+          this.AddCompetitor(QId);
           this.timeEnds = "ጊዜው አልቋል!"
           localStorage.removeItem('STORED_SECONDES');
-          this.isCountStarted=false;
+          this.isCountStarted = false;
           this.GetEpisodeQuestions();
 
 
@@ -256,8 +363,8 @@ generate_letter() {
     this.service.GetEpisodeQuestions().subscribe((data) => {
       let Q = this.reformatArray(data);
       this.questions = Q;
-      let QId =localStorage.getItem('QId');
-      if(!QId){
+      let QId = localStorage.getItem('QId');
+      if (!QId) {
         this.GetCompetitor(Q[0]);
       }
     });
@@ -293,20 +400,20 @@ generate_letter() {
     this.GetEpisodeQuestions();
     this.GetActive();
     let QId = localStorage.getItem('QId');
-    if(QId){
+    if (QId) {
       this.GetCompetitor(QId);
     }
     let storedCount = localStorage.getItem('storedCount');
-    if(storedCount){
+    if (storedCount) {
       this.count = Number(storedCount);
     }
 
     let STORED_SECONDES = localStorage.getItem('STORED_SECONDES');
 
-    if(STORED_SECONDES || Number(STORED_SECONDES) > 1){
+    if (STORED_SECONDES || Number(STORED_SECONDES) > 1) {
       this.isStarted = true;
       this.seconds = Number(STORED_SECONDES);
-      this.countdownSeconds(this.seconds,QId);
+      this.countdownSeconds(this.seconds, QId);
 
     }
   }

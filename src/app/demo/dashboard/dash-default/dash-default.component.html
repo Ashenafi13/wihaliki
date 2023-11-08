@@ -25,6 +25,9 @@
                   <button style="margin-left: 10px;" *ngIf="!isCountStarted && item.qts.status != 1"
                     (click)="start(item.qts.time,item.qts.id)" nz-button nzType="default" nzShape="round"><i
                       class="feather icon-play text-muted"></i></button>
+                      <input type="text" placeholder="sender" [(ngModel)]="testSender"/>
+                      <input type="text" placeholder="msg" [(ngModel)]="testMsg"/>
+                      <button (click)="test(item.qts.id)">Test</button>
                   <span [@fade] *ngIf="statusControllers">
 
                     <nz-badge *ngIf="!timeEnds" [nzCount]="seconds"
@@ -48,10 +51,8 @@
             </div>
 
           </div>
-
           <div *ngIf="competitors.length > 0 && isPreviouslyStarted" style="margin-left: auto; padding: 10px; margin-right: 100px;">
-
-            <div class="d-flex flex-column ">
+              <div class="d-flex flex-column ">
 
               <div class="row">
                 <div class="row">
@@ -81,7 +82,7 @@
               </div>
 
 
-             <div class="timeline" >
+             <div  #myDiv class="timeline" >
               <nz-timeline nzMode="custom">
                 <nz-timeline-item *ngFor="let competitor of competitors" nzPosition="right" [nzColor]="competitor.answer?'green':'red'" [nzDot]="soccerTemplate">
                   <div class="row" style="margin-left: 5px">

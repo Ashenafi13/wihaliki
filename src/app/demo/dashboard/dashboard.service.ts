@@ -57,6 +57,14 @@ export class DashboardService {
     );
   }
 
+  RegisterCompetitor(data:any){
+    return this.http.post<any>(
+      environment.url + `registor/competitor`, data,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
 
   UpdateQuestionsStatus(QId:any){
     return this.http.post<any>(

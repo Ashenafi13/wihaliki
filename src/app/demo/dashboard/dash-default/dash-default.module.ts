@@ -11,6 +11,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 @NgModule({
   declarations: [DashDefaultComponent],
   imports: [
@@ -23,7 +24,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     NzAvatarModule,
     NzIconModule,
     NzResultModule,
-    NzTableModule
+    NzTableModule,
+    NzDividerModule
   ]
 })
 export class DashDefaultModule { }
