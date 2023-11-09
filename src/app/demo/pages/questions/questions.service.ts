@@ -20,17 +20,86 @@ export class QuestionsService {
 
   };
 
-  GetQuestions(){
+  GetEpisodeQuestions(){
     return this.http.get<any>(
-      environment.url + `questions`,
+      environment.url + `episode/questions`,
       {
         headers: this.httpOptions.header,
       }
     );
   }
-  GetChoices(QId:any){
+
+  GetActive(){
     return this.http.get<any>(
-      environment.url + `choices?Qid=${QId}`,
+      environment.url + `active/season`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+
+  GetCompetitorRank(){
+    return this.http.get<any>(
+      environment.url + `Competitor/rank`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+
+
+
+  GetCompetitor(QId:any){
+    return this.http.get<any>(
+      environment.url + `Competitor?QId=${QId}`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+
+  RegisterCompetitor(data:any){
+    return this.http.post<any>(
+      environment.url + `registor/competitor`, data,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+
+  UpdateQuestionsStatus(QId:any){
+    return this.http.post<any>(
+      environment.url + `questions/status?QId=${QId}`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+
+  UpdateQuestionsStart(QId:any){
+    return this.http.post<any>(
+      environment.url + `add/startDate?QId=${QId}`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+
+  AddCompetitor(QId:any){
+    return this.http.post<any>(
+      environment.url + `add/Competitor?QId=${QId}`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+  SendSMS(id:any){
+    let data ={
+     id:id,
+    }
+    return this.http.post<any>(
+      environment.url + `send/sms`,
+      data,
       {
         headers: this.httpOptions.header,
       }

@@ -92,10 +92,9 @@ export class DashboardService {
       }
     );
   }
-  SendSMS(sender:any,msg:string){
+  SendSMS(id:any){
     let data ={
-      sender:sender,
-      msg:msg,
+     id:id,
     }
     return this.http.post<any>(
       environment.url + `send/sms`,

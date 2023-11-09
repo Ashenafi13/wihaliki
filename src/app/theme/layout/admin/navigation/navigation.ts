@@ -40,23 +40,23 @@ const NavigationItems = [
         classes: 'nav-item',
         icon: 'feather icon-home'
       },
-
       {
-        id: 'forms',
+        id: 'questions',
         title: 'Forms & Table',
         type: 'group',
-        icon: 'feather icon-layout',
+        icon: 'feather icon-feather',
         children: [
           {
-            id: 'forms-element',
+            id: 'questions_children',
             title: 'ጥያቄዎች',
             type: 'item',
-            url: '/questions',
+            url: '/basic/questions',
             classes: 'nav-item',
             icon: 'feather icon-feather'
           },
         ]
       },
+
       {
         id: 'participants',
         title: 'Forms & Table',
@@ -203,14 +203,14 @@ const NavigationItems = [
             id: 'addQuestion',
             title: 'ጥያቄዎችን ይመዝግቡ',
             type: 'item',
-            url: '/add-questions'
+            url: '/basic/add-questions'
           },
-          // {
-          //   id: 'button',
-          //   title: 'Button',
-          //   type: 'item',
-          //   url: '/basic/button'
-          // },
+          {
+            id: 'seasons',
+            title: 'ምዕራፍ',
+            type: 'item',
+            url: '/basic/seasons'
+          },
 
         ]
       }

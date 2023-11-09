@@ -28,9 +28,9 @@ export class AddQuestionsService {
     );
   }
 
-  GetEpisodes() {
+  GetEpisodes(season_Id:any) {
     return this.http.get<any>(
-      environment.url + `episodes`,
+      environment.url + `episodes?season_Id=${season_Id}`,
       {
         headers: this.httpOptions.header,
       }
@@ -46,9 +46,9 @@ export class AddQuestionsService {
     );
   }
 
-  GetQuestions(){
+  GetQuestions(season:any,episode:any){
     return this.http.get<any>(
-      environment.url + `questions`,
+      environment.url + `questions?season=${season}&episode=${episode}`,
       {
         headers: this.httpOptions.header,
       }

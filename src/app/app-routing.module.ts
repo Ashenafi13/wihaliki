@@ -41,14 +41,7 @@ const routes: Routes = [
         path: 'maps',
         loadChildren: () => import('./demo/pages/core-maps/core-maps.module').then(module => module.CoreMapsModule)
       },
-      {
-        path: 'add-questions',
-        loadChildren: () => import('./demo/pages/addQuestions/add-questions.module').then(module => module.AddQuestionModule)
-      },
-      {
-        path: 'questions',
-        loadChildren: () => import('./demo/pages/questions/questions.module').then(module => module.QuestionsModule)
-      }
+
 
     ]
   },

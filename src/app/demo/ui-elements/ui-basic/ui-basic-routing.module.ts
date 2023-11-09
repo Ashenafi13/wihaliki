@@ -69,7 +69,24 @@ const routes: Routes = [
       {
         path: 'other',
         loadChildren: () => import('./basic-other/basic-other.module').then(module => module.BasicOtherModule)
+      },
+      {
+        path: 'add-questions',
+        loadChildren: () => import('../../pages/addQuestions/add-questions.module').then(module => module.AddQuestionModule)
+      },
+      {
+        path: 'seasons',
+        loadChildren: () => import('../../pages/season/season.module').then(module => module.SeasonModule)
+      },
+      {
+        path: 'questions',
+        loadChildren: () => import('../../pages/questions/questions.module').then(module => module.QuestionsModule)
+      },
+      {
+        path: 'questions-list',
+        loadChildren: () => import('../../pages/questions-list/questions-list.module').then(module => module.QuestionsListModule)
       }
+
     ]
   }
 ];

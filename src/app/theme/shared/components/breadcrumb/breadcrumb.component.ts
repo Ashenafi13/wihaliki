@@ -17,6 +17,8 @@ export class BreadcrumbComponent implements OnInit {
 
   constructor(private route: Router, public nav: NavigationItem, private titleService: Title) {
     this.navigation = this.nav.get();
+    console.log("🚀 ~ file: breadcrumb.component.ts:20 ~ BreadcrumbComponent ~ constructor ~ this.navigation:", this.navigation)
+
     this.type = 'theme2';
     this.setBreadcrumb();
   }
@@ -36,6 +38,7 @@ export class BreadcrumbComponent implements OnInit {
       if (routerUrl && typeof routerUrl === 'string') {
         this.breadcrumbList.length = 0;
         const activeLink = router.url;
+
         this.filterNavigation(activeLink);
       }
     });

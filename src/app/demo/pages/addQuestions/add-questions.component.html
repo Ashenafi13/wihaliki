@@ -12,7 +12,7 @@
         <small id="timeHelp" class="form-text text-muted">ሰኮንድ መሆኑን ያረጋግጡ </small>
       </div>
       <div style="margin-top: 10px;">
-        <button (click)="submit()" nz-button nzType="primary">አስገባ</button>
+        <button [disabled]="!question || !timeTaken" (click)="submit()" nz-button nzType="primary">አስገባ</button>
       </div>
       <div style="margin-top: 20px;">
       <nz-table [nzBordered]="true" #nzTable [nzData]="listOfData">
@@ -45,14 +45,16 @@
 
               <td nzRight>
 
-                <div class="d-flex flex-row justify-content-between">
+                <div class="d-flex flex-row">
                   <div [hidden]="editId != data.id" nz-tooltip nzTooltipTitle="አስቀምጥ" nzTooltipColor="#87d068" nz-popconfirm
                     nzOkText="እሺ" nzCancelText="አልፈልግም" nzPopconfirmTitle="እርግጠኛ ነዎት ማስቀመጥ ይፈልጋሉ?"
                     (nzOnConfirm)="updateQ(data)">
 
                      <i style="font-size: 20px; color: greenyellow;" class="feather icon-save"></i>
                   </div>
-
+                  <div [hidden]="editId != data.id" class="ml-2" >
+                    <i (click)="stopEdit()" style="font-size: 20px;" class="feather icon-minus-circle text-danger"></i>
+                  </div>
 
 
                 </div>
@@ -109,11 +111,11 @@
     </app-card>
     <ng-template #subContent>
      <div class="d-flex flex-row" style="width: 50%;">
-      <select name="selectedSeason" [(ngModel)]="selectedSeason" class="form-control" aria-label="Default select example">
+      <select name="selectedSeason" (ngModelChange)="changeSeason($event)"  [(ngModel)]="selectedSeason" class="form-control" aria-label="Default select example">
         <option disabled selected>ምዕራፍ ይምረጡ</option>
         <option *ngFor="let item of seasons" value="{{item.id}}">{{item.name}}</option>
       </select>
-      <select  name="selectedEpisodes" [(ngModel)]="selectedEpisodes" class="form-control" aria-label="Default select example">
+      <select  name="selectedEpisodes" (ngModelChange)="changeEpisodes($event)" [(ngModel)]="selectedEpisodes" class="form-control" aria-label="Default select example">
         <option disabled selected>ክፍል ይምረጡ</option>
         <option *ngFor="let item of episodes" value="{{item.id}}">{{item.name}}</option>
       </select>

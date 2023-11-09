@@ -38,12 +38,18 @@ export class AddQuestionComponent implements OnInit {
   stopEdit(): void {
     this.editId = null;
   }
+  changeSeason(event:any):void{
+   this.GetEpisodes(event);
+  }
+
   GetSeasons(): void {
     this.service.GetSeasons().subscribe((response: any) => {
       this.seasons = response;
       if (this.seasons.length > 0) {
         let filteredSeasons = this.seasons.filter(se => se.status == 1);
         this.selectedSeason = filteredSeasons[0].id;
+        this.GetEpisodes(this.selectedSeason);
+
       }
 
     });
@@ -59,22 +65,28 @@ export class AddQuestionComponent implements OnInit {
       this.expandSet.delete(id);
     }
   }
-  GetEpisodes(): void {
-    this.service.GetEpisodes().subscribe((response: any) => {
+  GetEpisodes(season_Id:any): void {
+    this.service.GetEpisodes(season_Id).subscribe((response: any) => {
       this.episodes = response;
+      console.log(response);
       if (this.episodes.length > 0) {
         let filteredEpisodes = this.episodes.filter(se => se.status == 1);
         this.selectedEpisodes = filteredEpisodes[0].id;
+        this.GetQuestions(season_Id,this.selectedEpisodes );
       }
     });
   }
+
+ changeEpisodes(event:any):void{
+  this.GetQuestions(this.selectedSeason,event );
+ }
 
 
 
   ngOnInit() {
     this.GetSeasons();
-    this.GetEpisodes();
-    this.GetQuestions()
+
+
   }
   SetRow(data: any): void {
     this.listOfData = [
@@ -179,16 +191,20 @@ export class AddQuestionComponent implements OnInit {
     question_label: data.question,
     time: data.time
    }
+    if(data.question && data.time){
    this.service.updateQ(data.QId,obj).subscribe((response:any)=>{
       if(response == 1){
 
         this.Alert( 'success', 'ማስታውቂያ','በተሳካ ሁኔታ ተዘምኗል');
-        this.GetQuestions();
+        this.GetQuestions(this.selectedSeason,this.selectedEpisodes);
       }else{
 
         this.Alert( 'error', 'ማስታውቂያ','በአሁኑ ጊዜ መረጃውን ማዘመን አይችሉም');
       }
    });
+  }else{
+    this.Alert('error', 'ማስታወቂያ!', 'መረጃው ባዶ ሊሆን አይችልም።');
+  }
   }
   RemoveChoices(index: any): void {
     this.choices.splice(index, 1);
@@ -197,8 +213,10 @@ export class AddQuestionComponent implements OnInit {
   createNotification(type:string,title: string, subTitle: string): void {
     this.notification.create(type,title, subTitle);
   }
-  GetQuestions():void{
-    this.service.GetQuestions().subscribe((response:any)=>{
+  GetQuestions(season_Id:any, episode_id:any):void{
+    this.Questions_List = [];
+    this.listOfData = [];
+    this.service.GetQuestions(season_Id,episode_id).subscribe((response:any)=>{
       this.Questions_List = response;
       let Q:any[]=[];
       for(let i=0; i<this.Questions_List.length; i++){
@@ -212,7 +230,6 @@ export class AddQuestionComponent implements OnInit {
 
 
   submit(): void {
-
     let data = {
       episode_id:this.selectedEpisodes,
       question_label:this.question,
@@ -221,9 +238,11 @@ export class AddQuestionComponent implements OnInit {
     }
     this.service.AddQuestions(data).subscribe((response)=>{
       if(response == 1){
+        this.question = "";
+        this.timeTaken = '';
 
         this.Alert( 'success', 'ማስታውቂያ','በተሳካ ሁኔታ ተጨምሯል።');
-        this.GetQuestions();
+        this.GetQuestions(this.selectedSeason,this.selectedEpisodes);
       }else{
 
         this.Alert( 'error', 'ማስታውቂያ','የሆነ ነገር ተከስቷል እባክዎ እንደገና ይሞክሩ');

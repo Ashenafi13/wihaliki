@@ -18,7 +18,7 @@ export class BreadcrumbPagingComponent implements OnInit {
 
   constructor() {
     this.breadcrumbTheme = 'theme1';
-    this.defaultPage = 5;
+    this.defaultPage = 6;
     this.noDirectionPage = 4;
     this.boundaryPage = 3;
     this.advancePage = 5;
