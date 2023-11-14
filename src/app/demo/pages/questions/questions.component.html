@@ -7,13 +7,17 @@
           <div>
             <div class="row">
               <button [disabled]="count == 0?true:false" (click)="Back()" style="margin-left: 5px;" nz-button
-              nzType="default" nzShape="round"><i class="feather icon-chevron-left text-muted"></i></button>
+              nzType="default" nzShape="round"><i class="feather icon-chevron-left text-muted"></i>ወደ ኋላ</button>
 
               <button [disabled]="isCountStarted?true:false" (click)="Next()"
                 style="margin-left: 5px;" nz-button nzType="default" nzShape="round"><i
-                  class="feather icon-chevron-right text-muted"></i></button>
+                  class="feather icon-chevron-right text-muted"></i>ቀጣይ</button>
 
+                  <button [disabled]="isCountStarted?true:false" (click)="open_Answer()"
+                  style="margin-left: 5px; background: #05bf0d;" nz-button nzType="default" nzShape="round"><i
+                    class="feather icon-check  text-white"></i> &nbsp; <span class="text-white">የጥያቄ መልስ</span></button>
             </div>
+
             <div class="d-flex flex-column" *ngFor="let item of questions; let i=index">
               <div class="d-flex flex-column" *ngIf="count == i">
                 <div class="row align-items-center">
@@ -25,17 +29,10 @@
                   <button style="margin-left: 10px;" *ngIf="!isCountStarted && item.qts.status != 1"
                     (click)="start(item.qts.time,item.qts.id)" nz-button nzType="default" nzShape="round"><i
                       class="feather icon-play text-muted"></i></button>
-
-
-                      <span [@fade] *ngIf="statusControllers">
-
-                    <nz-badge *ngIf="!timeEnds" [nzCount]="seconds"
-                      [nzStyle]=" seconds >5? {  'backgroundColor': '#52c41a','font-size': '40px','height': '24px', 'line-height': '24px' }: {  'backgroundColor': 'red','font-size': '40px','height': '24px', 'line-height': '24px' }"></nz-badge>
+                      <!-- <span [@fade] *ngIf="statusControllers">
                     <span style="font-size: 26px; color: red;" *ngIf="timeEnds">{{timeEnds}}</span>
-                    <button style="margin-left: 20px;" nz-button  (click)="test(item.qts.id)">Test</button>
-
-                  </span>
-                  <div style="margin-left: 10px;" *ngIf="item.qts.status == 1 && !isStarted">
+                  </span> -->
+                  <div style="margin-left: 10px;" *ngIf="item.qts.status == 1">
                     <span style="font-size: 26px; color: red;">ይህ ጥያቄ ተጠይቋል</span>
                   </div>
                 </div>
@@ -43,7 +40,7 @@
                   <span style="font-weight: 700;">{{item.qts.question_label}}</span>
                   <div style="margin-top: 20px;  margin-left: 20px; width: 400px;" class="row">
                     <span style="margin: 20px; font-weight: 500;" *ngFor="let it of item.cho;  let j=index">
-                     <span [style]="item.qts.status == 1 && it.isAnswer == 1?{'color':'#1cee1c'}:''">  {{it.alphabet}}. {{it.choice_label}}</span> </span>
+                     <span>  {{it.alphabet}}. {{it.choice_label}}</span> </span>
                   </div>
                 </div>
               </div>
@@ -51,7 +48,7 @@
             </div>
 
           </div>
-          <div *ngIf="competitors.length > 0 && isPreviouslyStarted" style="margin-left: auto; padding: 10px; margin-right: 100px;">
+          <div *ngIf="competitors.length > 0" style="margin-left: auto; padding: 10px; margin-right: 100px;">
               <div class="d-flex flex-column ">
 
               <div class="row">
@@ -62,7 +59,7 @@
                   <div style="margin-left: 5px;" class="d-flex flex-column">
                     <span style="font-size: 20px;" *ngIf="correctAnswers.length">{{correctAnswers.length}}/{{competitors.length}}</span>
                     <span style="font-size: 20px;" *ngIf="!correctAnswers.length">0/{{competitors.length}}</span>
-                    <span>አልፈዋል </span>
+                    <span>በትክክል መልሰዋል </span>
                   </div>
 
                 </div>
@@ -73,7 +70,7 @@
                   <div style="margin-left: 5px;" class="d-flex flex-column">
                     <span style="font-size: 20px;" *ngIf="IncorrectAnswers.length">{{IncorrectAnswers.length}}/{{competitors.length}}</span>
                     <span style="font-size: 20px;" *ngIf="!IncorrectAnswers.length">0/{{competitors.length}}</span>
-                    <span>አላለፉም</span>
+                    <span>በትክክል አልመለሱም</span>
                   </div>
 
                 </div>
@@ -82,7 +79,7 @@
               </div>
 
 
-             <div  #myDiv class="timeline" >
+             <div  class="timeline" >
               <nz-timeline nzMode="custom">
                 <nz-timeline-item *ngFor="let competitor of competitors" nzPosition="right" [nzColor]="competitor.answer?'green':'red'" [nzDot]="soccerTemplate">
                   <div class="row" style="margin-left: 5px">
@@ -252,4 +249,118 @@
   </div>
 </app-ui-modal>
 
+<nz-drawer
+      [nzVisible]="visible"
+      [nzPlacement]="placement"
+      [nzMaskClosable]="false" [nzOffsetY]="110" [nzHeight]="500" [nzClosable]="isTimerRunning == 2" [nzVisible]="visible" [nzPlacement]="placement" [nzTitle]="" (nzOnClose)="close()"
 
+    >
+
+       <div class="d-flex flex-row">
+        <div    class="d-flex flex-column p-4 ml-4 align-items-center">
+          <span *ngIf="timeEnds" style="font-size: 30px;
+          color: #d11f1f;
+      ">{{timeEnds}}</span>
+          <div    [ngClass]="minutes == 0 && seconds > 10 || minutes > 0?'d-flex flex-column mt-3 countdown-container':'d-flex flex-column mt-3 countdown-warning-container'">
+
+              <div [ngClass]="minutes == 0 && seconds > 10 || minutes > 0?'d-flex flex-row mt-3 countdown-timer':'d-flex flex-row mt-3 countdown-timer-warning'">
+              <span  [ngClass]="minutes == 0 && seconds > 10 ||  minutes > 0?'shadow-sm minutes':'shadow-sm minutes-warning'" ><span *ngIf="minutes < 10">0</span>{{minutes}}</span>
+              <span  [ngClass]="minutes == 0 && seconds > 10 || minutes > 0? 'ml-2 tracker':'ml-2 tracker-warning' ">:</span>
+              <span  [ngClass]="minutes == 0 && seconds > 10 || minutes > 0?'ml-2 shadow-sm seconds':'ml-2 shadow-sm seconds-warning'"><span *ngIf="seconds < 10">0</span>{{seconds}}</span>
+              </div>
+          </div>
+        </div>
+        <nz-skeleton style="margin-left: 250px;" *ngIf="!competitors.length" [nzActive]="true" ></nz-skeleton>
+        <div  *ngIf="competitors.length" style="margin-left: 250px;" class="d-flex flex-column">
+
+          <div class="row">
+            <div class="row">
+              <div  style="width: 50px; height: 50px;" class="rounded-circle shadow-sm align-content-center p-2">
+                <i style="font-size: 30px; color: green;" class="feather icon-user-check"></i>
+              </div>
+              <div style="margin-left: 5px;" class="d-flex flex-column">
+                <span style="font-size: 20px;" *ngIf="correctAnswers.length">{{correctAnswers.length}}/{{competitors.length}}</span>
+                <span style="font-size: 20px;" *ngIf="!correctAnswers.length">0/{{competitors.length}}</span>
+                <span>በትክክል መልሰዋል </span>
+              </div>
+
+            </div>
+            <div style="margin-left: 20px;"  class="row">
+              <div style="width: 50px; height: 50px;" class="rounded-circle shadow-sm align-content-center p-2">
+                <i style="font-size: 30px; color: red;" class="feather icon-user-x"></i>
+              </div>
+              <div style="margin-left: 5px;" class="d-flex flex-column">
+                <span style="font-size: 20px;" *ngIf="IncorrectAnswers.length">{{IncorrectAnswers.length}}/{{competitors.length}}</span>
+                <span style="font-size: 20px;" *ngIf="!IncorrectAnswers.length">0/{{competitors.length}}</span>
+                <span>በትክክል አልመለሱም</span>
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+         <div  #myDiv class="timeline" >
+          <nz-timeline nzMode="custom">
+            <nz-timeline-item *ngFor="let competitor of competitors" nzPosition="right" [nzColor]="competitor.answer?'green':'red'" [nzDot]="soccerTemplate">
+              <div class="row" style="margin-left: 5px">
+                <!-- <nz-avatar nzIcon="user" nzSrc="../../../../assets/images/user.png"></nz-avatar> -->
+
+             <div class="d-flex flex-column">
+               <span>{{competitor.phone}}</span>
+               <span>መልስ፡ {{competitor.msg}}</span>
+             </div>
+            </div>
+            <ng-template #soccerTemplate>
+              <i *ngIf="competitor.answer" style="font-size: 20px;" class="feather icon-user-check"></i>
+              <i *ngIf="!competitor.answer" style="font-size: 20px;" class="feather icon-user-x"></i>
+             </ng-template>
+            </nz-timeline-item>
+
+          </nz-timeline>
+         </div>
+        </div>
+       </div>
+
+
+    </nz-drawer>
+
+    <nz-drawer
+      [nzVisible]="visible_answer"
+      [nzPlacement]="placement"
+      [nzMaskClosable]="false" [nzOffsetY]="110" [nzHeight]="500" [nzClosable]="true" [nzVisible]="visible_answer" [nzPlacement]="placement" [nzTitle]="" (nzOnClose)="close_Answer()"
+
+    >
+    <div class="d-flex flex-column" *ngFor="let item of questions; let i=index">
+      <div [@slide] class="d-flex flex-column" *ngIf="count_answer == i">
+        <div class="row align-items-center">
+          <span style="font-size:30px">ጥያቄ
+            {{i+1}}
+
+          </span>
+
+
+        </div>
+        <div>
+          <span style="font-weight: 700;">{{item.qts.question_label}}</span>
+          <div style="margin-top: 20px;  margin-left: 20px; width: 400px;" class="row">
+            <span style="margin: 20px; font-weight: 500;" *ngFor="let it of item.cho;  let j=index">
+             <span [ngClass]="it.isAnswer == 1?'text-success':''">  {{it.alphabet}}. {{it.choice_label}}</span> </span>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="mt-3 ml-4">
+      <button [disabled]="count_answer == 0?true:false" (click)="Back_Answer()" style="margin-left: 5px;" nz-button
+      nzType="default" nzShape="round"><i class="feather icon-chevron-left text-muted"></i>ወደ ኋላ</button>
+
+      <button  (click)="Next_Answer()"
+        style="margin-left: 5px;" nz-button nzType="default" nzShape="round"><i
+          class="feather icon-chevron-right text-muted"></i>ቀጣይ</button>
+     </div>
+
+
+    </nz-drawer>

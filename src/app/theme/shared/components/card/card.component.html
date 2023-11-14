@@ -13,8 +13,7 @@
           <li class="dropdown-item minimize-card" (click)="collapsedCardToggle()"><a href="javascript:"><span><i class="feather" [ngClass]="collapsedIcon"></i> {{this.collapsedCard === 'collapsed' ? 'Expand' : 'Collapse'}} </span>
             <span style="display:none"><i class="feather icon-plus"></i></span></a></li>
           <li class="dropdown-item reload-card" (click)="cardRefresh()"><a href="javascript:"><i class="feather icon-refresh-cw"></i> Reload</a></li>
-          <li class="dropdown-item close-card" (click)="cardRemoveAction()"><a href="javascript:"><i class="feather icon-trash"></i> Remove</a></li>
-        </ul>
+          </ul>
       </div>
     </div>
     <ng-content *ngIf="customHeader" select=".app-card-header"></ng-content>

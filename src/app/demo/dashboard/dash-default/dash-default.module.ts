@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+// Import the AnimationsModule
+
 import { DashDefaultRoutingModule } from './dash-default-routing.module';
 import { DashDefaultComponent } from './dash-default.component';
 import {SharedModule} from '../../../theme/shared/shared.module';
@@ -12,6 +14,9 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 @NgModule({
   declarations: [DashDefaultComponent],
   imports: [
@@ -25,7 +30,10 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     NzIconModule,
     NzResultModule,
     NzTableModule,
-    NzDividerModule
+    NzDividerModule,
+    NzDrawerModule,
+    NzSkeletonModule,
+    NzProgressModule
   ]
 })
 export class DashDefaultModule { }

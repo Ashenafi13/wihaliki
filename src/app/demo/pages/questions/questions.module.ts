@@ -12,7 +12,8 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 @NgModule({
   declarations: [QuestionsComponent],
   imports: [
@@ -26,7 +27,9 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     NzIconModule,
     NzResultModule,
     NzTableModule,
-    NzDividerModule
+    NzDividerModule,
+    NzDrawerModule,
+    NzSkeletonModule
   ]
 })
 export class QuestionsModule { }

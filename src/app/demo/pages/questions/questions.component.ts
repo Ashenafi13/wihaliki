@@ -7,6 +7,7 @@ import {
   slide,
 } from '../../../theme/shared/animation-styles/animation-styles';
 import { Subject } from 'rxjs';
+import { NzDrawerPlacement } from 'ng-zorro-antd/drawer';
 
 interface DataItem {
   id: number;
@@ -38,11 +39,11 @@ export class QuestionsComponent implements OnInit {
   public powerCardChartData2: any;
   @ViewChild('myDiv') myDiv: ElementRef;
   count: number = 0;
+  count_answer: number = 0;
   isStarted: boolean = false;
   alphabet: any = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   active: any;
   questions: any[] = [];
-  seconds: any;
   isPreviouslyStarted: boolean
   timeEnds: any;
   tempTest:number = 0;
@@ -55,9 +56,16 @@ export class QuestionsComponent implements OnInit {
   finalResults: boolean = false;
   testSender:any;
   testMsg:any;
+  visible = false;
+  visible_answer = false;
+
+  placement: NzDrawerPlacement = 'top';
   ranks: any[] = [];
-
-
+  public minutes: number = 0;
+  public seconds: number = 0;
+  isTimerRunning:number = 0;
+  COUNTER_SECONDE = 'COUNTER_SECONDE_Q';
+  COUNTER_MINUTE ='COUNTER_MINUTE_Q';
   listOfColumn = [
     {
       title: 'ተወዳዳሪ'
@@ -85,8 +93,9 @@ export class QuestionsComponent implements OnInit {
     this.isStarted = false;
     if (this.count < this.questions.length - 1) {
       this.count++;
+      console.log(this.count);
       localStorage.setItem('storedCount', `${this.count}`);
-      localStorage.setItem('QId', this.questions[this.count].qts.id);
+
       this.GetCompetitor(this.questions[this.count].qts.id);
       this.finalResults = false;
     } else {
@@ -107,6 +116,17 @@ export class QuestionsComponent implements OnInit {
       localStorage.setItem('QId', this.questions[this.count].qts.id);
       this.GetCompetitor(this.questions[this.count].qts.id);
     }
+  }
+
+  Next_Answer():void{
+   if(this.count_answer < this.questions.length - 1){
+    this.count_answer++;
+   }
+  }
+  Back_Answer():void{
+    if(this.count_answer > 0){
+      this.count_answer--;
+     }
   }
   GetCompetitorRank() {
     this.listOfData = [];
@@ -138,16 +158,46 @@ export class QuestionsComponent implements OnInit {
       this.SendMessage(3);
   }
 
+  open(): void {
+    this.visible = true;
+    this.competitors = [];
+    this.correctAnswers = [];
+    this.IncorrectAnswers =[];
+    let COUNTER_SECONDE = localStorage.getItem(this.COUNTER_SECONDE);
+    let QId = localStorage.getItem('QId');
+    if(COUNTER_SECONDE){
+      this.startCountdown(0,QId);
+    }
+  }
+
+  close(): void {
+    this.visible = false;
+
+  }
+
+  open_Answer(): void {
+    this.visible_answer = true;
+
+  }
+
+  close_Answer(): void {
+    this.visible_answer = false;
+
+  }
 
   start(time: any, QId: any): void {
+    this.open();
     this.isStarted = true;
     this.isCountStarted = true;
     this.statusControllers = true;
-    localStorage.removeItem('QId');
-    localStorage.removeItem('STORED_SECONDES');
-    localStorage.setItem('QId', QId);
-    this.UpdateQuestionsStart(QId);
-    this.countdownSeconds(time,QId);
+
+     localStorage.removeItem('QId');
+    // localStorage.removeItem('STORED_SECONDES');
+     localStorage.setItem('QId', QId);
+    // this.GetCompetitor(QId)
+      this.UpdateQuestionsStart(QId);
+      this.startCountdown(time, QId);
+
   }
 
   checkQuestionStatus(isStarted: any) {
@@ -195,24 +245,7 @@ export class QuestionsComponent implements OnInit {
 
 
   }
-  generate_phone_number() {
-    // Generate a random 8-digit number
-    var number = Math.floor(Math.random() * 90000000) + 10000000;
-    // Add the country code +2519 as a prefix
-    var phone_number = "+2519" + number.toString();
-    // Return the phone number as a string
-    return phone_number;
-  }
 
-
-  generate_letter() {
-    // Create an array of letters from A to E
-    var letters = ["A", "B", "C", "D", "E"];
-    // Generate a random index from 0 to 4
-    var index = Math.floor(Math.random() * 5);
-    // Return the letter at the random index
-    return letters[index];
-  }
 
   UpdateQuestionsStatus(QId: any) {
     this.service.UpdateQuestionsStatus(QId).subscribe((response: any) => {
@@ -227,56 +260,57 @@ export class QuestionsComponent implements OnInit {
       this.correctAnswers = response.filter(x => x.answer == 1);
       this.IncorrectAnswers = response.filter(x => x.answer == 0);
       this.competitors = response;
+
     });
   }
 
 
-  countdownSeconds(seconds: any, QId: any) {
-    // Check if the parameter is a positive integer
-    if (Number.isInteger(seconds) && seconds > 0) {
-      // Set an interval to execute a function every second
-      let interval = setInterval(() => {
-        // Display the current value of seconds
-
-        this.seconds = seconds;
-
-         this.AddCompetitor(QId);
-        localStorage.setItem('STORED_SECONDES', seconds);
-
-        // Decrement seconds by one
-        seconds--;
-
-
-        // Check if seconds reached zero
-        if (seconds === 0) {
-          // Clear the interval and stop the countdown
-          clearInterval(interval);
-          this.AddCompetitor(QId);
-          this.timeEnds = "ጊዜው አልቋል!"
-          localStorage.removeItem('STORED_SECONDES');
-          this.isCountStarted = false;
-          this.GetEpisodeQuestions();
 
 
 
+  startCountdown(seconds: number,QId: any) {
+
+    let COUNTER_SECONDE = localStorage.getItem(this.COUNTER_SECONDE);
+    this.seconds =  COUNTER_SECONDE?  Number(COUNTER_SECONDE):seconds;
+    const interval = setInterval(() => {
+      this.isTimerRunning = 1;
+       this.SendMessage(4);
+       this.AddCompetitor(QId);
+     // localStorage.setItem('STORED_SECONDES',  `${this.seconds}`);
+      if(this.seconds === 0) {
+        clearInterval(interval);
+        this.isTimerRunning = 2;
+       // this.AddCompetitor(QId);
+        this.timeEnds = "ጊዜው አልቋል!"
+        //localStorage.removeItem('STORED_SECONDES');
+        this.isCountStarted = false;
+        localStorage.removeItem(this.COUNTER_SECONDE);
+        this.GetEpisodeQuestions();
+        this.GetCompetitor(QId);
+      } else if(this.seconds === 0) {
+        this.seconds = 59;
+      } else {
+       // this.animateText();
+        this.seconds--;
+      }
+      if(this.seconds > 0){
+        localStorage.setItem(this.COUNTER_SECONDE, `${this.seconds}`);
         }
-      }, 1000); // 1000 milliseconds = 1 second
-    } else {
-      // Invalid parameter, throw an error
-      throw new Error("Invalid parameter: seconds must be a positive integer");
-    }
-  }
 
+    }, 1000);
+  }
 
 
 
   GetEpisodeQuestions(): void {
     this.service.GetEpisodeQuestions().subscribe((data) => {
-      let Q = this.reformatArray(data);
+      let Q:any = this.reformatArray(data);
       this.questions = Q;
-      let QId = localStorage.getItem('QId');
-      if (!QId) {
-        this.GetCompetitor(Q[0]);
+
+      if(this.count){
+      this.GetCompetitor(Q[this.count]?.qts.id);
+      }else{
+        this.GetCompetitor(Q[0]?.qts.id);
       }
     });
   }
@@ -303,6 +337,7 @@ export class QuestionsComponent implements OnInit {
     this.service.GetActive().subscribe((data: any) => {
       this.active = data;
 
+
     });
 
   }
@@ -310,22 +345,30 @@ export class QuestionsComponent implements OnInit {
   ngOnInit() {
     this.GetEpisodeQuestions();
     this.GetActive();
-    let QId = localStorage.getItem('QId');
-    if (QId) {
-      this.GetCompetitor(QId);
-    }
+
+    // let QId = localStorage.getItem('QId');
+    // if (QId) {
+    //   this.GetCompetitor(QId);
+    // }
     let storedCount = localStorage.getItem('storedCount');
     if (storedCount) {
       this.count = Number(storedCount);
     }
 
-    let STORED_SECONDES = localStorage.getItem('STORED_SECONDES');
+    // let STORED_SECONDES = localStorage.getItem('STORED_SECONDES');
 
-    if (STORED_SECONDES || Number(STORED_SECONDES) > 1) {
-      this.isStarted = true;
-      this.seconds = Number(STORED_SECONDES);
-      this.countdownSeconds(this.seconds, QId);
+    // if (STORED_SECONDES || Number(STORED_SECONDES) > 1) {
+    //   this.isStarted = true;
+    //   this.seconds = Number(STORED_SECONDES);
+    //   // this.countdownSeconds(this.seconds, QId);
 
+    // }
+
+    let COUNTER_SECONDE = localStorage.getItem(this.COUNTER_SECONDE);
+
+    if(COUNTER_SECONDE){
+      this.open();
     }
   }
+
 }
