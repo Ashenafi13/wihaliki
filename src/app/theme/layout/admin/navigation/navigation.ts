@@ -56,23 +56,6 @@ const NavigationItems = [
           },
         ]
       },
-
-      {
-        id: 'participants',
-        title: 'Forms & Table',
-        type: 'group',
-        icon: 'feather icon-users',
-        children: [
-          {
-            id: 'participants_children',
-            title: 'ተሳታፊ',
-            type: 'item',
-            url: '/basic/button',
-            classes: 'nav-item',
-            icon: 'feather icon-users'
-          },
-        ]
-      },
     ]
   },
   {
@@ -88,101 +71,18 @@ const NavigationItems = [
         icon: 'feather icon-file-text',
         children: [
           {
-            id: 'alert',
-            title: 'Alert',
+            id: 'participants',
+            title: 'ተሳታፊዎች',
             type: 'item',
-            url: '/basic/alert'
+            url: '/basic/questions-list'
           },
           {
-            id: 'button',
-            title: 'Button',
+            id: 'questions_reports',
+            title: 'ጥያቄዎች',
             type: 'item',
-            url: '/basic/button'
+            url: '/basic/participants'
           },
-          {
-            id: 'badges',
-            title: 'Badges',
-            type: 'item',
-            url: '/basic/badges'
-          },
-          {
-            id: 'breadcrumb-pagination',
-            title: 'Breadcrumbs & Pagination',
-            type: 'item',
-            url: '/basic/breadcrumb-paging'
-          },
-          {
-            id: 'cards',
-            title: 'Cards',
-            type: 'item',
-            url: '/basic/cards'
-          },
-          {
-            id: 'collapse',
-            title: 'Collapse',
-            type: 'item',
-            url: '/basic/collapse'
-          },
-          {
-            id: 'carousel',
-            title: 'Carousel',
-            type: 'item',
-            url: '/basic/carousel'
-          },
-          {
-            id: 'grid-system',
-            title: 'Grid System',
-            type: 'item',
-            url: '/basic/grid-system'
-          },
-          {
-            id: 'progress',
-            title: 'Progress',
-            type: 'item',
-            url: '/basic/progress'
-          },
-          {
-            id: 'modal',
-            title: 'Modal',
-            type: 'item',
-            url: '/basic/modal'
-          },
-          {
-            id: 'spinner',
-            title: 'Spinner',
-            type: 'item',
-            url: '/basic/spinner'
-          },
-          {
-            id: 'tabs-pills',
-            title: 'Tabs & Pills',
-            type: 'item',
-            url: '/basic/tabs-pills'
-          },
-          {
-            id: 'typography',
-            title: 'Typography',
-            type: 'item',
-            url: '/basic/typography'
-          },
-          {
-            id: 'tooltip-popovers',
-            title: 'Tooltip & Popovers',
-            type: 'item',
-            url: '/basic/tooltip-popovers'
-          },
-          {
-            id: 'toasts',
-            title: 'Toasts',
-            type: 'item',
-            url: '/basic/toasts'
-          },
-          {
-            id: 'other',
-            title: 'Other',
-            type: 'item',
-            url: '/basic/other'
-          }
+
         ]
       }
     ]

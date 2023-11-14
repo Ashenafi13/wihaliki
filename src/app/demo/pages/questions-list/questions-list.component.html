@@ -1,43 +1,58 @@
 <div class="row">
   <div class="col-sm-12">
-    <app-card cardTitle="ጥያቄዎች">
-      <nz-table [nzBordered]="true" #nzTable [nzData]="listOfData">
-        <thead>
-          <tr>
-            <th nzWidth="60px"></th>
-            <th nzWidth="400px">ጥያቄ</th>
-            <th nzWidth="200px">ጊዜ በሰኮንድ</th>
+    <app-card cardTitle="" [template]="subContent">
 
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngFor="let data of nzTable.data">
+      <div class="mt-3">
+        <nz-table [nzBordered]="true" #nzTable [nzData]="listOfData">
+          <thead>
             <tr>
-              <td [nzExpand]="expandSet.has(data.QId)" [nzShowExpand]="data.QId?true:false"
-                (nzExpandChange)="onExpandChange(data.QId, $event)"></td>
-              <td>
-                <div class="editable-cell" >
-                  {{ data.question}}
-                </div>
-
-              </td>
-              <td>
-                <div class="editable-cell">
-                  {{ data.time}}
-                </div>
-                   </td>
+              <th nzWidth="60px"></th>
+              <th nzWidth="400px">ጥያቄ</th>
+              <th nzWidth="200px">ጊዜ በሰኮንድ</th>
 
             </tr>
-            <tr [nzExpand]="expandSet.has(data.QId)"  >
-              <div style="margin:0;">
-                  <div *ngFor="let choice of choices">
-                     <span [ngStyle]="choice.isAnswer?{'color':'#00e900'}:''">{{choice.alphabet}}. &nbsp; {{choice.choice_label}}</span>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let data of nzTable.data">
+              <tr>
+                <td [nzExpand]="expandSet.has(data.QId)" [nzShowExpand]="data.QId?true:false"
+                  (nzExpandChange)="onExpandChange(data.QId, $event)"></td>
+                <td>
+                  <div class="editable-cell" >
+                    {{ data.question}}
                   </div>
-              </div>
-            </tr>
-          </ng-container>
-        </tbody>
-      </nz-table>
+
+                </td>
+                <td>
+                  <div class="editable-cell">
+                    {{ data.time}}
+                  </div>
+                     </td>
+
+              </tr>
+              <tr [nzExpand]="expandSet.has(data.QId)"  >
+                <div style="margin:0;">
+                    <div *ngFor="let choice of choices">
+                       <span [ngStyle]="choice.isAnswer?{'color':'#00e900'}:''">{{choice.alphabet}}. &nbsp; {{choice.choice_label}}</span>
+                    </div>
+                </div>
+              </tr>
+            </ng-container>
+          </tbody>
+        </nz-table>
+      </div>
     </app-card>
   </div>
 </div>
+<ng-template #subContent>
+  <div class="d-flex flex-row" style="width: 50%;">
+   <select name="selectedSeason" (ngModelChange)="changeSeason($event)"  [(ngModel)]="selectedSeason" class="form-control" aria-label="Default select example">
+     <option disabled selected>ምዕራፍ ይምረጡ</option>
+     <option *ngFor="let item of seasons" value="{{item.id}}">{{item.name}}</option>
+   </select>
+   <select  name="selectedEpisodes" (ngModelChange)="changeEpisodes($event)" [(ngModel)]="selectedEpisodes" class="form-control ml-3" aria-label="Default select example">
+     <option disabled selected>ክፍል ይምረጡ</option>
+     <option *ngFor="let item of episodes" value="{{item.id}}">{{item.name}}</option>
+   </select>
+  </div>
+ </ng-template>

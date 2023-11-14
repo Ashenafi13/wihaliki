@@ -32,6 +32,7 @@ export class AddQuestionComponent implements OnInit {
   constructor(private service: AddQuestionsService,  private notification: NzNotificationService) { }
   choices: any[] = [];
   i = 0;
+
   startEdit(id: string): void {
     this.editId = id;
   }
@@ -68,7 +69,6 @@ export class AddQuestionComponent implements OnInit {
   GetEpisodes(season_Id:any): void {
     this.service.GetEpisodes(season_Id).subscribe((response: any) => {
       this.episodes = response;
-      console.log(response);
       if (this.episodes.length > 0) {
         let filteredEpisodes = this.episodes.filter(se => se.status == 1);
         this.selectedEpisodes = filteredEpisodes[0].id;
@@ -85,9 +85,8 @@ export class AddQuestionComponent implements OnInit {
 
   ngOnInit() {
     this.GetSeasons();
-
-
   }
+
   SetRow(data: any): void {
     this.listOfData = [
       ...this.listOfData,
@@ -100,6 +99,8 @@ export class AddQuestionComponent implements OnInit {
     ];
     this.i++;
   }
+
+
   AddChoices(): void {
     this.choices.push({
       id:0,

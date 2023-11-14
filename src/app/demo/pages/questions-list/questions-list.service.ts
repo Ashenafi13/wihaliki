@@ -20,9 +20,26 @@ export class QuestionsListService {
 
   };
 
-  GetQuestions(){
+  GetQuestions(season:any,episode:any){
     return this.http.get<any>(
-      environment.url + `questions`,
+      environment.url + `questions?season=${season}&episode=${episode}`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+  GetSeasons() {
+    return this.http.get<any>(
+      environment.url + `seasons`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+
+  GetEpisodes(season_Id:any) {
+    return this.http.get<any>(
+      environment.url + `episodes?season_Id=${season_Id}`,
       {
         headers: this.httpOptions.header,
       }

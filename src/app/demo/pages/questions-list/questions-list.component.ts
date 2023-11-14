@@ -15,22 +15,47 @@ export class QuestionsListComponent implements OnInit {
   constructor(private service: QuestionsListService) { }
   listOfData: ItemData[] = [];
   choices:any[] = [];
+  episodes:any[] =[];
+  Questions_List:any[] = [];
   i=0;
+  selectedEpisodes: any;
+  seasons:any[] = [];
+  selectedSeason:any;
   ngOnInit() {
-    this.GetQuestions();
+    //this.GetQuestions();
+    this.GetSeasons();
+
   }
 
- GetQuestions():void{
-  this.service. GetQuestions().subscribe((sub:any)=>{
+  GetQuestions(season_Id:any, episode_id:any):void{
+    this.Questions_List = [];
+    this.listOfData = [];
+    this.service.GetQuestions(season_Id,episode_id).subscribe((response:any)=>{
+      this.Questions_List = response;
+      let Q:any[]=[];
+      for(let i=0; i<this.Questions_List.length; i++){
+        this.SetRow(this.Questions_List[i]);
+      }
 
+    });
+  }
 
-    for(let i=0; i< sub.length; i++){
-      this.SetRow(sub[i]);
+ GetEpisodes(season_Id:any): void {
+  this.service.GetEpisodes(season_Id).subscribe((response: any) => {
+    this.episodes = response;
+    if (this.episodes.length > 0) {
+      let filteredEpisodes = this.episodes.filter(se => se.status == 1);
+      this.selectedEpisodes = filteredEpisodes[0].id;
+      this.GetQuestions(season_Id,this.selectedEpisodes );
     }
   });
- }
- GetChoices(QId:any): void {
+}
 
+ changeSeason(event:any):void{
+  this.GetEpisodes(event);
+ }
+
+ GetChoices(QId:any): void {
   this.choices = [];
   this.service.GetChoices(QId).subscribe((data:any) => {
     let choices_list = data;
@@ -46,7 +71,6 @@ export class QuestionsListComponent implements OnInit {
   });
 }
 
-
  SetRow(data: any): void {
   this.listOfData = [
     ...this.listOfData,
@@ -59,6 +83,23 @@ export class QuestionsListComponent implements OnInit {
   ];
   this.i++;
 }
+
+GetSeasons(): void {
+  this.service.GetSeasons().subscribe((response: any) => {
+    this.seasons = response;
+    if (this.seasons.length > 0) {
+      let filteredSeasons = this.seasons.filter(se => se.status == 1);
+      this.selectedSeason = filteredSeasons[0].id;
+      this.GetEpisodes(this.selectedSeason);
+    }
+
+  });
+}
+
+changeEpisodes(event:any):void{
+  this.GetQuestions(this.selectedSeason,event );
+ }
+
  expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean): void {
     if (checked) {
@@ -72,18 +113,15 @@ export class QuestionsListComponent implements OnInit {
 
  reformatArray(arr) {
   const questions = {};
-
   arr.forEach(item => {
     const { qts, cho } = item;
     const questionId = qts.id;
-
     if (!questions[questionId]) {
       questions[questionId] = {
         qts,
         cho: []
       };
     }
-
     questions[questionId].cho.push(cho);
   });
 
