@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionsListService } from './questions-list.service';
+import { NzDrawerPlacement } from 'ng-zorro-antd/drawer';
 interface ItemData {
   id: string;
   question: string;
@@ -19,14 +20,32 @@ export class QuestionsListComponent implements OnInit {
   Questions_List:any[] = [];
   i=0;
   selectedEpisodes: any;
+  visible = false;
   seasons:any[] = [];
   selectedSeason:any;
+  placement:NzDrawerPlacement ='top';
+  reportData:any[] = [];
   ngOnInit() {
     //this.GetQuestions();
     this.GetSeasons();
 
   }
+  close():void{
+    this.visible = false;
+  }
+  open():void{
+    this.visible = true;
+  }
 
+
+  transformData(data: any[]): any[] {
+    return data.map((item) => {
+      return {
+        'ስም': item.name,
+        // Add other columns as needed
+      };
+    });
+  }
   GetQuestions(season_Id:any, episode_id:any):void{
     this.Questions_List = [];
     this.listOfData = [];
@@ -49,6 +68,10 @@ export class QuestionsListComponent implements OnInit {
       this.GetQuestions(season_Id,this.selectedEpisodes );
     }
   });
+}
+
+GenerateReport():void{
+ this.open();
 }
 
  changeSeason(event:any):void{
@@ -91,6 +114,7 @@ GetSeasons(): void {
       let filteredSeasons = this.seasons.filter(se => se.status == 1);
       this.selectedSeason = filteredSeasons[0].id;
       this.GetEpisodes(this.selectedSeason);
+      this.reportData = this.transformData(this.seasons);
     }
 
   });

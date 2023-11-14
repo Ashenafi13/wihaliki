@@ -2,6 +2,7 @@
 
 /* SCSS */
 @import "scss/style";
+@import "webdatarocks/webdatarocks.min.css";
 ::ng-deep .pcoded-navbar.theme-horizontal ~ .pcoded-main-container {
   margin-top: 70px !important;
 }

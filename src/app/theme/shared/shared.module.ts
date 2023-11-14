@@ -17,7 +17,8 @@ import {ToastService} from './components/toast/toast.service';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import {LightboxModule} from 'ngx-lightbox';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
-
+import { ReportsComponent } from './components/reports/reports.component';
+import { WebdatarocksPivotModule } from 'ng-webdatarocks';
 /*import 'hammerjs';
 import 'mousetrap';
 import { GalleryModule } from '@ks89/angular-modal-gallery';*/
@@ -37,7 +38,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     BreadcrumbModule,
     ModalModule,
     ClickOutsideModule,
-    LightboxModule
+    LightboxModule,
+    WebdatarocksPivotModule
   ],
   exports: [
     CommonModule,
@@ -56,7 +58,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ApexChartComponent,
     GalleryComponent,
     ToastComponent,
-    CountdownTimerComponent
+    CountdownTimerComponent,
+    ReportsComponent
   ],
   declarations: [
     DataFilterPipe,
@@ -66,7 +69,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ApexChartComponent,
     ToastComponent,
     GalleryComponent,
-    CountdownTimerComponent
+    CountdownTimerComponent,
+    ReportsComponent
   ],
   providers: [
     {

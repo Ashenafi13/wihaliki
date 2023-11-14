@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-12">
     <app-card cardTitle="" [template]="subContent">
-
+      <button (click)="GenerateReport()" nz-button nzType="default">Generate Report</button>
       <div class="mt-3">
         <nz-table [nzBordered]="true" #nzTable [nzData]="listOfData">
           <thead>
@@ -56,3 +56,14 @@
    </select>
   </div>
  </ng-template>
+
+ <nz-drawer
+ [nzVisible]="visible"
+ [nzPlacement]="placement"
+ [nzMaskClosable]="false" [nzOffsetY]="110" [nzHeight]="500" [nzClosable]="true" [nzVisible]="visible" [nzPlacement]="placement" [nzTitle]="" (nzOnClose)="close()"
+
+>
+<app-reports [data]="reportData"></app-reports>
+
+
+</nz-drawer>

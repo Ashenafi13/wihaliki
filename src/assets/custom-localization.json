@@ -1,0 +1,13 @@
+{
+  "toolbar": {
+    "Export": "አውርድ",
+    "Save":"አስቀምጥ",
+    "Open":"ክፈት",
+    "exportTo": "Export to",
+    "To PDF": "PDF",
+    "excel": "Excel",
+    "csv": "CSV",
+    "html": "HTML"
+
+  }
+}

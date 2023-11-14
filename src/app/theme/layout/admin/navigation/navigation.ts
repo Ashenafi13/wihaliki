@@ -38,7 +38,8 @@ const NavigationItems = [
         type: 'item',
         url: '/dashboard/default',
         classes: 'nav-item',
-        icon: 'feather icon-home'
+        icon: 'feather icon-home',
+        breadcrumbs: false
       },
       {
         id: 'questions',
