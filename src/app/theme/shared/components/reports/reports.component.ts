@@ -75,9 +75,11 @@ export class ReportsComponent implements OnInit {
           showTotal:'off'
         },
       },
+      global: {
       localization: 'assets/custom-localization.json',
+      },
       toolbar: true,
-      customizeToolbar: this.customizeToolbar,
+      // customizeToolbar: this.customizeToolbar,
     };
 
     this.child.webDataRocks.setReport(reportConfig);

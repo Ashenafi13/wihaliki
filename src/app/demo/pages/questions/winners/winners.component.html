@@ -3,7 +3,7 @@
  <i class="feather icon-chevron-left"></i>
    ወደ ኋላ
 </button>
-<div  class="d-flex flex-column align-items-center">
+<div  class="d-flex flex-column align-items-center mt-5">
   <div class="row align-items-center">
      <span style="font-size: 20px;">የውድድሩ አሸናፊዎች</span>
      <div class="row align-items-center ml-4">
@@ -20,8 +20,8 @@
   </div>
   <nz-divider [nzText]="award"></nz-divider>
 
-   <nz-table #middleTable nzSize="default" [nzData]="winners">
-    <thead>
+   <nz-table  [nzData]="winners">
+    <thead >
     <tr>
       <th>ተወዳዳሪዎች</th>
       <th>በትክክል የመለሱት ጥያቄዎች </th>
@@ -30,9 +30,17 @@
   </thead>
   <tbody>
     <tr *ngFor="let winner of winners">
-      <td>  <i style="font-size: 18px;"  class="feather icon-user text-success"></i> {{  hide_phone_number(winner.phone)}}</td>
-      <td>{{winner.totalAnswered}}</td>
-      <td>1</td>
+      <td>
+        <div class="row align-items-center">
+          <div class="circle shadow-sm">
+            <i style="font-size: 18px;" class="icon"  class="feather icon-user text-success"></i>
+          </div>
+
+          <span style="font-size: 18px;" class="ml-3">{{  hide_phone_number(winner.phone)}}</span>
+        </div>
+      </td>
+      <td style="font-size: 18px;">{{winner.totalAnswered}}</td>
+      <td><span style="font-size: 18px;">1</span></td>
     </tr>
 
   </tbody>

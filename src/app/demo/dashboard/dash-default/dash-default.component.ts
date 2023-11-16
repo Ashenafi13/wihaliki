@@ -182,7 +182,7 @@ export class DashDefaultComponent implements OnInit {
 
     const interval = setInterval(() => {
       this.isTimerRunning = 1;
-
+      this.SendMessage(1);
 
       if(this.minutes === 0 && this.seconds === 0) {
         clearInterval(interval);

@@ -3,12 +3,33 @@
   transition: 0.3s;
   padding: 30px;
   border-radius: 15px;
+
+    // background-image: url("../../../../assets//images/sample2.jfif");
+    // background-size: cover;
+    // background-attachment: fixed;
+    // background-position: center;
 }
 
 .shadow-sm {
  box-shadow: 0 0.225rem 0.35rem rgba(0, 0, 0, 0.10) !important
 }
 
+@media (max-width: 700px) {
+  /* CSS rules for Galaxy J7 max */
+  .question-txt{
+    width: 300px !important;
+  }
+  .choise-txt{
+    width: 300px !important;
+  }
+}
+.choise-txt{
+  margin-top: 20px;  margin-left: 20px; width: 400px;
+}
+
+.question-txt{
+  width: 500px;
+}
 
 ::ng-deep .pcoded-navbar.theme-horizontal ~ .pcoded-main-container {
   margin-top: 70px !important;

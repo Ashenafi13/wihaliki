@@ -51,6 +51,7 @@ export class QuestionsListComponent implements OnInit {
     this.listOfData = [];
     this.service.GetQuestions(season_Id,episode_id).subscribe((response:any)=>{
       this.Questions_List = response;
+      console.log(this.Questions_List);
       let Q:any[]=[];
       for(let i=0; i<this.Questions_List.length; i++){
         this.SetRow(this.Questions_List[i]);
@@ -59,7 +60,7 @@ export class QuestionsListComponent implements OnInit {
     });
   }
 
- GetEpisodes(season_Id:any): void {
+ GetEpisodes(season_Id:any,type:number): void {
   this.service.GetEpisodes(season_Id).subscribe((response: any) => {
     this.episodes = response;
     if (this.episodes.length > 0) {
@@ -67,15 +68,21 @@ export class QuestionsListComponent implements OnInit {
       this.selectedEpisodes = filteredEpisodes[0].id;
       this.GetQuestions(season_Id,this.selectedEpisodes );
     }
+    if(type ==1){
+
+    }
   });
 }
 
 GenerateReport():void{
- this.open();
+//  this.open();
+  console.log(this.Questions_List);
+
+  // this.GetQuestions(this.selectedSeason,this.selectedEpisodes);
 }
 
  changeSeason(event:any):void{
-  this.GetEpisodes(event);
+  this.GetEpisodes(event,0);
  }
 
  GetChoices(QId:any): void {
@@ -113,7 +120,7 @@ GetSeasons(): void {
     if (this.seasons.length > 0) {
       let filteredSeasons = this.seasons.filter(se => se.status == 1);
       this.selectedSeason = filteredSeasons[0].id;
-      this.GetEpisodes(this.selectedSeason);
+      this.GetEpisodes(this.selectedSeason,0);
       this.reportData = this.transformData(this.seasons);
     }
 
@@ -121,6 +128,7 @@ GetSeasons(): void {
 }
 
 changeEpisodes(event:any):void{
+  this.selectedEpisodes = event;
   this.GetQuestions(this.selectedSeason,event );
  }
 
