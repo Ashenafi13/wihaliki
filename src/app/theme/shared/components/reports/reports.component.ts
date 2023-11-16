@@ -28,7 +28,7 @@ export class ReportsComponent implements OnInit {
   customizeToolbar(toolbar: any): void {
     const toolbarElements = toolbar.getTabs();
 
-    const elementsToRemove = ['Open', 'Save', 'Connect'];
+    const elementsToRemove = ['werw', 'Save', 'Connect'];
 
     for (const elementName of elementsToRemove) {
       const element = toolbarElements.find((e: any) => e.id === elementName);
@@ -59,19 +59,23 @@ export class ReportsComponent implements OnInit {
 
 
   onReportComplete(list: any): void {
-    this.child.webDataRocks.off('reportcomplete');
-    // this._child.webDataRocks.setOptions({
-    //   grid: {
-    //     showTotals: "off"
-    //   }
-    // });
+
+
+   // this.child.webDataRocks.('reportcomplete','');
 
 
     const reportConfig: any = {
       dataSource: {
         data: list,
       },
-      localization: './assets/custom-localization.json',
+      options: {
+        grid: {
+          type: 'flat', // Set the grid type to 'flat' to remove subtotals and grand totals
+          showGrandTotal:'off',
+          showTotal:'off'
+        },
+      },
+      localization: 'assets/custom-localization.json',
       toolbar: true,
       customizeToolbar: this.customizeToolbar,
     };

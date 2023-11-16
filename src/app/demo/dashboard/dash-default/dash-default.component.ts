@@ -95,6 +95,27 @@ export class DashDefaultComponent implements OnInit {
     }
 
   }
+
+  hide_phone_number(phone_number: string): string {
+    // // check if the phone number is valid
+
+    // split the phone number into parts
+    let country_code = phone_number.slice(0, 4); // +251
+    let area_code = phone_number.slice(4, 6); // 92
+    let prefix = phone_number.slice(6, 10); // 031X
+    let suffix = phone_number.slice(10); // XXXX
+
+    // replace some of the digits with asterisks
+    let hidden_prefix = prefix.slice(0, 3) + "*"; // 031*
+    let hidden_suffix = "*".repeat(suffix.length); // ****
+
+    // join the parts together
+    let hidden_phone_number = country_code + area_code + hidden_prefix + hidden_suffix; // +25192031*****
+
+    // return the hidden phone number
+    return hidden_phone_number;
+}
+
   ActiveSeason():void{
     this.service.GetActive().subscribe((result:any) => {
         this.startMinutes = result?.episodeStartTime;
@@ -162,7 +183,7 @@ export class DashDefaultComponent implements OnInit {
     const interval = setInterval(() => {
       this.isTimerRunning = 1;
 
-       this.SendMessage(1);
+
       if(this.minutes === 0 && this.seconds === 0) {
         clearInterval(interval);
         this.isTimerRunning = 2;

@@ -18,8 +18,8 @@
                     class="feather icon-check  text-white"></i> &nbsp; <span class="text-white">የጥያቄ መልስ</span></button>
             </div>
 
-            <div class="d-flex flex-column" *ngFor="let item of questions; let i=index">
-              <div class="d-flex flex-column" *ngIf="count == i">
+            <div class="d-flex flex-column " *ngFor="let item of questions; let i=index">
+              <div class="d-flex flex-column  align-items-center mt-3" *ngIf="count == i">
                 <div class="row align-items-center">
                   <span style="font-size:30px">ጥያቄ
                     {{i+1}}
@@ -29,15 +29,25 @@
                   <button style="margin-left: 10px;" *ngIf="!isCountStarted && item.qts.status != 1"
                     (click)="start(item.qts.time,item.qts.id)" nz-button nzType="default" nzShape="round"><i
                       class="feather icon-play text-muted"></i></button>
-                      <!-- <span [@fade] *ngIf="statusControllers">
+                      <span [@fade] *ngIf="timeEnds">
                     <span style="font-size: 26px; color: red;" *ngIf="timeEnds">{{timeEnds}}</span>
-                  </span> -->
-                  <div style="margin-left: 10px;" *ngIf="item.qts.status == 1">
+                  </span>
+                  <div style="margin-left: 10px;" *ngIf="!timeEnds && isTimerRunning ==0 && item.qts.status == 1 && !isCountStarted">
                     <span style="font-size: 26px; color: red;">ይህ ጥያቄ ተጠይቋል</span>
                   </div>
                 </div>
                 <div>
                   <span style="font-weight: 700;">{{item.qts.question_label}}</span>
+                  <nz-progress   *ngIf="seconds > 0"   [nzStatus]="minutes == 0 && seconds > 10 || minutes > 0?'success':'exception'" [nzPercent]="percent" [nzFormat]="formatTime"   nzSize="small" [nzShowInfo]="false"></nz-progress>
+
+                   <div *ngIf="seconds > 0" class="row">
+                         <nz-badge
+                         style="margin-left: 13px;"
+          nzStandalone
+          [nzCount]="seconds"
+          [nzStyle]="seconds > 10 ?{  backgroundColor: '#29dc29', color: '#fff', boxShadow: '0 0 0 1px #d9d9d9 inset' }:{  backgroundColor: '#dc2727', color: '#ff', boxShadow: '0 0 0 1px #d9d9d9 inset' }"
+        ></nz-badge>
+                   </div>
                   <div style="margin-top: 20px;  margin-left: 20px; width: 400px;" class="row">
                     <span style="margin: 20px; font-weight: 500;" *ngFor="let it of item.cho;  let j=index">
                      <span>  {{it.alphabet}}. {{it.choice_label}}</span> </span>
@@ -86,7 +96,7 @@
                     <!-- <nz-avatar nzIcon="user" nzSrc="../../../../assets/images/user.png"></nz-avatar> -->
 
                  <div class="d-flex flex-column">
-                   <span>{{competitor.phone}}</span>
+                   <span>{{hide_phone_number(competitor.phone)}}</span>
                    <span>መልስ፡ {{competitor.msg}}</span>
                  </div>
                 </div>
@@ -121,51 +131,8 @@
             <button (click)="reset()" nz-button nzType="primary">ወደ ኋላ</button>
 
            <div style="margin-top: 20px;">
-            <nz-table #sortTable [nzData]="listOfData" nzTableLayout="fixed">
-              <thead>
-                <tr>
-                  <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">{{ column.title }}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let data of sortTable.data">
-                  <td>
-                    <div class="row align-items-baseline">
-                     <div style="width: 30px; height: 30px; text-align: center;" class="rounded-circle shadow-sm">
-                      <i class="feather icon-user"></i>
-                     </div>
-                      <span style="margin-left: 5px; font-size: 16px;">{{ data.phone }}</span>
-                    </div>
-                  </td>
-                  <td >
-                    <span style="font-size: 16px;"> {{ data.totalAnswered }}</span>
-                   </td>
-                  <td>
-                    <div *ngIf="data.Rank == 1" class="row align-items-baseline">
-                      <i style="color: gold; font-size: 16px;" class="feather icon-award"></i>
-                      <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
-                    </div>
-                    <div *ngIf="data.Rank == 2" class="row align-items-baseline">
-                      <i style="color: silver; font-size: 16px;" class="feather icon-award"></i>
-                      <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
-                    </div>
-                    <div *ngIf="data.Rank == 3" class="row align-items-baseline">
-                      <i style="color: brown; font-size: 16px;" class="feather icon-award"></i>
-                      <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
-                    </div>
-                    <div *ngIf="data.Rank != 1 && data.Rank != 2 && data.Rank != 3" class="row align-items-baseline">
-                      <i style="color: black; font-size: 16px;" class="feather icon-award"></i>
-                      <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
-                    </div>
+            <app-winners [selector]="1"></app-winners>
 
-
-
-
-                  </td>
-
-                </tr>
-              </tbody>
-            </nz-table>
            </div>
 
           </div>
@@ -187,7 +154,7 @@
 
           </div>
           <div style="margin-left: auto;">
-            <button data-toggle="modal" (click)="alloverResults();myLargeModalLabel.show()" nz-button nzType="primary">ጠቅላላ ውጤት</button>
+            <button data-toggle="modal" (click)="GoToWinners()" nz-button nzType="primary">ጠቅላላ ውጤት</button>
           </div>
         </div>
       </ng-template>
@@ -201,7 +168,66 @@
     <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="myLargeModalLabel.hide()"><span aria-hidden="true">&times;</span></button>
   </div>
   <div class="app-modal-body">
-    <nz-table #sortTable [nzData]="listOfData" nzTableLayout="fixed">
+
+   <div style="padding: 20px;" class="d-flex flex-column align-items-center">
+    <div class="row align-items-center">
+       <span style="font-size: 20px;">የውድድሩ አሸናፊዎች</span>
+       <div class="row align-items-center ml-4">
+        <div   class="rounded-circle general-container shadow-sm">
+          <i  class="feather icon-users"></i>
+        </div>
+        <div style="margin-left: 10px;" class="d-flex flex-column">
+          <span style="font-size: 20px; color: gray;">ጠቅላላ ብዛት</span>
+          <span  style="font-size: 20px; font-weight: 700;">722</span>
+
+        </div>
+
+      </div>
+    </div>
+    <nz-divider [nzText]="award"></nz-divider>
+     <div class="d-flex flex-column mt-3 align-items-center" >
+         <div class="row align-items-center">
+          <div   class="rounded-circle general-container shadow-sm">
+            <i  class="feather icon-user"></i>
+          </div>
+          <div class="d-flex flex-column ml-2 ">
+            <span>+25188998888</span>
+            <span style="font-size: 15px;
+            font-weight: 600;">10 ጥያቄዎች በትክክል መልሰዋል</span>
+          </div>
+
+         </div>
+
+         <div class="row align-items-center mt-2">
+          <div   class="rounded-circle general-container shadow-sm">
+            <i  class="feather icon-user"></i>
+          </div>
+          <div class="d-flex flex-column ml-2 ">
+            <span>+25188998888</span>
+            <span style="font-size: 15px;
+            font-weight: 600;">10 ጥያቄዎች በትክክል መልሰዋል</span>
+          </div>
+
+         </div>
+         <div class="row align-items-center mt-2">
+          <div   class="rounded-circle general-container shadow-sm">
+            <i  class="feather icon-user"></i>
+          </div>
+          <div class="d-flex flex-column ml-2 ">
+            <span>+25188998888</span>
+            <span style="font-size: 15px;
+            font-weight: 600;">10 ጥያቄዎች በትክክል መልሰዋል</span>
+          </div>
+
+         </div>
+
+     </div>
+
+   </div>
+   <ng-template #award>
+    <i style="font-size: 45px; color: gold;" class="feather icon-award"></i>
+   </ng-template>
+    <!-- <nz-table #sortTable [nzData]="listOfData" nzTableLayout="fixed">
       <thead>
         <tr>
           <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">{{ column.title }}</th>
@@ -237,15 +263,13 @@
               <i style="color: black; font-size: 16px;" class="feather icon-award"></i>
               <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
             </div>
-
-
-
-
           </td>
 
         </tr>
       </tbody>
-    </nz-table>
+    </nz-table> -->
+
+
   </div>
 </app-ui-modal>
 

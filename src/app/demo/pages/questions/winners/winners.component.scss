@@ -1,0 +1,10 @@
+.general-container {
+  background: linear-gradient(221deg, rgb(250 250 250) 1%, rgb(191 230 190) 29%, rgba(206,241,206,1) 81%);
+  width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;
+}
+.general-container i{
+  font-size: 40px; color: green;
+}
+::ng-deep .pcoded-main-container{
+  margin-top: 0px !important;
+}

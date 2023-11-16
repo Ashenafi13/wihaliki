@@ -1,0 +1,43 @@
+
+<button *ngIf="!selector" (click)="Back()" nz-button nzShape="round" nzType="default">
+ <i class="feather icon-chevron-left"></i>
+   ወደ ኋላ
+</button>
+<div  class="d-flex flex-column align-items-center">
+  <div class="row align-items-center">
+     <span style="font-size: 20px;">የውድድሩ አሸናፊዎች</span>
+     <div class="row align-items-center ml-4">
+      <div   class="rounded-circle general-container shadow-sm">
+        <i  class="feather icon-users"></i>
+      </div>
+      <div style="margin-left: 10px;" class="d-flex flex-column">
+        <span style="font-size: 20px; color: gray;">ጠቅላላ ብዛት</span>
+        <span  style="font-size: 20px; font-weight: 700;">{{winners.length}}</span>
+
+      </div>
+
+    </div>
+  </div>
+  <nz-divider [nzText]="award"></nz-divider>
+
+   <nz-table #middleTable nzSize="default" [nzData]="winners">
+    <thead>
+    <tr>
+      <th>ተወዳዳሪዎች</th>
+      <th>በትክክል የመለሱት ጥያቄዎች </th>
+      <th>ደረጃ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let winner of winners">
+      <td>  <i style="font-size: 18px;"  class="feather icon-user text-success"></i> {{  hide_phone_number(winner.phone)}}</td>
+      <td>{{winner.totalAnswered}}</td>
+      <td>1</td>
+    </tr>
+
+  </tbody>
+</nz-table>
+ </div>
+ <ng-template #award>
+  <i style="font-size: 45px; color: gold;" class="feather icon-award"></i>
+ </ng-template>

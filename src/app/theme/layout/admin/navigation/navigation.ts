@@ -28,7 +28,7 @@ export interface Navigation extends NavigationItem {
 const NavigationItems = [
   {
     id: 'navigation',
-    title: 'Navigation',
+    title: '',
     type: 'group',
     icon: 'feather icon-monitor',
     children: [
@@ -43,7 +43,7 @@ const NavigationItems = [
       },
       {
         id: 'questions',
-        title: 'Forms & Table',
+        title: '',
         type: 'group',
         icon: 'feather icon-feather',
         children: [
@@ -61,7 +61,7 @@ const NavigationItems = [
   },
   {
     id: 'ui-element',
-    title: 'UI ELEMENT',
+    title: '',
     type: 'group',
     icon: 'feather icon-file-text',
     children: [
@@ -90,7 +90,7 @@ const NavigationItems = [
   },
   {
     id: 'settings',
-    title: 'Settings',
+    title: '',
     type: 'group',
     icon: 'feather icon-layers',
     children: [

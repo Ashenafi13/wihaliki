@@ -50,8 +50,7 @@ export class ConfigurationComponent implements OnInit {
     this.styleSelectorToggle = false;
 
     this.layoutType =  this.flatConfig.layoutType;
-    console.log("🚀 ~ file: configuration.component.ts:53 ~ ConfigurationComponent ~ ngOnInit ~ this.layoutType:", this.layoutType)
-    this.setLayout(this.layoutType);
+      this.setLayout(this.layoutType);
 
     this.headerBackgroundColor = this.flatConfig.headerBackColor;
 

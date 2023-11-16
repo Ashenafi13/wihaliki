@@ -8,6 +8,7 @@ import {
 } from '../../../theme/shared/animation-styles/animation-styles';
 import { Subject } from 'rxjs';
 import { NzDrawerPlacement } from 'ng-zorro-antd/drawer';
+import { Router } from '@angular/router';
 
 interface DataItem {
   id: number;
@@ -28,7 +29,7 @@ interface DataItem {
 })
 export class QuestionsComponent implements OnInit {
 
-  constructor(private service: QuestionsService) { }
+  constructor(private service: QuestionsService, private router: Router) { }
 
   public supportChartData1: any;
   public supportChartData2: any;
@@ -56,6 +57,7 @@ export class QuestionsComponent implements OnInit {
   finalResults: boolean = false;
   testSender:any;
   testMsg:any;
+  percent:any;;
   visible = false;
   visible_answer = false;
 
@@ -186,7 +188,8 @@ export class QuestionsComponent implements OnInit {
   }
 
   start(time: any, QId: any): void {
-    this.open();
+    // this.open();
+
     this.isStarted = true;
     this.isCountStarted = true;
     this.statusControllers = true;
@@ -204,6 +207,10 @@ export class QuestionsComponent implements OnInit {
     this.isPreviouslyStarted = isStarted ? true : false;
   }
 
+
+  GoToWinners(){
+    this.router.navigate(['basic/questions/winners']);
+  }
 
   ngAfterViewInit() {
     if (this.myDiv) {
@@ -274,24 +281,24 @@ export class QuestionsComponent implements OnInit {
     this.seconds =  COUNTER_SECONDE?  Number(COUNTER_SECONDE):seconds;
     const interval = setInterval(() => {
       this.isTimerRunning = 1;
-       this.SendMessage(4);
+
        this.AddCompetitor(QId);
-     // localStorage.setItem('STORED_SECONDES',  `${this.seconds}`);
+      localStorage.setItem('STORED_SECONDES',  `${this.seconds}`);
       if(this.seconds === 0) {
         clearInterval(interval);
         this.isTimerRunning = 2;
-       // this.AddCompetitor(QId);
+        this.AddCompetitor(QId);
         this.timeEnds = "ጊዜው አልቋል!"
-        //localStorage.removeItem('STORED_SECONDES');
+        localStorage.removeItem('STORED_SECONDES');
         this.isCountStarted = false;
         localStorage.removeItem(this.COUNTER_SECONDE);
-        this.GetEpisodeQuestions();
-        this.GetCompetitor(QId);
-      } else if(this.seconds === 0) {
-        this.seconds = 59;
+         this.GetEpisodeQuestions();
+         this.GetCompetitor(QId);
+
       } else {
        // this.animateText();
         this.seconds--;
+        this.percent = (this.seconds / seconds) * 100;
       }
       if(this.seconds > 0){
         localStorage.setItem(this.COUNTER_SECONDE, `${this.seconds}`);
@@ -299,7 +306,30 @@ export class QuestionsComponent implements OnInit {
 
     }, 1000);
   }
+  hide_phone_number(phone_number: string): string {
+    // // check if the phone number is valid
 
+    // split the phone number into parts
+    let country_code = phone_number.slice(0, 4); // +251
+    let area_code = phone_number.slice(4, 6); // 92
+    let prefix = phone_number.slice(6, 10); // 031X
+    let suffix = phone_number.slice(10); // XXXX
+
+    // replace some of the digits with asterisks
+    let hidden_prefix = prefix.slice(0, 3) + "*"; // 031*
+    let hidden_suffix = "*".repeat(suffix.length); // ****
+
+    // join the parts together
+    let hidden_phone_number = country_code + area_code + hidden_prefix + hidden_suffix; // +25192031*****
+
+    // return the hidden phone number
+    return hidden_phone_number;
+}
+
+  formatTime(percent, successPercent) {
+    return `${this.seconds} s`;
+     // return the remaining time in seconds
+  }
 
 
   GetEpisodeQuestions(): void {
@@ -346,29 +376,17 @@ export class QuestionsComponent implements OnInit {
     this.GetEpisodeQuestions();
     this.GetActive();
 
-    // let QId = localStorage.getItem('QId');
-    // if (QId) {
-    //   this.GetCompetitor(QId);
-    // }
     let storedCount = localStorage.getItem('storedCount');
     if (storedCount) {
       this.count = Number(storedCount);
     }
-
-    // let STORED_SECONDES = localStorage.getItem('STORED_SECONDES');
-
-    // if (STORED_SECONDES || Number(STORED_SECONDES) > 1) {
-    //   this.isStarted = true;
-    //   this.seconds = Number(STORED_SECONDES);
-    //   // this.countdownSeconds(this.seconds, QId);
-
-    // }
-
     let COUNTER_SECONDE = localStorage.getItem(this.COUNTER_SECONDE);
-
+    let QId = localStorage.getItem('QId');
     if(COUNTER_SECONDE){
-      this.open();
+      this.startCountdown(0,QId);
     }
+
+
   }
 
 }

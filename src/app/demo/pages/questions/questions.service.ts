@@ -105,4 +105,14 @@ export class QuestionsService {
       }
     );
   }
+
+  GetWinners(){
+    return this.http.get<any>(
+      environment.url + `season/episode/winners`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+
 }

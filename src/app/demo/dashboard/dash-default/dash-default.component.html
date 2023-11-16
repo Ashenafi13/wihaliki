@@ -45,7 +45,7 @@
           <nz-timeline nzMode="custom">
              <nz-timeline-item *ngFor="let competitor of competitors" nzPosition="left" [nzDot]="soccerTemplate">
                 <div class="d-flex flex-column ml-3">
-                  <span style="font-weight:700">{{competitor.phone}}</span>
+                  <span style="font-weight:700">{{hide_phone_number(competitor.phone)}}</span>
                   <span style="color:#36b736">ተወዳዳሪ</span>
                 </div>
             </nz-timeline-item>
@@ -75,7 +75,8 @@
             <span  #counter [ngClass]="minutes == 0 && seconds > 10 || minutes > 0?'ml-2 shadow-sm seconds':'ml-2 shadow-sm seconds-warning'"><span *ngIf="seconds < 10">0</span>{{seconds}}</span>
             </div>
              <nz-progress  [nzStatus]="minutes == 0 && seconds > 10 || minutes > 0?'success':'exception'" [nzPercent]="((minutes*60) + seconds)"  nzSize="small" [nzShowInfo]="false"></nz-progress>
-        </div>
+
+            </div>
 
 
       </div>
@@ -98,7 +99,7 @@
           <nz-timeline nzMode="custom">
              <nz-timeline-item *ngFor="let competitor of competitors" nzPosition="left" [nzDot]="soccerTemplate">
                 <div class="d-flex flex-column ml-3">
-                  <span style="font-weight:700">{{competitor.phone}}</span>
+                  <span style="font-weight:700">{{hide_phone_number(competitor.phone)}}</span>
                   <span style="color:#36b736">ተወዳዳሪ</span>
                 </div>
             </nz-timeline-item>
