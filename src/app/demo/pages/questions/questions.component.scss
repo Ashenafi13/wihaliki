@@ -3,9 +3,10 @@
   transition: 0.3s;
   padding: 30px;
   border-radius: 15px;
-
-    // background-image: url("../../../../assets//images/sample2.jfif");
-    // background-size: cover;
+      // background-color: antiquewhite;
+      // background-image: linear-gradient(to bottom right, #b2e8dc, #11e6b9d9);
+     background-image: url("../../../../assets//images/BG-01.jpg");
+     background-size: cover;
     // background-attachment: fixed;
     // background-position: center;
 }
@@ -35,7 +36,7 @@
   margin-top: 70px !important;
 }
 .timeline{
-  margin-top: 30px;
+  margin-top: 10px;
   overflow-x: hidden;
   overflow-y: scroll;
   height: 300px;
@@ -54,7 +55,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(157, 0, 0, 0.696);
+  background-image: linear-gradient(to bottom right, #b2e8dc, #11e6b9d9);
 }
 
 
@@ -173,4 +174,40 @@ html {
 }
 .general-container i{
   font-size: 40px; color: green;
+}
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(255, 255, 255);
+  display: -webkit-box;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline-container{
+  margin-left: auto; padding: 40px; margin-right: 100px;
+  background-color: #fff;
+  border-radius: 15px;
+
+}
+
+.icon-timeline {
+  width: 50px;
+  height: 50px;
+}
+::ng-deep .ant-progress-bg{
+ background-color: #fff;
+ height: 12px !important;
+ border-radius: 0px !important;
+}
+::ng-deep .ant-progress-inner{
+  background-color: transparent;
+  border: 1px solid #fff;
+  border-radius: 0px;
+}
+
+::ng-deep .ant-drawer-body{
+  background-image: url("../../../../assets//images/BG-01.jpg");
+  background-size: cover;
 }

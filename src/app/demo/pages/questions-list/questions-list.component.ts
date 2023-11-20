@@ -34,6 +34,7 @@ export class QuestionsListComponent implements OnInit {
     this.visible = false;
   }
   open():void{
+
     this.visible = true;
   }
 
@@ -75,9 +76,9 @@ export class QuestionsListComponent implements OnInit {
 }
 
 GenerateReport():void{
-//  this.open();
-  console.log(this.Questions_List);
 
+
+  this.open();
   // this.GetQuestions(this.selectedSeason,this.selectedEpisodes);
 }
 
@@ -121,10 +122,11 @@ GetSeasons(): void {
       let filteredSeasons = this.seasons.filter(se => se.status == 1);
       this.selectedSeason = filteredSeasons[0].id;
       this.GetEpisodes(this.selectedSeason,0);
-      this.reportData = this.transformData(this.seasons);
+
     }
 
   });
+
 }
 
 changeEpisodes(event:any):void{

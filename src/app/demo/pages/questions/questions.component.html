@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-sm-12">
-    <app-card [template]="subContent" cardTitle="">
+    <!-- <app-card [template]="subContent" cardTitle=""> -->
 
       <div style="padding: 30px;">
-        <div *ngIf="!finalResults" class="custom-card d-flex flex-column   ">
+        <div *ngIf="!finalResults" class="custom-card d-flex flex-column justify-content-between ">
 
             <div class="row">
               <button [disabled]="count == 0?true:false" (click)="Back()" style="margin-left: 5px;" nz-button
@@ -13,9 +13,12 @@
                 nzType="default" nzShape="round"><i class="feather icon-chevron-right text-muted"></i>ቀጣይ</button>
 
               <button [disabled]="isCountStarted?true:false" (click)="open_Answer()"
-                style="margin-left: 5px; background: #05bf0d;" nz-button nzType="default" nzShape="round"><i
-                  class="feather icon-check  text-white"></i> &nbsp; <span class="text-white">የጥያቄ መልስ</span></button>
-            </div>
+                style="margin-left: 25px; border: 1px solid #05bf0d;" nz-button nzType="default" nzShape="round"><i
+                  class="feather icon-check  text-success"></i> &nbsp; <span class="text-success">የጥያቄ መልስ</span></button>
+                  <div style="margin-left: 5px;">
+                    <button data-toggle="modal" (click)="GoToWinners()" nzShape="round" nz-button nzType="default"><i class="feather icon-award"></i>&nbsp; ጠቅላላ ውጤት</button>
+                  </div>
+              </div>
             <div class="row">
             <div  class="d-flex flex-column " *ngFor="let item of questions; let i=index">
               <div class="d-flex flex-column  align-items-center mt-3" *ngIf="count == i">
@@ -27,7 +30,7 @@
                   <button style="margin-left: 10px;" *ngIf="!isCountStarted && item.qts.status != 1"
                     (click)="start(item.qts.time,item.qts.id)" nz-button nzType="default" nzShape="round"><i
                       class="feather icon-play text-muted"></i></button>
-                  <span [@fade] *ngIf="timeEnds">
+                  <span [@fade] *ngIf="timeEnds" style="margin-left: 10px;">
                     <span style="font-size: 26px; color: red;" *ngIf="timeEnds">{{timeEnds}}</span>
                   </span>
                   <div style="margin-left: 10px;"
@@ -36,30 +39,30 @@
                   </div>
                 </div>
                 <div class="question-txt">
-                  <span style="font-weight: 700;">{{item.qts.question_label}}</span>
-                  <nz-progress *ngIf="seconds > 0"
-                    [nzStatus]="minutes == 0 && seconds > 10 || minutes > 0?'success':'exception'" [nzPercent]="percent"
-                    [nzFormat]="formatTime" nzSize="small" [nzShowInfo]="false"></nz-progress>
+                  <span style="font-weight: 700; font-size: 17px;">{{item.qts.question_label}}</span>
+                    <nz-progress *ngIf="seconds > 0"
+                    [nzPercent]="percent"
+                    [nzFormat]="formatTime" nzSize="large" [nzShowInfo]="false"></nz-progress>
 
                   <div *ngIf="seconds > 0" class="row">
                     <nz-badge style="margin-left: 13px;" nzStandalone [nzCount]="seconds"
                       [nzStyle]="seconds > 10 ?{  backgroundColor: '#29dc29', color: '#fff', boxShadow: '0 0 0 1px #d9d9d9 inset' }:{  backgroundColor: '#dc2727', color: '#ff', boxShadow: '0 0 0 1px #d9d9d9 inset' }"></nz-badge>
                   </div>
-                  <div  class="row choise-txt">
-                    <span style="margin: 20px; font-weight: 500;" *ngFor="let it of item.cho;  let j=index">
-                      <span> {{it.alphabet}}. {{it.choice_label}}</span> </span>
+                  <div  class="d-flex flex-column choise-txt">
+                    <span style="margin: 10px; font-weight: 500;" *ngFor="let it of item.cho;  let j=index">
+                      <span style="font-size: 17px;"> {{it.alphabet}}. {{it.choice_label}}</span> </span>
                   </div>
                 </div>
               </div>
 
             </div>
-            <div *ngIf="competitors.length > 0" style="margin-left: 50px; padding: 10px; margin-right: 100px;">
+            <div *ngIf="competitors.length > 0" class="timeline-container shadow-sm">
               <div class="d-flex flex-column ">
 
                 <div class="row">
                   <div class="row">
-                    <div style="width: 50px; height: 50px;" class="rounded-circle shadow-sm align-content-center p-2">
-                      <i style="font-size: 30px; color: green;" class="feather icon-user-check"></i>
+                    <div class="circle shadow-sm">
+                      <i style=" color: green; font-size: 20px;" class="feather icon-user-check icon-timeline "></i>
                     </div>
                     <div style="margin-left: 5px;" class="d-flex flex-column">
                       <span style="font-size: 20px;"
@@ -70,8 +73,8 @@
 
                   </div>
                   <div style="margin-left: 20px;" class="row">
-                    <div style="width: 50px; height: 50px;" class="rounded-circle shadow-sm align-content-center p-2">
-                      <i style="font-size: 30px; color: red;" class="feather icon-user-x"></i>
+                    <div  class="circle shadow-sm">
+                      <i style="color: red; font-size: 20px;" class="feather icon-user-x icon-timeline "></i>
                     </div>
                     <div style="margin-left: 5px;" class="d-flex flex-column">
                       <span style="font-size: 20px;"
@@ -88,7 +91,7 @@
 
                 <div class="timeline">
                   <nz-timeline nzMode="custom">
-                    <nz-timeline-item *ngFor="let competitor of competitors" nzPosition="right"
+                    <nz-timeline-item *ngFor="let competitor of competitors" nzPosition="right" [ngStyle]="{'background-color':'green'}"
                       [nzColor]="competitor.answer?'green':'red'" [nzDot]="soccerTemplate">
                       <div class="row" style="margin-left: 5px">
                         <!-- <nz-avatar nzIcon="user" nzSrc="../../../../assets/images/user.png"></nz-avatar> -->
@@ -99,8 +102,11 @@
                         </div>
                       </div>
                       <ng-template #soccerTemplate>
-                        <i *ngIf="competitor.answer" style="font-size: 20px;" class="feather icon-user-check"></i>
-                        <i *ngIf="!competitor.answer" style="font-size: 20px;" class="feather icon-user-x"></i>
+                        <div >
+                          <i *ngIf="competitor.answer" style="font-size: 20px;" class="feather icon-user-check"></i>
+                          <i *ngIf="!competitor.answer" style="font-size: 20px;" class="feather icon-user-x"></i>
+
+                        </div>
                       </ng-template>
                     </nz-timeline-item>
 
@@ -150,126 +156,14 @@
             </div>
 
           </div>
-          <div style="margin-left: auto;">
-            <button data-toggle="modal" (click)="GoToWinners()" nz-button nzType="primary">ጠቅላላ ውጤት</button>
-          </div>
+
         </div>
       </ng-template>
-    </app-card>
+    <!-- </app-card> -->
   </div>
 </div>
 
-<app-ui-modal #myLargeModalLabel [hideFooter]="true" [dialogClass]="'modal-lg'">
-  <div class="app-modal-header">
-    <h5 class="modal-title">ጠቅላላ ውጤት</h5>
-    <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
-      (click)="myLargeModalLabel.hide()"><span aria-hidden="true">&times;</span></button>
-  </div>
-  <div class="app-modal-body">
 
-    <div style="padding: 20px;" class="d-flex flex-column align-items-center">
-      <div class="row align-items-center">
-        <span style="font-size: 20px;">የውድድሩ አሸናፊዎች</span>
-        <div class="row align-items-center ml-4">
-          <div class="rounded-circle general-container shadow-sm">
-            <i class="feather icon-users"></i>
-          </div>
-          <div style="margin-left: 10px;" class="d-flex flex-column">
-            <span style="font-size: 20px; color: gray;">ጠቅላላ ብዛት</span>
-            <span style="font-size: 20px; font-weight: 700;">722</span>
-
-          </div>
-
-        </div>
-      </div>
-      <nz-divider [nzText]="award"></nz-divider>
-      <div class="d-flex flex-column mt-3 align-items-center">
-        <div class="row align-items-center">
-          <div class="rounded-circle general-container shadow-sm">
-            <i class="feather icon-user"></i>
-          </div>
-          <div class="d-flex flex-column ml-2 ">
-            <span>+25188998888</span>
-            <span style="font-size: 15px;
-            font-weight: 600;">10 ጥያቄዎች በትክክል መልሰዋል</span>
-          </div>
-
-        </div>
-
-        <div class="row align-items-center mt-2">
-          <div class="rounded-circle general-container shadow-sm">
-            <i class="feather icon-user"></i>
-          </div>
-          <div class="d-flex flex-column ml-2 ">
-            <span>+25188998888</span>
-            <span style="font-size: 15px;
-            font-weight: 600;">10 ጥያቄዎች በትክክል መልሰዋል</span>
-          </div>
-
-        </div>
-        <div class="row align-items-center mt-2">
-          <div class="rounded-circle general-container shadow-sm">
-            <i class="feather icon-user"></i>
-          </div>
-          <div class="d-flex flex-column ml-2 ">
-            <span>+25188998888</span>
-            <span style="font-size: 15px;
-            font-weight: 600;">10 ጥያቄዎች በትክክል መልሰዋል</span>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-    <ng-template #award>
-      <i style="font-size: 45px; color: gold;" class="feather icon-award"></i>
-    </ng-template>
-    <!-- <nz-table #sortTable [nzData]="listOfData" nzTableLayout="fixed">
-      <thead>
-        <tr>
-          <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">{{ column.title }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of sortTable.data">
-          <td>
-            <div class="row align-items-baseline">
-             <div style="width: 30px; height: 30px; text-align: center;" class="rounded-circle shadow-sm">
-              <i class="feather icon-user"></i>
-             </div>
-              <span style="margin-left: 5px; font-size: 16px;">{{ data.phone }}</span>
-            </div>
-          </td>
-          <td >
-            <span style="font-size: 16px;"> {{ data.totalAnswered }}</span>
-           </td>
-          <td>
-            <div *ngIf="data.Rank == 1" class="row align-items-baseline">
-              <i style="color: gold; font-size: 16px;" class="feather icon-award"></i>
-              <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
-            </div>
-            <div *ngIf="data.Rank == 2" class="row align-items-baseline">
-              <i style="color: silver; font-size: 16px;" class="feather icon-award"></i>
-              <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
-            </div>
-            <div *ngIf="data.Rank == 3" class="row align-items-baseline">
-              <i style="color: brown; font-size: 16px;" class="feather icon-award"></i>
-              <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
-            </div>
-            <div *ngIf="data.Rank != 1 && data.Rank != 2 && data.Rank != 3" class="row align-items-baseline">
-              <i style="color: black; font-size: 16px;" class="feather icon-award"></i>
-              <span style="margin-left: 5px; font-size: 16px;"> {{ data.Rank }}</span>
-            </div>
-          </td>
-
-        </tr>
-      </tbody>
-    </nz-table> -->
-
-
-  </div>
-</app-ui-modal>
 
 <nz-drawer [nzVisible]="visible" [nzPlacement]="placement" [nzMaskClosable]="false" [nzOffsetY]="110" [nzHeight]="500"
   [nzClosable]="isTimerRunning == 2" [nzVisible]="visible" [nzPlacement]="placement" [nzTitle]="" (nzOnClose)="close()">
@@ -367,10 +261,10 @@
 
       </div>
       <div style="width: 600px;">
-        <span style="font-weight: 700;">{{item.qts.question_label}}</span>
-        <div style="margin-top: 20px;  margin-left: 20px; width: 400px;" class="row">
-          <span style="margin: 20px; font-weight: 500;" *ngFor="let it of item.cho;  let j=index">
-            <span [ngClass]="it.isAnswer == 1?'text-success':''"> {{it.alphabet}}. {{it.choice_label}}</span> </span>
+        <span style="font-weight: 700; font-size: 17px;">{{item.qts.question_label}}</span>
+        <div style="margin-top: 20px;  margin-left: 20px; width: 400px;" class="d-flex flex-column">
+          <span style="margin: 10px; font-weight: 500; font-size: 17px;" *ngFor="let it of item.cho;  let j=index">
+            <span [ngClass]="it.isAnswer == 1?'text-white':''"> {{it.alphabet}}. {{it.choice_label}}</span> </span>
         </div>
       </div>
     </div>

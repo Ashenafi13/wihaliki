@@ -77,8 +77,8 @@ export class DashDefaultComponent implements OnInit {
   ngOnInit() {
     this.ActiveSeason()
     this.GetCompitator();
-    // localStorage.removeItem(this.COUNTER_SECONDE);
-    // localStorage.removeItem(this.COUNTER_MINUTE);
+    localStorage.removeItem(this.COUNTER_SECONDE);
+    localStorage.removeItem(this.COUNTER_MINUTE);
     let COUNTER_MINUTE = localStorage.getItem(this.COUNTER_MINUTE);
     let COUNTER_SECONDE = localStorage.getItem(this.COUNTER_SECONDE);
 
@@ -127,6 +127,7 @@ export class DashDefaultComponent implements OnInit {
   open(): void {
    this.visible = true;
    this.isTimerFinished = false;
+
   //  Set the initial time remaining to 5 minutes (300 seconds)
      this.UpdateStartTime();
    //this.startCountdown(this.startMinutes);
@@ -138,7 +139,7 @@ export class DashDefaultComponent implements OnInit {
   SendMessage(id:any) {
 
     this.service.SendSMS(id).subscribe((response: any) => {
-      this.RegisterCompitator();
+        this.RegisterCompitator();
     });
 
 
@@ -182,8 +183,8 @@ export class DashDefaultComponent implements OnInit {
 
     const interval = setInterval(() => {
       this.isTimerRunning = 1;
-      this.SendMessage(1);
-
+      //this.SendMessage(1);
+      this.RegisterCompitator();
       if(this.minutes === 0 && this.seconds === 0) {
         clearInterval(interval);
         this.isTimerRunning = 2;
