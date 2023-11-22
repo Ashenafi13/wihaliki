@@ -16,7 +16,7 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { WinnersComponent } from './winners/winners.component';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
-
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 @NgModule({
   declarations: [QuestionsComponent, WinnersComponent],
   imports: [
@@ -33,7 +33,8 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
     NzDividerModule,
     NzDrawerModule,
     NzSkeletonModule,
-    NzProgressModule
+    NzProgressModule,
+    NzPaginationModule
   ]
 })
 export class QuestionsModule { }

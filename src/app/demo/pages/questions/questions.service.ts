@@ -106,9 +106,9 @@ export class QuestionsService {
     );
   }
 
-  GetWinners(){
+  GetWinners(currentPage:any, pageSize:any){
     return this.http.get<any>(
-      environment.url + `season/episode/winners`,
+      environment.url + `season/episode/winners?currentPage=${currentPage}&pageSize=${pageSize}`,
       {
         headers: this.httpOptions.header,
       }

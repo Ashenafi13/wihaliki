@@ -1,35 +1,16 @@
-import { Component, OnInit,ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit,ViewChild, OnDestroy ,ElementRef } from '@angular/core';
 import { NzDrawerPlacement } from 'ng-zorro-antd/drawer';
 import { DashboardService } from '../dashboard.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { Subscription, timer } from "rxjs";
+import { map, share } from "rxjs/operators";
 @Component({
   selector: 'app-dash-default',
   templateUrl: './dash-default.component.html',
   styleUrls: ['./dash-default.component.scss'],
-  animations: [
-    trigger('slideText', [
-      transition(':enter', [
-        style({
-          transform: 'translateY(-100%)',
-          opacity: 0,
-        }),
-        animate(`${1000}ms ease-in-out`, style({
-          transform: 'translateY(0)',
-          opacity: 1,
-        })),
-      ]),
-      transition(':leave', [
-        animate(`${1000}ms ease-in-out`, style({
-          transform: 'translateY(-100%)',
-          opacity: 0,
-        })),
-      ]),
-    ])
-  ]
+
 
 })
 export class DashDefaultComponent implements OnInit {
@@ -47,7 +28,10 @@ export class DashDefaultComponent implements OnInit {
   isTimerRunning:number =0;
   COUNTER_SECONDE = 'COUNTER_SECONDE';
   COUNTER_MINUTE ='COUNTER_MINUTE';
-
+  time = new Date();
+  rxTime = new Date();
+  _intervalId;
+  subscription: Subscription;
   isEpisodeCompleted = false;
   competitors:any[] =[];
  constructor(private service:DashboardService,breakpointObserver: BreakpointObserver,private elementRef: ElementRef,private cookieService: CookieService){
@@ -60,7 +44,10 @@ export class DashDefaultComponent implements OnInit {
   startMinutes: number;
   animate = false;
 
-
+  hoursStr:any;
+  minutesStr:any;
+  secondsStr:any
+  period:any;
 
   animateText(): void {
     if(this.textEl){
@@ -77,14 +64,17 @@ export class DashDefaultComponent implements OnInit {
   ngOnInit() {
     this.ActiveSeason()
     this.GetCompitator();
-    localStorage.removeItem(this.COUNTER_SECONDE);
-    localStorage.removeItem(this.COUNTER_MINUTE);
+    this.getClockTime();
+
+    //  localStorage.removeItem(this.COUNTER_SECONDE);
+    //  localStorage.removeItem(this.COUNTER_MINUTE);
+
     let COUNTER_MINUTE = localStorage.getItem(this.COUNTER_MINUTE);
     let COUNTER_SECONDE = localStorage.getItem(this.COUNTER_SECONDE);
 
 
     if(COUNTER_SECONDE && COUNTER_MINUTE){
-      this.open()
+       this.open()
     }
 
 
@@ -125,16 +115,34 @@ export class DashDefaultComponent implements OnInit {
   }
 
   open(): void {
-   this.visible = true;
-   this.isTimerFinished = false;
-
-  //  Set the initial time remaining to 5 minutes (300 seconds)
-     this.UpdateStartTime();
-   //this.startCountdown(this.startMinutes);
-
-
+     this.isTimerFinished = false;
+      this.UpdateStartTime();
 
   }
+
+  // A function that returns the current time in 12-hour format
+   getClockTime(): void {
+    this.intervalId = setInterval(() => {
+      this.time = new Date();
+    }, 1000);
+
+    // Using RxJS Timer
+    this.subscription = timer(0, 1000)
+      .pipe(
+        map(() => new Date()),
+        share()
+      )
+      .subscribe(time => {
+        this.rxTime = time;
+      });
+
+}
+ngOnDestroy() {
+  clearInterval(this._intervalId);
+  if (this.subscription) {
+    this.subscription.unsubscribe();
+  }
+}
 
   SendMessage(id:any) {
 
@@ -183,8 +191,8 @@ export class DashDefaultComponent implements OnInit {
 
     const interval = setInterval(() => {
       this.isTimerRunning = 1;
-      //this.SendMessage(1);
-      this.RegisterCompitator();
+        this.SendMessage(1);
+      // this.RegisterCompitator();
       if(this.minutes === 0 && this.seconds === 0) {
         clearInterval(interval);
         this.isTimerRunning = 2;

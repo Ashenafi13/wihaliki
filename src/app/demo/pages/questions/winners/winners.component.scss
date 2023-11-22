@@ -1,9 +1,9 @@
 .general-container {
-  background: linear-gradient(221deg, rgb(250 250 250) 1%, rgb(191 230 190) 29%, rgba(206,241,206,1) 81%);
-  width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(221deg, rgb(21, 14, 14) 1%, rgb(191 230 190) 29%, rgba(206,241,206,1) 81%);
+  width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
 }
 .general-container i{
-  font-size: 40px; color: green;
+  font-size: 20px; color: green;
 }
 ::ng-deep .pcoded-main-container{
   margin-top: 0px !important;
@@ -11,6 +11,27 @@
 ::ng-deep .ant-table-thead>tr>th{
   background: #81d398;
   color: #fff;
+}
+
+.table-bootstrap thead th{
+   background-color: #000;
+   border-top:none;
+   border: none;
+
+}
+.winners-container{
+   background:  linear-gradient(323deg, rgba(179,242,133,1) 8%, rgba(145,237,142,1) 20%);
+   padding: 20px; width: 500px; margin-top: 20px;
+}
+.table-bootstrap  tr{
+  padding: 20px;
+  background: linear-gradient(323deg, rgba(212,251,174,1) 19%, rgba(195,241,193,1) 48%);
+}
+.table-bootstrap  td{
+  border-top: 1px solid #000;
+  border: 1px solid #000;
+
+  padding: 10px;
 }
 .circle {
   width: 50px;
@@ -26,6 +47,4 @@
   width: 50px;
   height: 50px;
 }
-body{
-  background-color: #000 !important;
-}
+

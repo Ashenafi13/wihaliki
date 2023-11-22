@@ -19,10 +19,11 @@
                     <button data-toggle="modal" (click)="GoToWinners()" nzShape="round" nz-button nzType="default"><i class="feather icon-award"></i>&nbsp; ጠቅላላ ውጤት</button>
                   </div>
               </div>
-            <div class="row">
-            <div  class="d-flex flex-column " *ngFor="let item of questions; let i=index">
-              <div class="d-flex flex-column  align-items-center mt-3" *ngIf="count == i">
-                <div class="row align-items-center">
+            <div class="row mt-4">
+            <div  class="d-flex flex-column" *ngFor="let item of questions; let i=index">
+              <div class="d-flex flex-column" *ngIf="count == i">
+              <div class="d-flex flex-column  question-container align-items-center mt-3" >
+                <div class="row align-items-center ">
                   <span style="font-size:30px">ጥያቄ
                     {{i+1}}
                     {{checkQuestionStatus(item.qts.status)}}
@@ -39,21 +40,21 @@
                   </div>
                 </div>
                 <div class="question-txt">
-                  <span style="font-weight: 700; font-size: 17px;">{{item.qts.question_label}}</span>
-                    <nz-progress *ngIf="seconds > 0"
-                    [nzPercent]="percent"
-                    [nzFormat]="formatTime" nzSize="large" [nzShowInfo]="false"></nz-progress>
+                  <span style="font-weight: 700; font-size: 17px; margin-left: 10px;">{{item.qts.question_label}}</span>
 
-                  <div *ngIf="seconds > 0" class="row">
-                    <nz-badge style="margin-left: 13px;" nzStandalone [nzCount]="seconds"
-                      [nzStyle]="seconds > 10 ?{  backgroundColor: '#29dc29', color: '#fff', boxShadow: '0 0 0 1px #d9d9d9 inset' }:{  backgroundColor: '#dc2727', color: '#ff', boxShadow: '0 0 0 1px #d9d9d9 inset' }"></nz-badge>
-                  </div>
-                  <div  class="d-flex flex-column choise-txt">
-                    <span style="margin: 10px; font-weight: 500;" *ngFor="let it of item.cho;  let j=index">
-                      <span style="font-size: 17px;"> {{it.alphabet}}. {{it.choice_label}}</span> </span>
-                  </div>
                 </div>
               </div>
+              <!--*ngIf="seconds > 0"-->
+              <nz-progress
+              *ngIf="seconds > 0"
+                [nzPercent]="percent"
+                [nzFormat]="formatTime" nzSize="large" [nzShowInfo]="false"></nz-progress>
+
+              <div  class="d-flex flex-column choise-txt">
+                <span style="font-weight: 500; border-top: 2px solid #000; padding: 10px;" *ngFor="let it of item.cho;  let j=index">
+                  <span style="font-size: 17px; margin-left: 20px;"> {{it.alphabet}}. {{it.choice_label}}</span> </span>
+              </div>
+            </div>
 
             </div>
             <div *ngIf="competitors.length > 0" class="timeline-container shadow-sm">

@@ -9,6 +9,17 @@
  box-shadow: 0 0.225rem 0.35rem rgba(0, 0, 0, 0.10) !important
 }
 
+.starter-container{
+  background: linear-gradient(166deg, rgba(143,254,151,1) 0%, rgba(183,252,123,1) 70%, rgba(194,252,114,1) 89%);
+  width: 500px;
+  display: flex;
+  justify-items: center;
+  justify-content: center;
+  padding: 10px;
+  align-items: center;
+ ;
+
+}
 
 ::ng-deep .pcoded-navbar.theme-horizontal ~ .pcoded-main-container {
   margin-top: 70px !important;
@@ -123,7 +134,7 @@ html {
   padding: 10px;
   border-radius: 18px;
 
-  background: linear-gradient(221deg, #fe8888 3%, #000000 29%, #393939 81%);
+  background: linear-gradient(221deg, #e55959 3%, #7f2424 29%, #c57878 81%);
   box-shadow: 12px 4px 5px -5px rgba(41,30,30,0.43);
 -webkit-box-shadow: 12px 4px 5px -5px rgba(41,30,30,0.43);
 -moz-box-shadow: 12px 4px 5px -5px rgba(41,30,30,0.43);
@@ -133,7 +144,8 @@ html {
   padding: 10px;
   border-radius: 18px;
 
-  background: linear-gradient(221deg, #8dfe88 3%, #000000 29%, #393939 81%);
+  // background: linear-gradient(221deg, #8dfe88 3%, #000000 29%, #393939 81%);
+  background: linear-gradient(221deg, #5ee559 3%, #247f47 29%, #78c579 81%);
   box-shadow: 12px 4px 5px -5px rgba(41,30,30,0.43);
 -webkit-box-shadow: 12px 4px 5px -5px rgba(41,30,30,0.43);
 -moz-box-shadow: 12px 4px 5px -5px rgba(41,30,30,0.43);

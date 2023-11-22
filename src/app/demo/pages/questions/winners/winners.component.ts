@@ -13,15 +13,21 @@ export class WinnersComponent implements OnInit {
   winners:any[] =[];
   @Input()
   selector:any
-
+  currentPage = 1;
+  pageSize = 10;
+  totalItems = 0;
   ngOnInit(): void {
+    this.GetWinners();
+  }
+  onPageIndexChange(pageIndex: number): void {
+    this.currentPage = pageIndex;
     this.GetWinners();
   }
 
   GetWinners(): void {
-    this.service.GetWinners().subscribe((winners:any)=>{
-      this.winners = winners
-
+    this.service.GetWinners(this.currentPage, this.pageSize).subscribe((winners:any)=>{
+      this.winners = winners.Data
+      this.totalItems = winners.TotalItems;
     });
   }
 
