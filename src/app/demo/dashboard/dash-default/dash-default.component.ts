@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription, timer } from "rxjs";
 import { map, share } from "rxjs/operators";
+
 @Component({
   selector: 'app-dash-default',
   templateUrl: './dash-default.component.html',
@@ -15,6 +16,7 @@ import { map, share } from "rxjs/operators";
 })
 export class DashDefaultComponent implements OnInit {
   visible = false;
+  video: HTMLVideoElement | undefined;
   placement: NzDrawerPlacement = 'top';
   public minutes: number = 0;
   public seconds: number = 0;
@@ -66,6 +68,7 @@ export class DashDefaultComponent implements OnInit {
     this.GetCompitator();
     this.getClockTime();
 
+
     //  localStorage.removeItem(this.COUNTER_SECONDE);
     //  localStorage.removeItem(this.COUNTER_MINUTE);
 
@@ -79,6 +82,20 @@ export class DashDefaultComponent implements OnInit {
 
 
   }
+  playVideo() {
+    const video = document.getElementById('video-background') as HTMLVideoElement | null;
+    console.log("🚀 ~ file: dash-default.component.ts:87 ~ DashDefaultComponent ~ playVideo ~ video:", video)
+
+    if (video) {
+      // Check if the video is paused to avoid errors on subsequent clicks
+      if (video.paused) {
+        video.play().catch(error => {
+          console.error('Error playing video:', error);
+        });
+      }
+    }
+  }
+
   ngAfterViewInit() {
     if (this.myDiv) {
       this.myDiv.nativeElement.scrollTo();
