@@ -1,10 +1,9 @@
 
-<div id="video-container">
+<!-- <div id="video-container">
   <video id="video-background" onloadedmetadata="this.muted=true" oncanplay="this.play()" autoplay loop>
-      <!-- Provide video sources for different browsers -->
+     
       <source src="../../../../assets/video/video4.mp4" type="video/mp4">
-      <!-- Add more sources for different video formats if needed -->
-      Your browser does not support the video tag.
+     
   </video>
 </div>
 
@@ -75,4 +74,34 @@
     </div>
 
    </div>
+</div> -->
+<div class="container">
+  <ul class="flip minutePlay">
+    <li *ngFor="let digit of formattedMinutes; let index = index" [ngClass]="{'before': index === activeMinute}">
+      <a href="#">
+        <div class="up">
+          <div class="shadow"></div>
+          <div class="inn">{{ digit }}</div>
+        </div>
+        <div class="down">
+          <div class="shadow"></div>
+          <div class="inn">{{ digit }}</div>
+        </div>
+      </a>
+    </li>
+  </ul>
+  <ul class="flip secondPlay">
+    <li *ngFor="let digit of formattedSeconds; let index = index" [ngClass]="{'before': index === activeSecond}">
+      <a href="#">
+        <div class="up">
+          <div class="shadow"></div>
+          <div class="inn">{{ digit }}</div>
+        </div>
+        <div class="down">
+          <div class="shadow"></div>
+          <div class="inn">{{ digit }}</div>
+        </div>
+      </a>
+    </li>
+  </ul>
 </div>
