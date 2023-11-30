@@ -156,9 +156,7 @@ export class QuestionsComponent implements OnInit {
     location.reload();
   }
 
-  test(QId: any): void {
-      this.SendMessage(3);
-  }
+ 
 
   open(): void {
     this.visible = true;
@@ -203,8 +201,10 @@ export class QuestionsComponent implements OnInit {
 
   }
 
-  checkQuestionStatus(isStarted: any) {
-    this.isPreviouslyStarted = isStarted ? true : false;
+  checkQuestionStatus(isStarted: any,index) {
+    if(this.count == index){
+      this.isPreviouslyStarted = isStarted ? true : false;
+    }
   }
 
 
@@ -244,10 +244,10 @@ export class QuestionsComponent implements OnInit {
     });
   }
 
-  SendMessage(id:any) {
+  SendMessage(id:any,QId:string) {
 
     this.service.SendSMS(id).subscribe((response: any) => {
-
+      this.AddCompetitor(QId);
     });
 
 
@@ -281,8 +281,8 @@ export class QuestionsComponent implements OnInit {
     this.seconds =  COUNTER_SECONDE?  Number(COUNTER_SECONDE):seconds;
     const interval = setInterval(() => {
       this.isTimerRunning = 1;
-      //  this.SendMessage(1);
-       this.AddCompetitor(QId);
+       this.SendMessage(1,QId);
+      //  this.AddCompetitor(QId);
       localStorage.setItem('STORED_SECONDES',  `${this.seconds}`);
       if(this.seconds === 0) {
         clearInterval(interval);

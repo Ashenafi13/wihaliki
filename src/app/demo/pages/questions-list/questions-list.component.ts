@@ -25,6 +25,8 @@ export class QuestionsListComponent implements OnInit {
   selectedSeason:any;
   placement:NzDrawerPlacement ='top';
   reportData:any[] = [];
+  isReported:boolean = false;
+  reports:any[] = [];
   ngOnInit() {
     //this.GetQuestions();
     this.GetSeasons();
@@ -34,31 +36,63 @@ export class QuestionsListComponent implements OnInit {
     this.visible = false;
   }
   open():void{
-
+   
     this.visible = true;
   }
 
+  labelSeasons(id):string{
+    let filteredSeasons = this.seasons.filter(se => se.id == id);
+    return filteredSeasons?filteredSeasons[0].name:'';
+  }
+  labelEpisodes(id):string{
+    let filteredEpisodes = this.episodes.filter(ep => ep.id == id);
+    return filteredEpisodes?filteredEpisodes[0].name:'';
+  }
 
   transformData(data: any[]): any[] {
-    return data.map((item) => {
-      return {
-        'ስም': item.name,
+     let list:any[] = [];
+   // for(let i = 0; i < data.length; i++) {
+      list.push({
+        'ጥያቄዎች': "dadas",
+        'ግዜ':  "asdad",
+        'ምዕራፍ':"dasd",
+        'ክፍል':"dsdd"
         // Add other columns as needed
-      };
-    });
+      });
+        
+  //  }
+    return list;
+    // return data.map((item) => {
+    //   return {
+    //     'ጥያቄዎች': item.question_label,
+    //     'ግዜ':item.time,
+    //     'ምዕራፍ':this.labelSeasons(item.season_id),
+    //     'ክፍል':this.labelEpisodes(item.episode_id)
+    //     // Add other columns as needed
+    //   };
+    // });
   }
   GetQuestions(season_Id:any, episode_id:any):void{
     this.Questions_List = [];
     this.listOfData = [];
     this.service.GetQuestions(season_Id,episode_id).subscribe((response:any)=>{
       this.Questions_List = response;
-      console.log(this.Questions_List);
+    
       let Q:any[]=[];
       for(let i=0; i<this.Questions_List.length; i++){
         this.SetRow(this.Questions_List[i]);
+        this.reports.push({
+          'ጥያቄዎች': this.Questions_List[i].question_label,
+          'ግዜ':  `${this.Questions_List[i].time}`,
+          'ምዕራፍ':this.labelSeasons(this.Questions_List[i].season_id),
+          'ክፍል':this.labelEpisodes(this.Questions_List[i].episode_id)
+          // Add other columns as needed
+        });
       }
-
+      
+     
     });
+   
   }
 
  GetEpisodes(season_Id:any,type:number): void {
@@ -77,8 +111,8 @@ export class QuestionsListComponent implements OnInit {
 
 GenerateReport():void{
 
-
-  this.open();
+  this.reportData = this.reports;
+  this.isReported = true;
   // this.GetQuestions(this.selectedSeason,this.selectedEpisodes);
 }
 

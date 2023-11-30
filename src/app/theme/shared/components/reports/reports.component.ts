@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit,SimpleChanges,AfterViewInit,ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { WebdatarocksComponent, WebdatarocksPivotModule } from 'ng-webdatarocks';
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.scss']
+  styleUrls: ['./reports.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ReportsComponent implements OnInit {
   @ViewChild('pivot1', { static: false }) child!: WebdatarocksComponent;
@@ -13,75 +14,36 @@ export class ReportsComponent implements OnInit {
   constructor() { }
   @Input()
   data:any;
-
-
-  ngOnInit(): void {
-  }
-  getData(): void {
-    this.onReportComplete(this.data);
-    // this.reportService.getReportData().subscribe((list) => {
-    //   const transformedList = this.transformData(list);
-    //   this.onReportComplete(transformedList);
-    // });
-  }
-
-  customizeToolbar(toolbar: any): void {
-    const toolbarElements = toolbar.getTabs();
-
-    const elementsToRemove = ['werw', 'Save', 'Connect'];
-
-    for (const elementName of elementsToRemove) {
-      const element = toolbarElements.find((e: any) => e.id === elementName);
-      if (element) {
-        toolbar.removeTab(element);
-      }
-    }
-
-    toolbar.addButton({
-      id: 'custom-button',
-      label: 'Custom Button',
-      handler: () => {
-        alert('Custom button clicked!');
-      },
-    });
-  }
-  onPivotReady(pivot: WebDataRocks.Pivot): void {
-    console.log('[ready] WebdatarocksPivotModule', this.child);
-  }
-
-  onCustomizeCell(cell: WebDataRocks.CellBuilder, data: WebDataRocks.CellData): void {
-    if (data.measure === 'Revenue') {
-      (cell.style as any).color = '#00FF00'; // Change font color for the "Revenue" measure
-    }
-  }
-
-
-
-
-  onReportComplete(list: any): void {
-
-
-   // this.child.webDataRocks.('reportcomplete','');
-
-
+  @Input() key: any;
+  ngOnInit(): void {}
+  onReportComplete(): void {
+   console.log(this.data);
     const reportConfig: any = {
       dataSource: {
-        data: list,
+        data: this.data,
       },
+      
       options: {
         grid: {
           type: 'flat', // Set the grid type to 'flat' to remove subtotals and grand totals
-          showGrandTotal:'off',
-          showTotal:'off'
+          // showGrandTotal:'off',
+          // showTotal:'off'
         },
       },
       global: {
       localization: 'assets/custom-localization.json',
       },
       toolbar: true,
-      // customizeToolbar: this.customizeToolbar,
+    
     };
-
+   
+    console.log('Report Config:', reportConfig);
     this.child.webDataRocks.setReport(reportConfig);
   }
+
+ 
+  ngAfterViewInit() {
+    this.onReportComplete();
+  }
+
 }

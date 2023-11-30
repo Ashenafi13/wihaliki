@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-12">
-    <app-card cardTitle="" [template]="subContent">
+    <app-card *ngIf="!isReported" cardTitle="" [template]="subContent">
       <button (click)="GenerateReport()" nz-button nzType="default">Generate Report</button>
       <div class="mt-3">
         <nz-table [nzBordered]="true" #nzTable [nzData]="listOfData">
@@ -42,6 +42,11 @@
         </nz-table>
       </div>
     </app-card>
+    <app-reports *ngIf="isReported; else noReport" [data]="reportData" [key]="isReported"></app-reports>
+    <ng-template #noReport>Report not available</ng-template>
+    
+
+
   </div>
 </div>
 <ng-template #subContent>
@@ -63,7 +68,7 @@
  [nzMaskClosable]="false" [nzOffsetY]="110" [nzHeight]="500" [nzClosable]="true" [nzVisible]="visible" [nzPlacement]="placement" [nzTitle]="" (nzOnClose)="close()"
 
 >
-<app-reports [data]="reportData"></app-reports>
+
 
 
 </nz-drawer>

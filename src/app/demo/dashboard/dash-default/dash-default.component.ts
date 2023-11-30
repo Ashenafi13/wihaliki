@@ -109,7 +109,6 @@ export class DashDefaultComponent implements OnInit {
   ActiveSeason():void{
     this.service.GetActive().subscribe((result:any) => {
         this.startMinutes = result?.episodeStartTime;
-
         this.isEpisodeCompleted = result?.time_status?true:false;
     })
   }

@@ -3,20 +3,20 @@
     <!-- <app-card [template]="subContent" cardTitle=""> -->
 
       <div style="padding: 30px;">
-        <div *ngIf="!finalResults" class="custom-card d-flex flex-column justify-content-between ">
+        <div  class="custom-card d-flex flex-column justify-content-between ">
 
             <div class="row">
-              <button [disabled]="count == 0?true:false" (click)="Back()" style="margin-left: 5px;" nz-button
+              <button [disabled]="count == 0 || isCountStarted?true:false" (click)="Back()" style="margin-left: 5px;" nz-button
                 nzType="default" nzShape="round"><i class="feather icon-chevron-left text-muted"></i>ወደ ኋላ</button>
 
-              <button [disabled]="isCountStarted?true:false" (click)="Next()" style="margin-left: 5px;" nz-button
+              <button [disabled]="isCountStarted || !isPreviouslyStarted" (click)="Next()" style="margin-left: 5px;" nz-button
                 nzType="default" nzShape="round"><i class="feather icon-chevron-right text-muted"></i>ቀጣይ</button>
 
-              <button [disabled]="isCountStarted?true:false" (click)="open_Answer()"
+              <button [disabled]="isCountStarted || !isPreviouslyStarted" (click)="open_Answer()"
                 style="margin-left: 25px; border: 1px solid #05bf0d;" nz-button nzType="default" nzShape="round"><i
                   class="feather icon-check  text-success"></i> &nbsp; <span class="text-success">የጥያቄ መልስ</span></button>
                   <div style="margin-left: 5px;">
-                    <button data-toggle="modal" (click)="GoToWinners()" nzShape="round" nz-button nzType="default"><i class="feather icon-award"></i>&nbsp; ጠቅላላ ውጤት</button>
+                    <button [disabled]="isCountStarted || !isPreviouslyStarted" data-toggle="modal" (click)="GoToWinners()" nzShape="round" nz-button nzType="default"><i class="feather icon-award"></i>&nbsp; ጠቅላላ ውጤት</button>
                   </div>
               </div>
             <div class="row mt-4">
@@ -26,7 +26,7 @@
                 <div class="row align-items-center ">
                   <span style="font-size:30px">ጥያቄ
                     {{i+1}}
-                    {{checkQuestionStatus(item.qts.status)}}
+                    {{checkQuestionStatus(item.qts.status,i)}}
                   </span>
                   <button style="margin-left: 10px;" *ngIf="!isCountStarted && item.qts.status != 1"
                     (click)="start(item.qts.time,item.qts.id)" nz-button nzType="default" nzShape="round"><i
@@ -128,20 +128,7 @@
         </div>
 
 
-        <div *ngIf="finalResults">
-          <nz-result nzStatus="success" nzTitle="ሁሉም ጥያቄዎች ተጠይቀዋል።" nzSubTitle="">
-            <div nz-result-extra>
-
-              <button (click)="reset()" nz-button nzType="primary">ወደ ኋላ</button>
-
-              <div style="margin-top: 20px;">
-                <app-winners [selector]="1"></app-winners>
-
-              </div>
-
-            </div>
-          </nz-result>
-        </div>
+      
 
 
       </div>
@@ -252,7 +239,7 @@
   [nzHeight]="500" [nzClosable]="true" [nzVisible]="visible_answer" [nzPlacement]="placement" [nzTitle]=""
   (nzOnClose)="close_Answer()">
   <div class="d-flex flex-column align-items-center" *ngFor="let item of questions; let i=index">
-    <div [@slide] class="d-flex flex-column align-items-center" *ngIf="count_answer == i">
+    <div [@slide] class="d-flex flex-column align-items-center" *ngIf="count == i">
       <div class="row align-items-center">
         <span style="font-size:30px">ጥያቄ
           {{i+1}}
@@ -272,13 +259,13 @@
 
 
   </div>
-  <div class="mt-3 ml-4">
+  <!-- <div class="mt-3 ml-4">
     <button [disabled]="count_answer == 0?true:false" (click)="Back_Answer()" style="margin-left: 5px;" nz-button
       nzType="default" nzShape="round"><i class="feather icon-chevron-left text-muted"></i>ወደ ኋላ</button>
 
     <button (click)="Next_Answer()" style="margin-left: 5px;" nz-button nzType="default" nzShape="round"><i
         class="feather icon-chevron-right text-muted"></i>ቀጣይ</button>
-  </div>
+  </div> -->
 
 
 </nz-drawer>
