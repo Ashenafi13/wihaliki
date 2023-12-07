@@ -156,7 +156,7 @@ export class QuestionsComponent implements OnInit {
     location.reload();
   }
 
- 
+
 
   open(): void {
     this.visible = true;
@@ -281,8 +281,10 @@ export class QuestionsComponent implements OnInit {
     this.seconds =  COUNTER_SECONDE?  Number(COUNTER_SECONDE):seconds;
     const interval = setInterval(() => {
       this.isTimerRunning = 1;
-       this.SendMessage(1,QId);
-      //  this.AddCompetitor(QId);
+
+        // this.SendMessage(1,QId);
+        this.AddCompetitor(QId);
+
       localStorage.setItem('STORED_SECONDES',  `${this.seconds}`);
       if(this.seconds === 0) {
         clearInterval(interval);

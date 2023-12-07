@@ -190,8 +190,8 @@ ngOnDestroy() {
 
     const interval = setInterval(() => {
       this.isTimerRunning = 1;
-        this.SendMessage(1);
-      // this.RegisterCompitator();
+       //  this.SendMessage(1);
+       this.RegisterCompitator();
       if(this.minutes === 0 && this.seconds === 0) {
         clearInterval(interval);
         this.isTimerRunning = 2;
