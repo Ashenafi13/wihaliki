@@ -75,13 +75,13 @@ const NavigationItems = [
             id: 'participants',
             title: 'ተሳታፊዎች',
             type: 'item',
-            url: '/basic/questions-list'
+            url: '/basic/participants'
           },
           {
             id: 'questions_reports',
             title: 'ጥያቄዎች',
             type: 'item',
-            url: '/basic/participants'
+            url: '/basic/questions-list'
           },
 
         ]

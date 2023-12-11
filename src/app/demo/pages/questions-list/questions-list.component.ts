@@ -36,7 +36,7 @@ export class QuestionsListComponent implements OnInit {
     this.visible = false;
   }
   open():void{
-   
+
     this.visible = true;
   }
 
@@ -59,7 +59,7 @@ export class QuestionsListComponent implements OnInit {
         'ክፍል':"dsdd"
         // Add other columns as needed
       });
-        
+
   //  }
     return list;
     // return data.map((item) => {
@@ -77,22 +77,22 @@ export class QuestionsListComponent implements OnInit {
     this.listOfData = [];
     this.service.GetQuestions(season_Id,episode_id).subscribe((response:any)=>{
       this.Questions_List = response;
-    
+
       let Q:any[]=[];
       for(let i=0; i<this.Questions_List.length; i++){
         this.SetRow(this.Questions_List[i]);
         this.reports.push({
           'ጥያቄዎች': this.Questions_List[i].question_label,
-          'ግዜ':  `${this.Questions_List[i].time}`,
+          'ግዜ':  `${this.Questions_List[i].time} ሰኮንድ`,
           'ምዕራፍ':this.labelSeasons(this.Questions_List[i].season_id),
           'ክፍል':this.labelEpisodes(this.Questions_List[i].episode_id)
           // Add other columns as needed
         });
       }
-      
-     
+
+
     });
-   
+
   }
 
  GetEpisodes(season_Id:any,type:number): void {
