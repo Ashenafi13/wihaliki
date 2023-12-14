@@ -499,6 +499,18 @@ app-nav-group {
     }
   }
 
+  &.menu-transparent {
+    .pcoded-inner-navbar app-nav-item > li.nav-item.active > a,
+    .pcoded-inner-navbar app-nav-item > li.nav-item.pcoded-trigger > a {
+      background: transparent;
+      color: #ffffff;
+    }
+
+    .pcoded-inner-navbar li.pcoded-menu-caption:first-child {
+      border-top-color: #e2e5e8;
+    }
+  }
+
   &.navbar-collapsed {
     .pcoded-inner-navbar > app-nav-group > app-nav-collapse > li.pcoded-hasmenu .pcoded-submenu,
     .pcoded-inner-navbar app-nav-item > li.pcoded-hasmenu .pcoded-submenu {
@@ -774,6 +786,22 @@ body {
           }
         }
       }
+      &.menu-transparent {
+        .pcoded-inner-navbar {
+          > li {
+            &.active,
+            &.pcoded-trigger {
+              > a {
+                background: transparent;
+                color: #ffffff;
+              }
+            }
+          }
+        }
+      }
+
+
+
       // horizontal-layout
       &.theme-horizontal {
         .pcoded-inner-navbar {

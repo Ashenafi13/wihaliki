@@ -7,9 +7,15 @@
   margin-top: 70px !important;
 }
 
+::ng-deep .pcoded-navbar{
+  background: #dc80378c !important;
+}
 
 .main-container{
-  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(1,1,15,1) 35%, rgba(90,114,119,1) 100%);
+     background-image: url("./assets/images/background.jpg");
+     background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
 }
 ::ng-deep .pcoded-header.headerpos-fixed ~ .pcoded-main-container .page-header h5{
   color: #fff;

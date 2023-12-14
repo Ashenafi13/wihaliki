@@ -24,34 +24,35 @@
               <div class="d-flex flex-column" *ngIf="count == i">
               <div class="d-flex flex-column  question-container align-items-center mt-3" >
                 <div class="row align-items-center ">
-                  <span style="font-size:30px">ጥያቄ
+                  <span style="font-size:30px; color:#fff">ጥያቄ
                     {{i+1}}
                     {{checkQuestionStatus(item.qts.status,i)}}
                   </span>
                   <button style="margin-left: 10px;" *ngIf="!isCountStarted && item.qts.status != 1"
                     (click)="start(item.qts.time,item.qts.id)" nz-button nzType="default" nzShape="round"><i
                       class="feather icon-play text-muted"></i></button>
-                  <span [@fade] *ngIf="timeEnds" style="margin-left: 10px;">
-                    <span style="font-size: 26px; color: red;" *ngIf="timeEnds">{{timeEnds}}</span>
+                  <span [@fade] *ngIf="timeEnds" style="margin-left: 10px; background: #e7cdb98c; padding: 5px; border-radius: 15px;">
+                    <span style="font-size: 26px; color: red; " *ngIf="timeEnds">{{timeEnds}}</span>
                   </span>
-                  <div style="margin-left: 10px;"
+                  <div style="margin-left: 10px; background: #e7cdb98c; padding: 5px; border-radius: 15px;"
                     *ngIf="!timeEnds && isTimerRunning ==0 && item.qts.status == 1 && !isCountStarted">
                     <span style="font-size: 26px; color: red;">ይህ ጥያቄ ተጠይቋል</span>
                   </div>
                 </div>
                 <div class="question-txt">
-                  <span style="font-weight: 700; font-size: 17px; margin-left: 10px;">{{item.qts.question_label}}</span>
+                  <span style="font-weight: 700; font-size: 18px; margin-left: 10px;">{{item.qts.question_label}}</span>
 
                 </div>
               </div>
-              <!--*ngIf="seconds > 0"-->
-              <nz-progress
+
+
+               <nz-progress
               *ngIf="seconds > 0"
                 [nzPercent]="percent"
                 [nzFormat]="formatTime" nzSize="large" [nzShowInfo]="false"></nz-progress>
 
               <div  class="d-flex flex-column choise-txt">
-                <span style="font-weight: 500; border-top: 2px solid #000; padding: 10px;" *ngFor="let it of item.cho;  let j=index">
+                <span style="font-weight: 500; border-top: 2px solid #ce5f05d6;  padding: 10px;" *ngFor="let it of item.cho;  let j=index">
                   <span style="font-size: 17px; margin-left: 20px;"> {{it.alphabet}}. {{it.choice_label}}</span> </span>
               </div>
             </div>
@@ -65,7 +66,7 @@
                     <div class="circle shadow-sm">
                       <i style=" color: green; font-size: 20px;" class="feather icon-user-check icon-timeline "></i>
                     </div>
-                    <div style="margin-left: 5px;" class="d-flex flex-column">
+                    <div style="margin-left: 5px; color: #fff;" class="d-flex flex-column">
                       <span style="font-size: 20px;"
                         *ngIf="correctAnswers.length">{{correctAnswers.length}}/{{competitors.length}}</span>
                       <span style="font-size: 20px;" *ngIf="!correctAnswers.length">0/{{competitors.length}}</span>
@@ -73,7 +74,7 @@
                     </div>
 
                   </div>
-                  <div style="margin-left: 20px;" class="row">
+                  <div style="margin-left: 20px; color: #fff;" class="row">
                     <div  class="circle shadow-sm">
                       <i style="color: red; font-size: 20px;" class="feather icon-user-x icon-timeline "></i>
                     </div>
@@ -94,18 +95,18 @@
                   <nz-timeline nzMode="custom">
                     <nz-timeline-item *ngFor="let competitor of competitors" nzPosition="right" [ngStyle]="{'background-color':'green'}"
                       [nzColor]="competitor.answer?'green':'red'" [nzDot]="soccerTemplate">
-                      <div class="row" style="margin-left: 5px">
+                      <div class="row" style="margin-left: 10px">
                         <!-- <nz-avatar nzIcon="user" nzSrc="../../../../assets/images/user.png"></nz-avatar> -->
 
-                        <div class="d-flex flex-column">
-                          <span>{{hide_phone_number(competitor.phone)}}</span>
+                        <div class="d-flex flex-column text-white">
+                          <span style="font-size: 18px; font-weight: 700;">{{competitor.phone}}</span>
                           <span>መልስ፡ {{competitor.msg}}</span>
                         </div>
                       </div>
                       <ng-template #soccerTemplate>
                         <div >
-                          <i *ngIf="competitor.answer" style="font-size: 20px;" class="feather icon-user-check"></i>
-                          <i *ngIf="!competitor.answer" style="font-size: 20px;" class="feather icon-user-x"></i>
+                          <i *ngIf="competitor.answer" style="font-size: 25px;" class="feather icon-user-check"></i>
+                          <i *ngIf="!competitor.answer" style="font-size: 25px;" class="feather icon-user-x"></i>
 
                         </div>
                       </ng-template>
@@ -128,7 +129,7 @@
         </div>
 
 
-      
+
 
 
       </div>
@@ -238,21 +239,20 @@
 <nz-drawer [nzVisible]="visible_answer" [nzPlacement]="placement" [nzMaskClosable]="false" [nzOffsetY]="110"
   [nzHeight]="500" [nzClosable]="true" [nzVisible]="visible_answer" [nzPlacement]="placement" [nzTitle]=""
   (nzOnClose)="close_Answer()">
-  <div class="d-flex flex-column align-items-center" *ngFor="let item of questions; let i=index">
+  <div class="d-flex flex-column align-items-center text-white" *ngFor="let item of questions; let i=index">
     <div [@slide] class="d-flex flex-column align-items-center" *ngIf="count == i">
-      <div class="row align-items-center">
-        <span style="font-size:30px">ጥያቄ
-          {{i+1}}
+      <div class="d-flex flex-column align-items-center question-container">
+        <span style="font-size:30px"> መልስ
 
         </span>
-
+        <span style="font-weight: 700; font-size: 17px;">{{item.qts.question_label}}</span>
 
       </div>
-      <div style="width: 600px;">
-        <span style="font-weight: 700; font-size: 17px;">{{item.qts.question_label}}</span>
-        <div style="margin-top: 20px;  margin-left: 20px; width: 400px;" class="d-flex flex-column">
-          <span style="margin: 10px; font-weight: 500; font-size: 17px;" *ngFor="let it of item.cho;  let j=index">
-            <span [ngClass]="it.isAnswer == 1?'text-white':''"> {{it.alphabet}}. {{it.choice_label}}</span> </span>
+      <div>
+
+        <div  class="d-flex flex-column choise-txt text-dark">
+          <span style=" margin-left: 10px; padding: 5px; font-weight: 500; font-size: 18px;" *ngFor="let it of item.cho;  let j=index">
+            <span *ngIf="it.isAnswer == 1"> {{it.alphabet}}. {{it.choice_label}}</span> </span>
         </div>
       </div>
     </div>
