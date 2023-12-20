@@ -66,8 +66,6 @@ export class DashDefaultComponent implements OnInit {
     this.GetCompitator();
     this.getClockTime();
 
-    //  localStorage.removeItem(this.COUNTER_SECONDE);
-    //  localStorage.removeItem(this.COUNTER_MINUTE);
 
     let COUNTER_MINUTE = localStorage.getItem(this.COUNTER_MINUTE);
     let COUNTER_SECONDE = localStorage.getItem(this.COUNTER_SECONDE);
@@ -191,7 +189,7 @@ ngOnDestroy() {
     const interval = setInterval(() => {
       this.isTimerRunning = 1;
          this.SendMessage(1);
-      //  this.RegisterCompitator();
+      // this.RegisterCompitator();
       if(this.minutes === 0 && this.seconds === 0) {
         clearInterval(interval);
         this.isTimerRunning = 2;
