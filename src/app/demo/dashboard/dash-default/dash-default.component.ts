@@ -34,6 +34,7 @@ export class DashDefaultComponent implements OnInit {
   subscription: Subscription;
   isEpisodeCompleted = false;
   competitors:any[] =[];
+  Time:any;
  constructor(private service:DashboardService,breakpointObserver: BreakpointObserver,private elementRef: ElementRef,private cookieService: CookieService){
   this.mobile = breakpointObserver.observe([
     Breakpoints.HandsetPortrait
@@ -65,18 +66,19 @@ export class DashDefaultComponent implements OnInit {
     this.ActiveSeason()
     this.GetCompitator();
     this.getClockTime();
+    this.GetTime();
+
+    // let COUNTER_MINUTE = localStorage.getItem(this.COUNTER_MINUTE);
+    // let COUNTER_SECONDE = localStorage.getItem(this.COUNTER_SECONDE);
 
 
-    let COUNTER_MINUTE = localStorage.getItem(this.COUNTER_MINUTE);
-    let COUNTER_SECONDE = localStorage.getItem(this.COUNTER_SECONDE);
+    // if(COUNTER_SECONDE && COUNTER_MINUTE){
 
-
-    if(COUNTER_SECONDE && COUNTER_MINUTE){
-       this.open()
-    }
+    // }
 
 
   }
+
   ngAfterViewInit() {
     if (this.myDiv) {
       this.myDiv.nativeElement.scrollTo();
@@ -179,22 +181,19 @@ ngOnDestroy() {
 
 
   startCountdown(minutes: number) {
-   let COUNTER_MINUTE = localStorage.getItem(this.COUNTER_MINUTE);
-   let COUNTER_SECONDE = localStorage.getItem(this.COUNTER_SECONDE);
 
 
-     this.minutes =  COUNTER_MINUTE?Number(COUNTER_MINUTE):minutes;
-     this.seconds =  COUNTER_SECONDE?  Number(COUNTER_SECONDE):0;
+   this.minutes =  this.Time?.min || this.Time?.min == 0?this.Time?.min:minutes;
+   this.seconds =  this.Time?.second?this.Time?.second:0;
 
     const interval = setInterval(() => {
-      this.isTimerRunning = 1;
+         this.isTimerRunning = 1;
          this.SendMessage(1);
       // this.RegisterCompitator();
       if(this.minutes === 0 && this.seconds === 0) {
         clearInterval(interval);
         this.isTimerRunning = 2;
-        localStorage.removeItem(this.COUNTER_MINUTE);
-        localStorage.removeItem(this.COUNTER_SECONDE);
+        this.updateTime(0,0);
       } else if(this.seconds === 0) {
         this.minutes--;
         this.seconds = 59;
@@ -202,10 +201,8 @@ ngOnDestroy() {
        // this.animateText();
         this.seconds--;
       }
-      if(this.seconds > 0){
-      localStorage.setItem(this.COUNTER_MINUTE,`${this.minutes}`);
-      localStorage.setItem(this.COUNTER_SECONDE, `${this.seconds}`);
-      }
+      console.log(this.minutes,this.seconds);
+      this.updateTime(this.minutes,this.seconds);
 
     }, 1000);
   }
@@ -213,6 +210,35 @@ ngOnDestroy() {
 
 
 
+  GetTime():void{
+    this.service.GetTime().subscribe((response:any) =>{
+        this.Time = response;
+
+        console.log(this.isEpisodeCompleted,this.Time?.min != 0,this.Time?.second != 0 );
+        if(this.Time?.min != 0){
+        if(this.isEpisodeCompleted  && this.Time?.second != 0){
+          this.open()
+        }
+      }else{
+        if(this.isEpisodeCompleted  && this.Time?.second != 0){
+          this.open()
+        }
+      }
+    });
+  }
+
+  updateTime(min,second):void{
+
+    let data = {
+     min: min,
+     second: second
+    }
+
+    this.service.updateTime(data).subscribe((response:any) =>{
+      console.log(response);
+      // this.open()
+  });
+  }
 
 
 }

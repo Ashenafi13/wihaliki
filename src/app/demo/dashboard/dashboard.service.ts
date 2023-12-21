@@ -48,6 +48,28 @@ export class DashboardService {
     );
   }
 
+
+  GetTime(){
+    return this.http.get<any>(
+      environment.url + `reg/time/tracker`,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+
+  updateTime(time:any){
+    return this.http.put<any>(
+      environment.url + `update/time`,
+      time,
+      {
+        headers: this.httpOptions.header,
+      }
+    );
+  }
+
+
+
  GetCompitator(){
   return this.http.get<any>(
     environment.url + `get/registers`,

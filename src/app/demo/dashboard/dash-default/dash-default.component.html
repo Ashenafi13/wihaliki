@@ -28,8 +28,6 @@
              <nz-progress  [nzStatus]="minutes == 0 && seconds > 10 || minutes > 0?'success':'exception'" [nzPercent]="((minutes*60) + seconds)"  nzSize="small" [nzShowInfo]="false"></nz-progress>
 
             </div>
-
-
       </div>
 
        <div *ngIf="competitors.length > 0 " style="margin-left: 100px; margin-top: 20px;" class="row align-items-center">
@@ -59,6 +57,8 @@
             <i style="font-size:25px" class="feather icon-user-check text-success"></i>
           </ng-template>
         </div>
+
+
       </div>
 
 
