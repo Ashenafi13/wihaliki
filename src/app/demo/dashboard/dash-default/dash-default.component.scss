@@ -28,7 +28,7 @@
   margin-top: 30px;
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 300px;
+  height: 430px;
   padding: 30px;
 }
 .text{
@@ -81,7 +81,10 @@ html {
 }
 .card-people {
   background:linear-gradient(221deg, #fafafa 1%, #fbfbfb8c 29%, #f7f7f7 81%);
-   border-radius: 15px; padding: 10px;
+  border-radius: 15px; padding: 10px;
+  height: 520px;
+  width: 400px;
+
 }
 
 .general-container {
@@ -142,7 +145,8 @@ html {
   // background: #f5acac;
   padding: 10px;
   border-radius: 18px;
-   background: linear-gradient(221deg, #7a7a7a 3%, #fefefe 29%, #c57878 81%);
+  //  background: linear-gradient(221deg, #7a7a7a 3%, #fefefe 29%, #c57878 81%);
+  background: linear-gradient(221deg, #7a7a7a 10%, #000 29%, #FCA311 81%);
   // background: linear-gradient(221deg, #e55959 3%, #7f2424 29%, #c57878 81%);
   box-shadow: 12px 4px 5px -5px rgba(41,30,30,0.43);
 -webkit-box-shadow: 12px 4px 5px -5px rgba(41,30,30,0.43);
@@ -154,8 +158,9 @@ html {
   border-radius: 18px;
 
   // background: linear-gradient(221deg, #8dfe88 3%, #000000 29%, #393939 81%);
-  background: linear-gradient(221deg, #7a7a7a 3%, #fefefe 29%, #85c578 81%);
+  // background: linear-gradient(221deg, #7a7a7a 3%, #fefefe 29%, #85c578 81%);
   // background: linear-gradient(221deg, #5ee559 3%, #247f47 29%, #78c579 81%);
+  background: linear-gradient(221deg, #7a7a7a 10%, #000 29%, #FCA311 81%);
   box-shadow: 12px 4px 5px -5px rgba(41,30,30,0.43);
 -webkit-box-shadow: 12px 4px 5px -5px rgba(41,30,30,0.43);
 -moz-box-shadow: 12px 4px 5px -5px rgba(41,30,30,0.43);

@@ -154,7 +154,7 @@
     min-height: $header-height;
     padding: 0;
     top: 0;
-    background: #dc80378c;
+    background: #14213d;
     color: transparentize($header-light-text-color,0.2);
     width: 100%;
     transition: all 0.3s ease-in-out;
@@ -595,7 +595,7 @@
     height: calc(100% - #{$header-height});
     margin-top: $header-height;
     top: 0;
-    background: #dc80378c;
+    background: #14213d;
     color: $menu-dark-text-color;
 
     ul {

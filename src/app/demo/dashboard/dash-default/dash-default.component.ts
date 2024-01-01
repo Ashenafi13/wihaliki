@@ -182,14 +182,19 @@ ngOnDestroy() {
 
   startCountdown(minutes: number) {
 
+   if(this.Time?.min == 0 &&  this.Time?.second == 0){
+     this.minutes = minutes;
+     this.seconds =0
+   }else{
+    this.minutes =  this.Time?.min || this.Time?.min == 0?this.Time?.min:minutes;
+    this.seconds =  this.Time?.second?this.Time?.second:0;
+   }
 
-   this.minutes =  this.Time?.min || this.Time?.min == 0?this.Time?.min:minutes;
-   this.seconds =  this.Time?.second?this.Time?.second:0;
 
     const interval = setInterval(() => {
          this.isTimerRunning = 1;
-         this.SendMessage(1);
-      // this.RegisterCompitator();
+        this.SendMessage(1);
+       //  this.RegisterCompitator();
       if(this.minutes === 0 && this.seconds === 0) {
         clearInterval(interval);
         this.isTimerRunning = 2;
@@ -201,7 +206,7 @@ ngOnDestroy() {
        // this.animateText();
         this.seconds--;
       }
-      console.log(this.minutes,this.seconds);
+
       this.updateTime(this.minutes,this.seconds);
 
     }, 1000);

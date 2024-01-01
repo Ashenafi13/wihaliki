@@ -15,11 +15,16 @@
 }
 .question-container{
   // background: linear-gradient(323deg, rgba(179,242,133,1) 8%, rgba(145,237,142,1) 20%);
-  background: #fcc9a061;
+  // background: #fcc9a061;
   width: 500px;
-  padding: 20px;
 }
-
+.question-title{
+  background: #FCA311;
+  width: 500px;
+ justify-content: center;
+ padding: 20px;
+ border: 1px solid #14213d;
+}
 .shadow-sm {
  box-shadow: 0 0.225rem 0.35rem rgba(0, 0, 0, 0.10) !important
 }
@@ -35,14 +40,17 @@
 }
 .choise-txt{
   width: 500px;
-  background: linear-gradient(323deg, rgba(212,251,174,1) 19%, rgba(195,241,193,1) 48%);
+  background: #E5E5E5;
 
 }
 
 .question-txt{
   width: 500px;
   text-align: center;
-  color:#fff;
+  color:#000;
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #14213d;
 }
 
 ::ng-deep .pcoded-navbar.theme-horizontal ~ .pcoded-main-container {
@@ -200,7 +208,7 @@ html {
 
 .timeline-container{
   margin-left: auto; padding: 40px; margin-right: 100px;
-  background-color: #eaa268a6;
+  background-color: #fca311;
   border-radius: 15px;
 
 }
@@ -212,7 +220,7 @@ html {
 ::ng-deep .ant-progress-bg{
 
 
- background: linear-gradient(166deg, #f0d4bd4d 0%, #faff93 70%);
+ background: #FCA311;
  height: 23px !important;
  border-radius: 0px !important;
 }
@@ -223,7 +231,7 @@ html {
 }
 
 ::ng-deep .ant-drawer-body{
-  background-image: url("../../../../assets//images/background.jpg");
+  background: #14213d;
   background-size: cover;
 }
 ::ng-deep .ant-timeline-item-head{
@@ -231,4 +239,8 @@ html {
   width: 50px ;
   border-radius: 5px;
 
+}
+
+::ng-deep .anticon{
+  color: #fff;
 }

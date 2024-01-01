@@ -1,5 +1,5 @@
 .general-container {
-  background: linear-gradient(221deg, #d1b6b6 1%, #f6f6f6 29%, #fff5ed 81%);
+  background: linear-gradient(221deg, #fff 1%, #f6f6f6 29%, #fff5ed 81%);
   width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;
 }
 .general-container i{
@@ -19,7 +19,8 @@
 }
 .winners-container{
   // background:  linear-gradient(323deg, rgba(179,242,133,1) 8%, rgba(145,237,142,1) 20%);
-  background: hsl(60.44deg 100% 73.33%);
+   background: #FCA311;
+   color: #fff;
    padding: 20px; width: 500px; margin-top: 20px;
 }
 .table-bootstrap  tr{
@@ -50,9 +51,9 @@
 }
 
 .winners{
-  background: linear-gradient(323deg, rgba(212,251,174,1) 19%, rgba(195,241,193,1) 48%);
+  background: #e5e5e5;
   width: 500px;
   padding: 10px;
-  border: 2px solid  #d16004;
+  border: 2px solid  #14213d;
 
 }

@@ -282,8 +282,8 @@ export class QuestionsComponent implements OnInit {
     const interval = setInterval(() => {
       this.isTimerRunning = 1;
 
-         this.SendMessage(1,QId);
-         //this.AddCompetitor(QId);
+        this.SendMessage(1,QId);
+        // this.AddCompetitor(QId);
 
       localStorage.setItem('STORED_SECONDES',  `${this.seconds}`);
       if(this.seconds === 0) {
